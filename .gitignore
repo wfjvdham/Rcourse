@@ -4,4 +4,4 @@
 .Ruserdata
 derby.log
 log4j.spark.log
-rmarkdown.nd.html
+rmarkdown.nb.html
