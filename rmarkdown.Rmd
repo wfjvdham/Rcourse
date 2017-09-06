@@ -1,6 +1,8 @@
 ---
 title: "R Notebook Demo"
+always_allow_html: yes
 output:
+  pdf_document: default
   html_notebook: default
   html_document:
     highlight: textmate
@@ -16,6 +18,32 @@ This notebook demonstrates many R Notebook features. Ignore this first chunk for
 library(ggplot2)
 library(dygraphs)
 library(leaflet)
+```
+
+# Options for Chunck
+
+## Cache
+
+```{r, cache=TRUE}
+for (i in 1:5000) {
+    lm((i+1)~i)
+}
+```
+
+## Echo
+
+```{r echo_example, echo=FALSE}
+x <- rnorm(100)
+y <- 2*x + rnorm(100)
+cor(x, y)
+```
+
+## Include
+
+```{r include_example, include=FALSE}
+x <- rnorm(100)
+y <- 2*x + rnorm(100)
+cor(x, y)
 ```
 
 # Output Types
@@ -78,22 +106,6 @@ print list(fib(11))
 
 Try using the [Feather](https://github.com/wesm/feather) package for R and Python to transfer data between them.
 
-Rcpp works, too:
-
-```{r rcpp, engine='Rcpp'}
-#include <Rcpp.h>
-
-// [[Rcpp::export]]
-int fibonacci(const int x) {
-    if (x == 0 || x == 1) return(x);
-    return (fibonacci(x - 1)) + fibonacci(x - 2);
-}
-```
-
-```{r rcpp-output}
-fibonacci(10L)
-```
-
 You can use a notebook to form an executable, documented workflow that composes several tools into a complete data analysis workflow.
 
 ## Errors
@@ -106,6 +118,21 @@ source("missing.R")
 ```
 
 Notice that the line that caused the error is highlighted, and you can see the error's traceback, just as you can in the RStudio console. If an error occurs while you're running chunks, the error will cause the notebook to stop running, and the cursor will scroll to the point where the error occurred.
+
+# Tables
+
+```{r table_example}
+library(nycflights13)
+library(dplyr)
+flights %>%
+  count(origin)
+```
+
+```{r kable_example}
+flights %>%
+  count(origin) %>%
+  knitr::kable()
+```
 
 # Saving and Sharing
 
