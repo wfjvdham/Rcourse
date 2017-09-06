@@ -31,15 +31,16 @@ object.size(sp_flights)
 
 flights_table <- sp_flights %>%
   mutate(dep_delay = as.numeric(dep_delay),
+         arr_delay = as.numeric(arr_delay),
          sched_dep_time = as.numeric(sched_dep_time)) %>%
   select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month, month)
 flights_table %>% head
 
-sp_flights  %>% 
+flights_table  %>% 
   head %>% 
   show_query()
 
-sp_flights %>%
+flights_table %>%
   group_by(dest) %>%
   summarise(n = n(),
             mean_sdt = mean(sched_dep_time),
@@ -141,3 +142,24 @@ spark_apply(
   function(e) broom::tidy(glm(delayed ~ arr_delay, data = e, family = "binomial")),
   names = c("term", "estimate", "std.error", "statistic", "p.value"),
   group_by = "origin")
+
+# plotting package
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# devtools::install_github("edgararuiz/dbplot")
+library(dbplot)
+
+subset_table %>% 
+  dbplot_histogram(sched_dep_time)
+
+subset_table %>%
+  filter(!is.na(arr_delay)) %>%
+  dbplot_raster(arr_delay, dep_delay) 
+
+subset_table %>%
+  dbplot_bar(origin)
+
+subset_table %>%
+  dbplot_line(month)
+
+subset_table %>%
+  dbplot_boxplot(origin, dep_delay)
