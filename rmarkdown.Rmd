@@ -15,6 +15,7 @@ output:
 This notebook demonstrates many R Notebook features. Ignore this first chunk for now; we'll come back to it.
 
 ```{r setup}
+#, include=FALSE
 library(ggplot2)
 library(dygraphs)
 library(leaflet)
@@ -124,13 +125,12 @@ Notice that the line that caused the error is highlighted, and you can see the e
 ```{r table_example}
 library(nycflights13)
 library(dplyr)
-flights %>%
-  count(origin)
+flights
 ```
 
 ```{r kable_example}
 flights %>%
-  count(origin) %>%
+  head(100) %>%
   knitr::kable()
 ```
 
