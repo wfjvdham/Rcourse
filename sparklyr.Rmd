@@ -96,7 +96,7 @@ object.size(sp_flights)
 
 - RMarkdown allows non-R chunks like SQL: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql 
 ```{sql, connection = sc}
-  SELECT  * FROM flights WHERE Origin = "ATL" LIMIT 10
+  SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
 ```
 
 
@@ -104,13 +104,12 @@ object.size(sp_flights)
 
 - Use `dplyr` verbs to interact with the data
 ```{r}
-  flights_table <- sp_flights %>%
-    mutate(DepDelay = as.numeric(DepDelay),
-           ArrDelay = as.numeric(ArrDelay),
-           SchedDeparture = as.numeric(CRSDepTime)) %>%
-    select(Origin, Dest, SchedDeparture, ArrDelay, DepDelay, Month, DayofMonth)
-  
-  flights_table %>% head
+flights_table <- sp_flights %>%
+  mutate(dep_delay = as.numeric(dep_delay),
+         arr_delay = as.numeric(arr_delay),
+         sched_dep_time = as.numeric(sched_dep_time)) %>%
+  select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month)
+flights_table %>% head
 ```
 
 
@@ -153,9 +152,11 @@ object.size(sp_flights)
 
 - Now we can perform more complex aggregations
 ```{r}
-  subset_table %>% 
-    group_by(Origin) %>%
-    tally
+subset_table %>%
+  group_by(dest) %>%
+  summarise(n = n(),
+            mean_sdt = mean(sched_dep_time),
+            mean_sat = mean(sched_arr_time))
 ```
 
 
@@ -178,40 +179,6 @@ object.size(sp_flights)
     tally
 ```
 
-
-
-## New in dplyr
-
-### pull()
-
-- Use pull to retrieve a the values of 1 column as a vector, `collect()` is not needed. See: http://dplyr.tidyverse.org/reference/pull.html
-```{r}
-  subset_table %>%
-    group_by(Origin) %>%
-    tally %>%
-    arrange(desc(n)) %>%
-    head(5) %>%
-    pull(Origin)
-```
-
-### case_when()
-
-- The new `case_when()` command works with `sparklyr`, see: http://dplyr.tidyverse.org/reference/case_when.html
-```{r}
-  subset_table %>%  
-    group_by(Origin) %>%
-    tally %>%
-    arrange(desc(n)) %>%  
-    head(100) %>%
-    mutate(volume = case_when(
-      Origin == "ATL" ~ "biggest",
-      n > 200000 ~ "big",
-      n > 100000 ~ "med",
-      TRUE ~ "small"
-    )) 
-```
-
-
 ## Spark DataFrame (sdf) Functions
 
 ### sdf_pivot() 
@@ -219,27 +186,15 @@ object.size(sp_flights)
 New in `sparklyr` 0.6! - Construct a pivot table over a Spark Dataframe, using a syntax similar to that from `reshape2::dcast()` and `tidyr::spread`
 
 ```{r}
-  subset_table %>%
-    filter(Origin == "ATL" | 
-             Origin == "ORD" | 
-             Origin == "DFW" |
-             Origin == "LAX" |
-             Origin == "IAH") %>%
-    group_by(Origin, Dest) %>%
-    tally() %>%
-    head()
-
+subset_table %>%
+  group_by(origin, dest) %>%
+  tally() %>%
+  head()
 ```
-
 ```{r}
-  subset_table %>%
-    filter(Origin == "ATL" | 
-             Origin == "ORD" | 
-             Origin == "DFW" |
-             Origin == "LAX" |
-             Origin == "IAH") %>%
-    sdf_pivot(Origin~Dest) 
-
+subset_table %>%
+  filter(origin == "EWR" | origin == "JFK") %>%
+  sdf_pivot(origin~dest) 
 ```
 
 ## Feature Transformers (ft) 
@@ -251,22 +206,22 @@ https://spark.apache.org/docs/latest/ml-features.html
 - Apply threshold to a column, such that values less than or equal to the threshold are assigned the value 0.0, and values greater than the threshold are assigned the value 1.0.
 - [*The Federal Aviation Administration (FAA) considers a flight to be delayed when it is 15 minutes later than its scheduled time.*](https://en.wikipedia.org/wiki/Flight_cancellation_and_delay)
 ```{r}
-  subset_table %>%
-    ft_binarizer(input.col =  "DepDelay", 
-                 output.col = "delayed",
-                 threshold = 15) %>%
-    head(200)
+subset_table %>%
+  ft_binarizer(input.col =  "dep_delay", 
+               output.col = "delayed",
+               threshold = 15) %>%
+  head(200)
 ```
 
 ### ft_bucketizer()
 
 - Similar to R's `cut()` function, this transforms a numeric column into a discretized column, with breaks specified through the splits parameter.
 ```{r}
-  subset_table %>%
-    ft_bucketizer(input.col =  "SchedDeparture",
-                  output.col = "DepHour",
-                  splits = c(0, 400, 800, 1200, 1600, 2000, 2400)) %>%
-    head(100)
+subset_table %>%
+  ft_bucketizer(input.col =  "sched_dep_time",
+                output.col = "DepHour",
+                splits = c(0, 400, 800, 1200, 1600, 2000, 2400)) %>%
+  head(100)
 ```
 
 
@@ -274,16 +229,16 @@ https://spark.apache.org/docs/latest/ml-features.html
 
 - `sparklyr` enables us to use `dplyr` verbs, `sdf` functions and `ft` functions to prepare data within a single piped code segment
 ```{r}
-  sample_data <- subset_table %>%
-    filter(!is.na(ArrDelay)) %>%
-    ft_binarizer(input.col = "ArrDelay",
-                 output.col = "delayed",
-                 threshold = 15) %>% 
-    ft_bucketizer(input.col =  "SchedDeparture",
-                  output.col = "DepHour",
-                  splits = c(0, 400, 800, 1200, 1600, 2000, 2400)) %>%
-    mutate(DepHour = paste0("h", as.integer(DepHour))) %>%
-    sdf_partition(training = 0.001, testing = 0.009, other = 0.99)
+sample_data <- subset_table %>%
+  filter(!is.na(dep_delay)) %>%
+  ft_binarizer(input.col = "dep_delay",
+               output.col = "delayed",
+               threshold = 30) %>% 
+  ft_bucketizer(input.col =  "sched_dep_time",
+                output.col = "DepHour",
+                splits = c(0, 400, 800, 1200, 1600, 2000, 2400)) %>%
+  mutate(DepHour = paste0("h", as.integer(DepHour))) %>%
+  sdf_partition(training = 0.001, testing = 0.009, other = 0.99)
 ```
 
 ```{r}
@@ -292,22 +247,23 @@ https://spark.apache.org/docs/latest/ml-features.html
 
 - A formula can be used for modeling, as in: `x ~ y + z` 
 ```{r}
-  delayed_model <-  ml_logistic_regression(training , delayed ~  DepDelay + DepHour ) 
+delayed_model <- ml_logistic_regression(training, delayed ~ dep_delay + DepHour) 
+summary(delayed_model)
 ```
 
 
 - We will use the `testing` sample to run predictions
 - It returns the same Spark DataFrame but with new columns
 ```{r}
-  delayed_testing <- sdf_predict(delayed_model, sample_data$testing) 
-  delayed_testing %>% head
+delayed_testing <- sdf_predict(delayed_model, sample_data$testing) 
+delayed_testing %>% head
 ```
 
 - Let's see how the model performed
 ```{r}
-  delayed_testing %>%
-    group_by(delayed, prediction) %>%
-    tally 
+delayed_testing %>%
+  group_by(delayed, prediction) %>%
+  tally 
 ```
 
 ## Distributed R
@@ -326,21 +282,63 @@ https://spark.apache.org/docs/latest/ml-features.html
 
 - The `group_by` argument can be used to run the R function over a specific column or columns instead of the RDD partitions.
 ```{r}
-  training %>%
-    spark_apply(nrow, group_by =  "DepHour", columns = "count")
+training %>%
+  spark_apply(nrow, group_by =  "month", columns = "count")
 ```
 
 ## Distributing Packages
 
 - With spark_apply() you can use any R package inside Spark. For instance, you can use the broom package to create a tidy data from a `glm()` model output.
 ```{r}
-  spark_apply(
-    training,
-    function(e) broom::tidy(glm(delayed ~ ArrDelay, data = e, family = "binomial")),
-    names = c("term", "estimate", "std.error", "statistic", "p.value"),
-    group_by = "Origin")
+spark_apply(
+  training,
+  function(e) broom::tidy(glm(delayed ~ arr_delay, data = e, family = "binomial")),
+  names = c("term", "estimate", "std.error", "statistic", "p.value"),
+  group_by = "origin")
 ```
 
+```{r}
+#other ml to practice
+# copy mtcars into spark
+mtcars_tbl <- copy_to(sc, mtcars)
 
+# transform our data set, and then partition into 'training', 'test'
+partitions <- mtcars_tbl %>%
+  filter(hp >= 100) %>%
+  mutate(cyl8 = cyl == 8) %>%
+  sdf_partition(training = 0.5, test = 0.5, seed = 1099)
+
+# fit a linear model to the training dataset
+fit <- partitions$training %>%
+  ml_linear_regression(response = "mpg", features = c("wt", "cyl"))
+
+prediction <- sdf_predict(fit, partitions$testing) 
+prediction %>% 
+  select(mpg, prediction)
+```
+
+```{r}
+# plotting package
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# devtools::install_github("edgararuiz/dbplot")
+library(dbplot)
+
+subset_table %>% 
+  dbplot_histogram(sched_dep_time)
+
+subset_table %>%
+  filter(!is.na(arr_delay)) %>%
+  dbplot_raster(arr_delay, dep_delay) 
+
+subset_table %>%
+  dbplot_bar(origin)
+
+subset_table %>%
+  dbplot_line(month)
+
+subset_table %>%
+  dbplot_boxplot(origin, dep_delay)
+
+```
 
 
