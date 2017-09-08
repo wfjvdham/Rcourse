@@ -74,7 +74,7 @@ subset_table %>%
 split_table <- subset_table %>%
   sdf_partition(training = 0.2, testing = 0.8)
 split_table$training
-training <- compute(split_table$training, "training")
+#training <- compute(split_table$training, "training")
 
 subset_table %>%
   ft_binarizer(input.col =  "dep_delay", 

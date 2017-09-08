@@ -6,7 +6,7 @@ data(iris)
 iris <- as_data_frame(iris)
 
 model_all = lm(Sepal.Length ~ ., iris)
-summary(model_sepal)
+summary(model_all)
 model_pl = lm(Sepal.Length ~ Petal.Length, iris)
 summary(model_pl)
 

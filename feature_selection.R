@@ -39,10 +39,8 @@ plot(cv.lasso)
 cv.ridge = cv.glmnet(x, iris$Sepal.Length, alpha = 0)
 plot(cv.ridge)
 
-lasso.coef = predict(lasso, type ="coefficients" , s = bestlam.lasso)
-lasso.coef
-ridge.coef = predict(ridge, type ="coefficients" , s = bestlam.ridge)
-ridge.coef
+coef(cv.lasso, s = "lambda.min")
+coef(cv.ridge, s = "lambda.min")
 
 #model for flights
 x<-model.matrix(arr_delay~.,data=flights_factors)
@@ -62,7 +60,5 @@ plot(cv.lasso)
 cv.ridge = cv.glmnet(x, flights_factors$arr_delay, alpha = 0)
 plot(cv.ridge)
 
-lasso.coef = predict(lasso, type ="coefficients" , s = bestlam.lasso)
-lasso.coef
-ridge.coef = predict(ridge, type ="coefficients" , s = bestlam.ridge)
-ridge.coef
+coef(cv.lasso, s = "lambda.min")
+coef(cv.ridge, s = "lambda.min")

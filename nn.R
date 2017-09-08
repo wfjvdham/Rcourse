@@ -19,3 +19,5 @@ results <- neuralnet::compute(network, iris_test %>% select(-Sepal.Length, -Spec
 compare <- data_frame(
   actual = iris_test$Sepal.Length, 
   prediction = c(results$net.result))
+
+compare

@@ -1,6 +1,7 @@
 ## lineair regression example
 library(modelr)
 library(nycflights13)
+library(tidyverse)
 
 ggplot(sim1, aes(x, y)) + 
   geom_point()
