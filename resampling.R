@@ -17,6 +17,9 @@ cv_pl
 
 mtcars = as_data_frame(mtcars)
 
+ggplot(mtcars) +
+  geom_point(aes(mpg, hp))
+
 cv.error = rep(0, 5)
 for (i in 1:5) {
   glm.fit = glm(mpg ~ poly(hp, i), family = gaussian, data = mtcars)
@@ -25,6 +28,9 @@ for (i in 1:5) {
 cv.error
 
 #boosting
+
+sample(1:10, 10, replace=T)
+
 boot.fn = function (data, index) {
   return(coef(lm(mpg ~ hp, data = data, subset = index)))
 }

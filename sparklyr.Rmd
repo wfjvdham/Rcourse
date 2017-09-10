@@ -108,7 +108,8 @@ flights_table <- sp_flights %>%
   mutate(dep_delay = as.numeric(dep_delay),
          arr_delay = as.numeric(arr_delay),
          sched_dep_time = as.numeric(sched_dep_time)) %>%
-  select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month)
+  select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month) 
+#%>%  show_query()
 flights_table %>% head
 ```
 
@@ -130,7 +131,7 @@ flights_table %>% head
 - After the code below is complete, go to http://127.0.0.1:4040/jobs/ to find out how long it took to count the 13M records
 ```{r}
   sp_flights %>%
-    tally
+    count(dest)
 ```
 
 ### Compute
@@ -143,11 +144,15 @@ flights_table %>% head
     compute("flights_subset")
 ```
 
+```{r}
+object.size(subset_table)
+```
+
 - Run `tally` again
 - It runs in less than a second (http://127.0.0.1:4040/jobs/)
 ```{r}
   subset_table %>%
-    tally
+    count(dest)
 ```
 
 - Now we can perform more complex aggregations
@@ -159,10 +164,7 @@ subset_table %>%
             mean_sat = mean(sched_arr_time))
 ```
 
-
 ## Improved sampling
-
-
 
 ```{r}
 # Improved in sparklyr 0.6

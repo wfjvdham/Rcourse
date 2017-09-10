@@ -1,13 +1,13 @@
 ---
 title: "R Notebook Demo"
-always_allow_html: yes
 output:
-  pdf_document: default
-  html_notebook: default
   html_document:
     highlight: textmate
     theme: spacelab
     toc: yes
+  html_notebook: default
+  pdf_document: default
+always_allow_html: yes
 ---
 
 # Introduction

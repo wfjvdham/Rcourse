@@ -42,6 +42,7 @@ mod2 <- lm(y ~ x1 * x2, data = sim3)
 summary(mod1)
 summary(mod2)
 anova(mod1, mod2)
+anova(mod2)
 
 grid <- sim3 %>% 
   data_grid(x1, x2) %>% 

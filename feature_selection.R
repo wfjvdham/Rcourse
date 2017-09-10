@@ -13,7 +13,7 @@ flights_factors <- flights %>%
          carrier = as.factor(carrier)) %>%
   sample_n(100)
 
-regfit <- regsubsets(arr_delay ~ ., flights_factors, method = "forward", nvmax = 19)
+regfit <- regsubsets(arr_delay ~ ., flights_factors, method = "backward", nvmax = 19)
 summary(regfit)
 coef(regfit, 15)
 
@@ -28,6 +28,7 @@ x=x[,-1]
 #alpha 0 is ridge 1 is lasso
 lasso = glmnet(x, iris$Sepal.Length, alpha = 1)
 plot(lasso)
+print(lasso)
 
 ridge = glmnet(x, iris$Sepal.Length, alpha = 0)
 plot(ridge)
