@@ -1,8 +1,8 @@
 # install packages
 # Solo necesitas hacerlo una vez
 # Cuando tu tienes los paquetes no nesecitas descargar otra vez
-install.packages("tidyverse")
-install.packages("titanic")
+#install.packages("tidyverse")
+#install.packages("titanic")
 
 # load packages
 # Cada vez cuando tu empiezas con una sesion de R tu necesitas cargar los paquestes
@@ -11,10 +11,7 @@ library(titanic)
 ?titanic_train
 
 # load data
-# De esta manera tu puedes utilizar los datos que estan en R,
-# y no necesitas inscribirte en Kaggle ;)
 train = as_data_frame(titanic_train)
-test = as_data_frame(titanic_test)
 
 # examples ggplot
 ggplot(train) + 
@@ -126,37 +123,33 @@ train %>%
   group_by(Pclass) %>%
   summarise(mean_fare = mean(Fare, na.rm = TRUE))
 
-library(nycflights13)
-
-flights <- as_data_frame(flights)
-
 #functiones utiles
-flights %>%
+train %>%
   slice(1)
 
-flights %>%
+train %>%
   slice(1:5)
 
 nrow(flights)
 
-summary(flights)
+summary(train)
 
-flights %>%
+train %>%
   na.omit() %>%
   nrow
 
-cut(flights$day, breaks = 10)
+cut(train$Age, breaks = 10)
 
-cut(flights$day, breaks = c(0,15,31))
+cut(train$Age, breaks = c(0,15,31))
 
 seq(1, 8)
 
 seq(1, 8, 0.1)
 
-flights %>%
+train %>%
   sample_frac(0.5) %>%
   nrow
 
-flights %>%
+train %>%
   sample_n(100) %>%
   nrow
