@@ -8,15 +8,18 @@ output:
 ## Setup
 
 - Install updated versions of `dplyr` and `sparklyr`
+
 ```{r, eval = FALSE}
   install.packages("sparklyr")
   install.packages("dplyr")
 ```
 
 - Load the libraries 
+
 ```{r}
   library(sparklyr)
   library(dplyr)
+  library(tidyverse)
 ```
 
 - Install Spark version 2.1.0 locally in your computer
@@ -39,8 +42,9 @@ We will use a custom configuration for the `sparklyr` connection, we are request
 
 - Make sure to pass the `conf` variable as the value for the `config` argument
 - Navigate to http://127.0.0.1:4040/executors/
-- In the **Executors** section there is 12 GB of Storage Memory assigned (16 * 80%)
+- In the **Executors** section there is 5.1 GB of Storage Memory assigned (7 * 80%)
 - There are also 8 cores assigned
+
 ```{r}
   sc <- spark_connect(master = "local", config = conf, version = "2.1.0")
 ```
@@ -54,7 +58,7 @@ To ensure reproducibility, this chunk downloads and save the needed files into t
 ```{r}
 library(nycflights13)
 flights <- as_data_frame(flights)
-write_csv(flights, "/home/wim/Descargas/rcourse/flights.csv", na = "NA")
+write_csv(flights, "./flights.csv", na = "NA")
 ```
 
 ## Load data 
@@ -65,17 +69,16 @@ This next line does the following:
 - Points Spark to the `data` folder as its source
 - Asks that the data is not brought into Spark memory
 - Supplies the column names and tells Spark not to try to figure out the schema
-```{r}
 
+```{r}
 sp_flights <- spark_read_csv(sc, 
                              name = "flights", 
-                             path = "/home/wim/Descargas/rcourse/flights.csv", 
+                             path = "./flights.csv", 
                              memory = FALSE)
-
-```
-
-```{r}
-object.size(sp_flights)
+sp_flights_memory <- spark_read_csv(sc, 
+                             name = "flights_mem", 
+                             path = "./flights.csv", 
+                             memory = TRUE)
 ```
 
 - See http://127.0.0.1:4040/storage/, to confirm that there's nothing in Storage, yet
@@ -84,6 +87,7 @@ object.size(sp_flights)
 
 - Use the `DBI` package for SQL operations in `sparklyr`
 - `dbGetQuery()` pulls the data into R automatically
+
 ```{r}
   library(DBI)
   
@@ -95,14 +99,15 @@ object.size(sp_flights)
 ### Use SQL in a code chunk
 
 - RMarkdown allows non-R chunks like SQL: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql 
+
 ```{sql, connection = sc}
   SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
 ```
 
-
 ## dplyr
 
 - Use `dplyr` verbs to interact with the data
+
 ```{r}
 flights_table <- sp_flights %>%
   mutate(dep_delay = as.numeric(dep_delay),
@@ -113,25 +118,14 @@ flights_table <- sp_flights %>%
 flights_table %>% head
 ```
 
-
 ### show_query()
 
 - Use `show_query()` to display what is the SQL query that `dplyr` will send to Spark
+
 ```{r}
   sp_flights  %>% 
     head %>% 
     show_query()
-```
-
-
-## Cache Data in Spark
-
-
-- Aggregation operation will take much longer if the data is not cached in Spark memory
-- After the code below is complete, go to http://127.0.0.1:4040/jobs/ to find out how long it took to count the 13M records
-```{r}
-  sp_flights %>%
-    count(dest)
 ```
 
 ### Compute
@@ -139,23 +133,14 @@ flights_table %>% head
 -`compute()`  caches a Spark DataFrame into memory
 - It performs these two operations: `sdf_register()` + `tbl_cache()`
 - After the code below completes, see http://127.0.0.1:4040/storage/, the is a new table called `flights_subset`
+
 ```{r}
   subset_table <- flights_table %>% 
     compute("flights_subset")
 ```
 
-```{r}
-object.size(subset_table)
-```
-
-- Run `tally` again
-- It runs in less than a second (http://127.0.0.1:4040/jobs/)
-```{r}
-  subset_table %>%
-    count(dest)
-```
-
 - Now we can perform more complex aggregations
+
 ```{r}
 subset_table %>%
   group_by(dest) %>%
@@ -172,7 +157,6 @@ subset_table %>%
     sample_frac(0.0001) %>% 
     show_query()
 ```
-
 
 ```{r}
   sp_flights %>% 
@@ -193,6 +177,7 @@ subset_table %>%
   tally() %>%
   head()
 ```
+
 ```{r}
 subset_table %>%
   filter(origin == "EWR" | origin == "JFK") %>%
@@ -207,6 +192,7 @@ https://spark.apache.org/docs/latest/ml-features.html
 
 - Apply threshold to a column, such that values less than or equal to the threshold are assigned the value 0.0, and values greater than the threshold are assigned the value 1.0.
 - [*The Federal Aviation Administration (FAA) considers a flight to be delayed when it is 15 minutes later than its scheduled time.*](https://en.wikipedia.org/wiki/Flight_cancellation_and_delay)
+
 ```{r}
 subset_table %>%
   ft_binarizer(input.col =  "dep_delay", 
@@ -218,6 +204,7 @@ subset_table %>%
 ### ft_bucketizer()
 
 - Similar to R's `cut()` function, this transforms a numeric column into a discretized column, with breaks specified through the splits parameter.
+
 ```{r}
 subset_table %>%
   ft_bucketizer(input.col =  "sched_dep_time",
@@ -226,10 +213,10 @@ subset_table %>%
   head(100)
 ```
 
-
 ## MLib
 
 - `sparklyr` enables us to use `dplyr` verbs, `sdf` functions and `ft` functions to prepare data within a single piped code segment
+
 ```{r}
 sample_data <- subset_table %>%
   filter(!is.na(dep_delay)) %>%
@@ -248,20 +235,22 @@ sample_data <- subset_table %>%
 ```
 
 - A formula can be used for modeling, as in: `x ~ y + z` 
+
 ```{r}
 delayed_model <- ml_logistic_regression(training, delayed ~ dep_delay + DepHour) 
 summary(delayed_model)
 ```
 
-
 - We will use the `testing` sample to run predictions
 - It returns the same Spark DataFrame but with new columns
+
 ```{r}
 delayed_testing <- sdf_predict(delayed_model, sample_data$testing) 
 delayed_testing %>% head
 ```
 
 - Let's see how the model performed
+
 ```{r}
 delayed_testing %>%
   group_by(delayed, prediction) %>%
@@ -270,11 +259,10 @@ delayed_testing %>%
 
 ## Distributed R
 
- 
 `spark_apply()` applies an R function to a Spark object.  The R function runs over each RDD in Spark. Please read this article: https://spark.rstudio.com/articles/guides-distributed-r.html
 
-
 - The `training` Spark DataFrame has 8 partitions, `nrow()` will run in each partition 
+
 ```{r}
   training %>%
     spark_apply(nrow)
@@ -283,6 +271,7 @@ delayed_testing %>%
 ### Group by
 
 - The `group_by` argument can be used to run the R function over a specific column or columns instead of the RDD partitions.
+
 ```{r}
 training %>%
   spark_apply(nrow, group_by =  "month", columns = "count")
@@ -291,32 +280,13 @@ training %>%
 ## Distributing Packages
 
 - With spark_apply() you can use any R package inside Spark. For instance, you can use the broom package to create a tidy data from a `glm()` model output.
+
 ```{r}
 spark_apply(
   training,
   function(e) broom::tidy(glm(delayed ~ arr_delay, data = e, family = "binomial")),
   names = c("term", "estimate", "std.error", "statistic", "p.value"),
   group_by = "origin")
-```
-
-```{r}
-#other ml to practice
-# copy mtcars into spark
-mtcars_tbl <- copy_to(sc, mtcars)
-
-# transform our data set, and then partition into 'training', 'test'
-partitions <- mtcars_tbl %>%
-  filter(hp >= 100) %>%
-  mutate(cyl8 = cyl == 8) %>%
-  sdf_partition(training = 0.5, test = 0.5, seed = 1099)
-
-# fit a linear model to the training dataset
-fit <- partitions$training %>%
-  ml_linear_regression(response = "mpg", features = c("wt", "cyl"))
-
-prediction <- sdf_predict(fit, partitions$testing) 
-prediction %>% 
-  select(mpg, prediction)
 ```
 
 ```{r}
@@ -342,5 +312,3 @@ subset_table %>%
   dbplot_boxplot(origin, dep_delay)
 
 ```
-
-
