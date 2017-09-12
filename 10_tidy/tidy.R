@@ -33,3 +33,16 @@ who5 <- who4 %>%
   separate(sexage, c("sex", "age"), sep = 1)
 who5
 #who5 is tidy! For modeling we could transform all the columns (except cases) to factors
+
+#make tidy the next two datasets
+weather <- read.delim(
+  file = "http://stat405.had.co.nz/data/weather.txt",
+  stringsAsFactors = FALSE
+)
+
+pew <- read.delim(
+  file = "http://stat405.had.co.nz/data/pew.txt",
+  header = TRUE,
+  stringsAsFactors = FALSE,
+  check.names = F
+)
