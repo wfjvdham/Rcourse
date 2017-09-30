@@ -104,7 +104,7 @@ sp_flights_memory <- spark_read_csv(sc,
   SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
 ```
 
-## dplyr
+### dplyr
 
 - Use `dplyr` verbs to interact with the data
 
@@ -116,6 +116,16 @@ flights_table <- sp_flights %>%
   select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month) 
 #%>%  show_query()
 flights_table %>% head
+```
+
+### Store Data 
+
+Use a spark write function to store the data in HDFS or s3.
+
+```{r}
+  spark_write_csv(flights_table, "tmp.csv")
+  spark_write_parquet(flights_table, "tmp.parquet")
+  spark_write_json(flights_table, "tmp.json")
 ```
 
 ### show_query()
