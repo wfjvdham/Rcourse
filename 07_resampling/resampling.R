@@ -10,9 +10,9 @@ summary(model_all)
 model_pl = lm(Sepal.Length ~ Petal.Length, iris)
 summary(model_pl)
 
-cv_all = cvFit(model_all, data=iris, y=iris$Sepal.Length, R=10)
+cv_all = cvFit(model_all, data=iris, y=iris$Sepal.Length, K=5)
 cv_all
-cv_pl = cvFit(model_pl, data=iris, y=iris$Sepal.Length, R=10)
+cv_pl = cvFit(model_pl, data=iris, y=iris$Sepal.Length, K=5)
 cv_pl
 
 mtcars = as_data_frame(mtcars)

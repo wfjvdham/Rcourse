@@ -1,4 +1,5 @@
 library(nycflights13)
+library(modelr)
 flights = as_data_frame(flights)
 
 ## predicir retrasado explore variables

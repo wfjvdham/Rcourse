@@ -27,8 +27,6 @@ tree_overfitting <- ctree(Survived ~ .,
                           train_factor)
 plot(tree_overfitting)
 
-
-
 #IMPORTANTE las scores de los trees son muy altos. Esto es claremente overfitting
 train_factor <- train_factor %>%
   mutate(predSurvived = predict(tree, train_factor))
