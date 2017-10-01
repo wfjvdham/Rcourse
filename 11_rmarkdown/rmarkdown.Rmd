@@ -21,6 +21,26 @@ library(dygraphs)
 library(leaflet)
 ```
 
+# Heading
+
+## Sub-heading
+
+### Another deeper heading
+
+# Lists
+
+* apples
+* oranges
+* pears
+
+1. apples
+1. oranges
+1. pears
+
+# Link
+
+[link](http://example.com)
+
 # Options for Chunck
 
 ## Cache
@@ -65,19 +85,8 @@ Notice how the output appears right beneath the chunk, as though you'd run the c
 Of course, sometimes your R code doesn't just produce text; it produces graphical output such as plots. These are supported, too. Try running this chunk:
 
 ```{r graphics}
-qplot(Sepal.Length, Petal.Length, data = iris, color = Species, 
-      size = Petal.Width)
-```
-
-Notice that it isn't necessary to prefix `qplot` with `ggplot2::` since there is a `library(ggplot2)` call in the setup chunk. RStudio runs the setup chunk automatically whenever it's needed. 
-
-## HTML Widgets
-
-If your R analysis involves interactive components, you're probably already familiar with the `htmlwidgets` library. These, too, are supported in the notebook. Run this chunk to see an interactive graph:
-
-```{r widgets}
-dygraph(nhtemp, main = "New Haven Temperatures") %>% 
-  dyRangeSelector(dateWindow = c("1920-01-01", "1960-01-01"))
+ggplot(iris) +
+  geom_point(aes(Sepal.Length, Petal.Length, color = Species, size = Petal.Width))
 ```
 
 # Running Code
@@ -143,16 +152,6 @@ It also contains a copy of the notebook's source `.Rmd` file.
 To look at the `.nb.html` file, click *Preview* in the RStudio editor toolbar. This is a fundamental difference between notebooks and other R Markdown documents; pressing this button doesn't actually cause any of your code to run, it just shows you the HTML file already prepared. It will automatically update whenever you save the `.Rmd` file.
 
 If you open the `.nb.html` file in a web browser, you'll see an option to download the source. You can also open an `.nb.html` file in RStudio; when you do this, RStudio will automatically extract the `.Rmd` file and outputs inside it and open the file in the notebook editor.
-
-## Alternate formats
-
-### Notebooks as R Markdown Documents
-
-A notebook is also an R Markdown document. Try changing the YAML header in this document so that `html_document` is the first option, then clicking `Knit` (or just pulling down the *Preview*) menu. You could also create a PDF from the notebook, a Word document, or even a dashboard. 
-  
-### R Markdown Documents as Notebooks
-
-By now you've probably realized that any R Markdown document is also a notebook. If you don't like this behavior and prefer to work with the console directly, pull down the gear icon in the editor toolbar and choose Show Chunk Output Inline; there's also a global pref.
 
 # Further reading
 
