@@ -50,7 +50,7 @@ var(train$Age, na.rm = TRUE)
 
 #normal distribution
 dnorm(0, mean = 1, sd = 1)
-pnorm(-1, mean = 0, sd = 1)
+pnorm(1, mean = 0, sd = 1)
 
 x <- seq(-10, 10, by = .1)
 

@@ -7,7 +7,6 @@ output:
     toc: yes
   html_notebook: default
   pdf_document: default
-always_allow_html: yes
 ---
 
 # Introduction
