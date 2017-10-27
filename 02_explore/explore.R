@@ -46,7 +46,17 @@ ggplot(train) +
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
+  facet_wrap(~factor(Survived)) +
+  ggtitle("...") +
+  ylab("...") +
+  xlab("...")
+
+ggplot(train) + 
+  geom_bar(aes(Sex)) +
   coord_flip()
+
+ggplot(train) + 
+  geom_boxplot(aes(factor(Survived), Fare))
 
 ggplot(train) + 
   geom_boxplot(aes(factor(Survived), Fare)) +
