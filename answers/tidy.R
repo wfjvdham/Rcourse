@@ -16,7 +16,15 @@ weather <- read.delim(
 )
 
 weather <- weather %>%
-  gather(d1:d31, key = "day", value = "temperature")
+  gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE)
 
 weather <- weather %>%
   spread(key = "element", value = "temperature")
+
+weather %>%
+  group_by(month) %>%
+  summarise(avg_min = mean(TMIN),
+            avg_max = mean(TMAX)) %>%
+  gather(2:3, key="temptype", value="temp") %>%
+  ggplot(aes(x=factor(month), y=temp, fill=temptype)) +
+  geom_bar(position="dodge", stat="identity")
