@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(tidyverse)
 
 
 ####################################################
@@ -60,8 +61,11 @@ ui <- fluidPage(
                 radioButtons("radio", label = h3("Radio buttons"),
                              choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3), 
                              selected = 1),
-                plotOutput("tempOne")    
-                ))
+                mainPanel(
+                  plotOutput("tempOne")
+                )
+        )
+      )
    
    
 )
@@ -76,21 +80,6 @@ server <- function(input, output) {
     file = "http://stat405.had.co.nz/data/weather.txt",
     stringsAsFactors = FALSE
   )
-  
-  #gather all the columns with treathments codes
-  weather1 <- weather %>% 
-    gather(d1:d31, key = "Day", value = "cases", na.rm = TRUE)
- 
-  #File to column
-  weather2 <- weather1 %>% 
-    spread(element,cases)
-  
-  #Drop word "d" of de Day and drop columns don't have information 
-  weather3 <- weather2 %>%
-    mutate(day = substr(Day,2,length(Day))) %>%
-    select(-Day,-id) %>%
-    arrange(month,day)
-  
   ###########
   weatherT <- weather %>%
     gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE)
@@ -102,7 +91,7 @@ server <- function(input, output) {
   
    output$distPlot <- renderPlot({
      
-     ggplot(weather3 %>% filter(month == input$month)) + 
+     ggplot(weatherT %>% filter(month == input$month)) + 
        geom_point(aes(factor(day), TMAX),stat = "identity", shape = 18, size = 5) + 
        geom_point(aes(factor(day), TMIN),stat = "identity", shape = 18, size = 5) + 
        ggtitle(paste("Mont:: ", month.name[input$month]) ) +
