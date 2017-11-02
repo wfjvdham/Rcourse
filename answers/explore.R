@@ -1,4 +1,8 @@
 library(nycflights13)
+library(tidyverse)
+
+flights_na <- flights %>%
+  select_if(~ !any(is.na(.)))
 
 #Cuales columnos tiene valores de NA?
 summary(flights)
@@ -23,12 +27,12 @@ flights %>%
 
 n_distinct(flights$dest)
 
-#la mediana en la distancia por los vuelvos con carries es DL?
+#la mediana en la distancia por los vuelos con carries es DL?
 flights %>%
   group_by(carrier) %>%
-  summarise(meanDistance = mean(distance)) %>%
+  summarise(medianDistance = median(distance)) %>%
   filter(carrier == "DL") %>%
-  select(meanDistance) 
+  select(medianDistance) 
 
 #El destino mas popular en Enero 2013?
 flights %>%
@@ -42,8 +46,11 @@ flights %>%
 #Mostrar en un gráfico si hay mas vuelos en retraso o a tiempo
 flights %>%
   mutate(delayed = arr_delay > 0) %>%
+  na.omit %>%
   ggplot() +
   geom_bar(aes(delayed))
+
+if_else(arr_delay > 0, "true", "false")
 
 #Cuales son los tiempos mas populares para salir?
 ggplot(flights) +
