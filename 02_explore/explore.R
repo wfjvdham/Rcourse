@@ -11,7 +11,7 @@ library(titanic)
 ?titanic_train
 
 # load data
-train = as_data_frame(titanic_train)
+train <- as_data_frame(titanic_train)
 
 # examples ggplot
 ggplot(train) + 
@@ -99,7 +99,7 @@ ggplot(train_male_class12) +
 train <- train %>% 
   arrange(Age)
 
-train %>% 
+train <- train %>% 
   arrange(desc(Age))
 
 train %>%
@@ -133,6 +133,26 @@ train %>%
   group_by(Pclass) %>%
   summarise(mean_fare = mean(Fare, na.rm = TRUE))
 
+train %>%
+  mutate(groups = cut(Fare, c(-1,50,100,1000))) %>%
+  group_by(groups) %>%
+  summarise(n = n())
+
+#geom_bar identity
+
+ggplot(train) +
+  geom_bar(aes(Sex))
+
+count_sex <- train %>%
+  group_by(Sex) %>%
+  summarise(n = n())
+
+ggplot(count_sex) +
+  geom_bar(aes(Sex))
+
+ggplot(count_sex) +
+  geom_bar(aes(Sex, n), stat = "identity")
+
 #functiones utiles
 train %>%
   slice(1)
@@ -140,7 +160,7 @@ train %>%
 train %>%
   slice(1:5)
 
-nrow(flights)
+nrow(train)
 
 summary(train)
 
@@ -155,6 +175,8 @@ cut(train$Age, breaks = c(0,15,31))
 seq(1, 8)
 
 seq(1, 8, 0.1)
+
+set.seed(5342)
 
 train %>%
   sample_frac(0.5) %>%
