@@ -2,6 +2,32 @@ library(nycflights13)
 library(modelr)
 flights = as_data_frame(flights)
 
+mod <- lm(arr_delay ~ dep_delay, data = flights)
+summary(mod)
+
+coef <- coef(mod)
+ggplot(flights, aes(dep_delay, arr_delay)) + 
+  geom_point() + 
+  geom_abline(intercept = coef[1], slope = coef[2], color = "red")
+
+flights <- flights %>% 
+  add_residuals(mod)
+
+ggplot(flights, aes(resid)) + 
+  geom_histogram()
+
+ggplot(flights, aes(arr_delay, resid)) + 
+  geom_point() 
+
+mod_origin <- lm(arr_delay ~ dep_delay + day, flights)
+summary(mod_origin)
+summary(mod)
+
+anova(mod_origin, mod)
+
+glance(mod_origin)
+
+
 ## predicir retrasado explore variables
 ggplot(flights) +
   geom_point(aes(dep_delay, arr_delay))
