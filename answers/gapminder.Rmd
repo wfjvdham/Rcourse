@@ -1,0 +1,40 @@
+---
+title: "gapminder"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+gapminder <- as_data_frame(gapminder)
+```
+
+1: Hace un subset parar 1952
+
+```{r}
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+```
+
+2: Hace un plot de life expectancy (lifeExp) vs. population (pop)
+
+```{r}
+ggplot(gapminder_1952) +
+  geom_point(aes(pop, lifeExp))
+```
+
+3: Cambia el color depende el continente
+
+```{r}
+ggplot(gapminder_1952) +
+  geom_point(aes(pop, lifeExp, color = continent))
+```
+4: Cambia el tamaño depende el GPD
+
+```{r}
+ggplot(gapminder_1952) +
+  geom_point(aes(pop, lifeExp, color = continent, size = gdpPercap))
+```
+
+5: Hace un pequeño descripción de este plot
