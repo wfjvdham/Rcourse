@@ -31,3 +31,8 @@ ggplot(UCBAdmissions, aes(Gender, n)) +
   facet_grid(. ~ Dept)
 ```
 
+```{r}
+library(mosaicData)
+Whickham <- as_data_frame(Whickham)
+```
+

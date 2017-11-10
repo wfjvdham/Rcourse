@@ -1,0 +1,27 @@
+---
+  title: "Simpson's paradox"
+  output: html_document
+---
+
+```{r}
+library(mosaicData)
+library(tidyverse)
+Whickham <- as_data_frame(Whickham)
+```
+
+```{r}
+ggplot(Whickham) +
+  geom_bar(aes(smoker, fill = outcome), position = "fill") 
+```
+
+```{r}
+ggplot(Whickham) +
+  geom_bar(aes(smoker, fill = outcome), position = "fill") +
+  facet_wrap(~cut(age, c(0,44,64,Inf)))
+```
+
+```{r}
+ggplot(Whickham) +
+  geom_bar(aes(smoker)) +
+  facet_wrap(~cut(age, c(0,44,64,Inf)))
+```
