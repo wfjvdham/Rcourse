@@ -1,0 +1,33 @@
+---
+title: "Simpson's paradox"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+UCBAdmissions <- as_data_frame(UCBAdmissions)
+```
+
+```{r}
+UCBAdmissions
+```
+
+
+```{r}
+ggplot(UCBAdmissions, aes(Gender, n, fill = Admit)) +
+  geom_bar(position = "fill", stat = "identity")
+```
+
+```{r}
+ggplot(UCBAdmissions, aes(Gender, n, fill = Admit)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(. ~ Dept)
+```
+
+```{r}
+ggplot(UCBAdmissions, aes(Gender, n)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_grid(. ~ Dept)
+```
+
