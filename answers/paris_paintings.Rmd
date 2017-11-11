@@ -1,0 +1,37 @@
+---
+title: "Paris Paintings"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+pp <- read_csv("../paris_paintings.csv")
+```
+
+1. Hacer un modelo para predicir log(price) depende de un variable numerical.
+
+```{r}
+model <- lm(logprice ~ Surface, pp)
+summary(model)
+```
+
+1. Hacer un modelo para predicir log(price) depende de un variable catagorical.
+
+```{r}
+model <- lm(logprice ~ artistliving, pp)
+summary(model)
+```
+  
+1. Hacer un modelo para predicir log(price) depende de un variable catagorical con mas de dos niveles. 
+
+```{r}
+model <- lm(logprice ~ origin_author, pp)
+summary(model)
+```
+
+1. Hacer un modelo para predicir log(price) depende de al menos dos variables.
+
+```{r}
+model <- lm(logprice ~ origin_author + Surface, pp)
+summary(model)
+```
