@@ -1,0 +1,61 @@
+---
+title: "Diamonds"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+diamonds <- as_data_frame(diamonds)
+```
+
+1. Describir la distribucion de variable price
+
+```{r}
+ggplot(diamonds) +
+  geom_histogram(aes(price))
+```
+
+1. Cuantos diamontos por typo de cut hay?
+
+```{r}
+diamonds %>%
+  group_by(cut) %>%
+  summarise(n = n())
+
+diamonds %>%
+  count(cut)
+
+ggplot(diamonds) +
+  geom_bar(aes(cut))
+```
+
+1. Mostrar la relacion entre depth y price solo para los fair cut diamonds.
+
+```{r}
+diamonds %>%
+  filter(cut == "Fair") %>%
+  ggplot(aes(depth, price)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+fair_diamonds <- diamonds %>%
+  filter(cut == "Fair") 
+
+model <- lm(price ~ depth, fair_diamonds)
+summary(model)
+```
+
+1. Por cade typo de cut calcular:
+  - minimum (min) price 
+  - maximum (max) price 
+  - mean (mean) price
+  - median (median) price
+
+```{r}
+diamonds %>%
+  group_by(cut) %>%
+  summarise(min = min(price),
+            max = max(price),
+            mean = mean(price),
+            median = median(price))
+```

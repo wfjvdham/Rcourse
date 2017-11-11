@@ -1,0 +1,21 @@
+---
+title: "Diamonds"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+diamonds <- as_data_frame(diamonds)
+```
+
+1. Describir la distribucion de variable price
+
+1. Cuantos diamontos por typo de cut hay?
+
+1. Mostrar la relacion entre depth y price solo para los fair cut diamonds.
+
+1. Por cade typo de cut calcular:
+  - minimum (min) price 
+  - maximum (max) price 
+  - mean (mean) price
+  - median (median) price
