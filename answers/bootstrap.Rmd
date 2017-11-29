@@ -1,0 +1,43 @@
+---
+title: "Bootstrap movies example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2movies)
+library(devtools)
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# install_github("andrewpbray/infer")
+library(infer)
+set.seed(20171026)
+movies <- as_data_frame(movies)
+```
+
+1. Cuantos movies de action hay?
+
+```{r }
+movies %>%
+  filter(Action == 1) %>%
+  nrow()
+```
+
+1. Cual es el 90% confidence interfal de el mean rating de los peliculas?
+
+```{r }
+rating_ci_mean <- movies %>%
+  filter(Action == 1) %>%
+  specify(response = rating) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+
+quantiles <- rating_ci_mean %>%
+  summarize(lower_bound = quantile(stat, 0.05),
+            upper_bound = quantile(stat, 0.95))
+
+ggplot(rating_ci_mean) +
+  geom_histogram(aes(stat), binwidth = 0.01) +
+  labs(title = "Bootstrap distribution of means") +
+  geom_vline(xintercept = quantiles$lower_bound) +
+  geom_vline(xintercept = quantiles$upper_bound)
+```

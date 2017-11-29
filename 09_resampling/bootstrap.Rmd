@@ -1,0 +1,19 @@
+---
+title: "Bootstrap movies example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2movies)
+library(devtools)
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# install_github("andrewpbray/infer")
+library(infer)
+set.seed(20171026)
+movies <- as_data_frame(movies)
+```
+
+1. Cuantos movies de action hay?
+
+1. Cual es el 90% confidence interfal de el mean rating de los peliculas?
