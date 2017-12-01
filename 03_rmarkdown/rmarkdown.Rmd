@@ -144,6 +144,15 @@ flights %>%
   knitr::kable()
 ```
 
+```{r kable_scroll_example}
+library(kableExtra)
+flights %>%
+  head(200) %>%
+  knitr::kable(format = "html") %>%
+  kable_styling() %>%
+  scroll_box(width = "900px", height = "400px")
+```
+
 # Saving and Sharing
 
 A notebook's source code is always in an `.Rmd` file. Whenever you save it, a sidecar `.nb.html` file is generated. This file contains a rendered copy of the notebook itself. No special viewer is required.
