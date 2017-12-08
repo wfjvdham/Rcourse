@@ -1,0 +1,68 @@
+---
+title: "rvest IMDB example"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(rvest)
+library(robotstxt)
+paths_allowed("http://www.imdb.com")
+```
+
+```{r imdb_top_250}
+page <- read_html("http://www.imdb.com/chart/top")
+titles <- page %>%
+  html_nodes(".titleColumn a") %>%
+  html_text()
+years <- page %>%
+  html_nodes(".secondaryInfo") %>%
+  html_text() %>%
+  str_replace("\\(", "") %>% # remove (
+  str_replace("\\)", "") %>% # remove )
+  as.numeric()
+scores <- page %>%
+  html_nodes("strong") %>%
+  html_text() %>%
+  as.numeric()
+imdb_top_250 <- data_frame(
+  title = titles, 
+  year = years, 
+  score = scores[5:254]
+  )
+imdb_top_250 <- imdb_top_250 %>%
+  mutate(
+    rank = 1:nrow(imdb_top_250)
+  )
+```
+
+# Cual peliculas de 1995 son en la lista?
+
+```{r}
+imdb_top_250 %>%
+  filter(year == 1995)
+```
+
+# Cual ano tiene el mas peliculas en esta lista?
+
+```{r}
+imdb_top_250 %>% 
+  group_by(year) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total)) %>%
+  head(5)
+```
+
+# La promedia de score por ano
+
+```{r}
+imdb_top_250 %>% 
+  group_by(year) %>%
+  summarise(avg_score = mean(score)) %>%
+  ggplot(aes(y = avg_score, x = year)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    xlab("year")
+```

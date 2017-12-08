@@ -1,0 +1,70 @@
+---
+title: "rvest exersice"
+output: html_notebook
+---
+
+1. Scrape http://www.imdb.com/chart/tvmeter
+  100 rows and 4 columns: rank, movie name, year, rating
+
+1. For the first three movies scrape their pages for the following information.
+  - How many episodes so far
+  - First five plot keywords
+  - Genres
+  - Runtime
+  - Country
+  - Language
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(rvest)
+```
+
+```{r imdb_100}
+page <- read_html("http://www.imdb.com/chart/tvmeter")
+titles <- page %>%
+  html_nodes(".titleColumn a") %>%
+  html_text()
+years <- page %>%
+  html_nodes(".secondaryInfo") %>%
+  html_text() %>%
+  str_replace("\\(", "") %>% # remove (
+  str_replace("\\)", "") %>% # remove )
+  as.numeric()
+scores <- page %>%
+  html_nodes("strong") %>%
+  html_text() %>%
+  as.numeric()
+seq1 <- seq(1,45,2)
+seq2 <- seq(46,140,2)
+seq3 <- seq(141,187,2)
+seq4 <- seq(188,197,2)
+years <-years[c(seq1, seq2, seq3, seq4)]
+imdb_100 <- data_frame(
+  title = titles, 
+  year = years, 
+  score = scores[c(5:97, 1, 98:103)]
+  )
+imdb_100 <- imdb_100 %>%
+  mutate(
+    rank = 1:nrow(imdb_100)
+  )
+```
+
+
+```{r}
+page <- read_html("http://www.imdb.com/title/tt4574334/")
+n_episodes <- page %>%
+  html_nodes(".bp_sub_heading") %>%
+  html_text() %>%
+  str_replace(" episodes", "") %>%
+  as.numeric()
+first_5_keywords <- page %>%
+  html_nodes(".see-more") %>%
+  html_nodes(".itemprop") %>%
+  html_text()
+genres <- page %>%
+  html_nodes(".subtext") %>%
+  html_nodes(".itemprop") %>%
+  html_text()
+```
+

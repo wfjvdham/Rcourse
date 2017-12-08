@@ -1,0 +1,15 @@
+---
+title: "rvest exersice"
+output: html_notebook
+---
+
+1. Scrape http://www.imdb.com/chart/tvmeter
+  100 rows and 4 columns: rank, movie name, year, rating
+
+1. For the first three movies scrape their pages for the following information.
+  - How many episodes so far
+  - First five plot keywords
+  - Genres
+  - Runtime
+  - Country
+  - Language
