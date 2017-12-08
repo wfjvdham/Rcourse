@@ -68,3 +68,6 @@ genres <- page %>%
   html_text()
 ```
 
+# Siguente paso
+
+Automatisar scrape todos los peliculas en esta lista
