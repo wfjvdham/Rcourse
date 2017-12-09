@@ -1,0 +1,165 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+#Cuales columnas tiene valores de NA? 
+
+```{r, echo=FALSE, include = FALSE}
+
+library(nycflights13)
+library(tidyverse)
+summary(flights)
+```
+##Respuesta: las columnas que tienen valores NA son 
+
+1. Dep_time 
+1. dep_delay 
+1. arr_time 
+1. arr_Delay 
+1. air_time 
+
+
+#Cuantos vuelos fueron realizados el 1 enero 2013?
+
+
+```{r, include = FALSE}
+
+n<-flights %>%
+  filter(year == 2013 & month == 1 & day == 1) %>%
+  nrow
+```
+##Respuesta: `r n`
+
+#Cuál es la distancia mas grande en km? con cual aeropuerto?.
+
+Dado que la distancia esta originalmente en millas hay que transformar a km diviendo por 1.6.
+
+## Respuesta:
+
+ 
+```{r, echo = FALSE}
+flights%>%
+  filter(distance_km == max(distance_km))  %>%
+  select(origin, dest, distance_km) %>%
+  head(1)
+
+```
+# Otra manera de obtener este resultado es el siguiente:
+
+```{r, echo = FALSE}
+
+flights%>%
+  group_by(origin,dest)  %>%
+  summarise(distance_km = max(distance_km)) %>%
+  arrange(desc(distance_km)) %>%
+  head(1)
+```
+
+
+#Cuantos destinos hay?
+ 
+## Respuesta: Existen los siguientes destinos 
+```{r}
+
+flights %>%
+  group_by(dest) %>%
+  summarize(n=n()) 
+```
+
+#La mediana en la distancia por los vuelos con carrier es DL?
+
+Una opción es la siguiente
+
+flights %>%
+  
+  filter(carrier == "DL") %>%
+  
+  mutate(mediana_dist = median(distance)) %>%
+  
+  select(mediana_dist) # esta opcion no esla mejor
+
+
+Esta opción no esla mejor, la más óptima es la siguiente
+
+```{r, echo=FALSE}
+flights %>%
+  group_by(carrier) %>%
+  summarize(mediana_dist = median(distance)) %>%
+  filter(carrier == "DL") %>%
+  select(mediana_dist)
+```
+
+# ¿Cuál fue el destino mas popular en enero 2013?
+
+##
+```{r, echo=FALSE}
+flights %>%
+  filter(month == 1 , year == 2013) %>%
+  group_by(dest) %>%
+  summarise(n=n()) %>%
+  arrange(desc(n)) %>%
+  head(1)   #me da la primera columna
+```
+
+Ojo si queremos las 3 más populares el siguiente codigo da la respuesta:
+```{r}
+flights %>%
+  filter(month == 1 , year == 2013) %>%
+  group_by(dest) %>%
+  summarise(n=n()) %>%
+  arrange(desc(n)) %>%
+  head(3)   #me da las  primeras 3 columna
+```
+
+# Mostrar en un grafico si hay mas vuelos en retraso o a tiempo
+
+## Método 1
+```{r}
+flights %>%
+  mutate(retraso = arr_delay>0) %>%
+  mutate(retraso_char = ifelse(retraso,"retraso","a tiempo"))  %>%
+  ggplot() + 
+  geom_bar(aes(retraso_char)) 
+```
+
+#Método 2: tambien sirve el siguiente codigo simpificado
+
+```{r}
+flights %>%
+  mutate(retraso_char = ifelse(arr_delay>0,"retraso","a tiempo"))  %>%
+  ggplot() + 
+  geom_bar(aes(retraso_char)) 
+```
+
+#Cuales son los tiempos mas populares para salir
+
+```{r}  
+flights %>%
+  group_by(hour) %>%
+  summarise(n=n()) %>%
+  arrange(desc(n)) %>%
+  head(1)   #me da la primera columna  
+```
+
+
+#Que puedes decir sobre la distrbución de  arr_delay
+
+```{r}
+flights %>%
+  ggplot() + 
+  geom_histogram(aes(arr_delay))
+```
+
+## Dado que es una variable discreta
+
+```{r}
+flights %>%
+  ggplot() + 
+  geom_bar(aes(arr_delay))
+```
+
