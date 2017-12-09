@@ -64,3 +64,16 @@ ggplot() +
 ```
 Del grafico se desprende que los dos paises de Oceania para el 1952,  tiene esperanza de vida parecida, pero Australia tiene mas población con menor ingreso percapita y New Zealand tiene menos población pero mayor ingreso percapita.
 
+##Grafico adicional
+
+Estudio de esperanza de vida por año
+
+```{r include=TRUE, echo=FALSE}
+ggplot(gapminder) + 
+  geom_boxplot(aes(factor(year), lifeExp))
+```
+
+### Conclusion 
+
+Del grafico anterior podemos decir que de manera gloabal la esperanza de vida ha aumentado a medida que avanza el tiempo. 
+  
