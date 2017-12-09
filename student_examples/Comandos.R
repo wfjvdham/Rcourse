@@ -1,0 +1,128 @@
+library(tidyverse)
+library(titanic)
+
+train = as_data_frame(titanic_train)
+test = as_data_frame(titanic_test)
+
+#seed
+set.seed(5)
+#random numbers
+runif(10)
+runif(10, 5.0, 7.5)
+sample(1:10, 2)
+sample(1:10, 20)
+sample(1:10, 20, replace =TRUE) 
+
+#mean  promedio
+dice <- sample(1:6, 1000000, replace = TRUE) 
+mean(dice)
+
+mean(train$Age)
+mean(train$Age, na.rm = TRUE)
+
+#median
+list1 <- c(3,5,8,9,600)
+list2 <- c(60,3,5,9,8)
+list3 <- c(3,4,5,90)
+
+median(list1)
+mean(list1) #el outliyer 600 hace q se dispare 
+median(list2) # los outliyer no tienen influencia
+median(list3) #
+
+#mode
+list4 <- c(1, 1, 1, 2, 3, 4, 4)
+
+table(list4)
+sort(table(list4), decreasing = TRUE)
+
+#variance
+dice_10 <- sample(1:10, 1000000, replace = TRUE)  #distancia que existe entre el promedio y los puntos
+
+mean(dice_10)
+
+sd(dice_10)
+sd(dice)
+
+var(dice)
+var(dice_10)
+var(train$Age, na.rm = TRUE)
+
+#normal distribution
+dnorm(200, mean = 170, sd = 10)#probabilidad que mida 2 metros cuando la desviacion es 10 cm
+dnorm(0, mean = 1, sd = 1)
+
+1-pnorm(180, mean = 170, sd = 10)#probabilidad que mida 1.8 metros cuando la desviacion es 10 cm
+pnorm(1, mean = 0, sd = 1)
+
+###########################################################
+
+pnorm(50, mean = 50, sd = 15)- pnorm(70, mean = 50, sd = 15)
+###########################################################
+x <- seq(-10, 10, by = .1)
+
+ggplot() +
+  geom_point(aes(x, dnorm(x, mean = 0, sd = 1)), color = "red") +
+  geom_point(aes(x, dnorm(x, mean = 0, sd = 4)), color = "blue")
+
+ggplot() +
+  geom_point(aes(x, pnorm(x, mean = 0, sd = 1)), color = "red") +
+  geom_point(aes(x, pnorm(x, mean = 0, sd = 4)), color = "blue")
+
+results = tibble(result = rowSums(replicate(100, sample(0:100, 100000, replace=T))), group = 1)
+
+ggplot(results) +
+  geom_histogram(aes(result), binwidth = 10)
+
+ggplot(results) +
+  geom_boxplot(aes(group, result))
+
+#poisson distribution
+#WC 2,5 goals per game
+
+#excactly x goals
+dpois(2, lambda=2.5)
+
+#less than x goals
+ppois(0, lambda=2.5)
+
+library(glm2)
+data(crabs)
+crabs = as_data_frame(crabs)
+
+ggplot(crabs) +
+  geom_point(aes(Width, Satellites))
+
+model=glm(Satellites ~ Width, crabs, family=poisson(link=log))
+summary(model)
+
+crabs <- cbind(crabs, model$fitted)
+
+ggplot(crabs) +
+  geom_point(aes(Width, Satellites), color="blue") +
+  geom_point(aes(Width, model$fitted), color="red")
+
+#-3.30476 + 0.16405Wi
+exp(-3.30 + 0.164 * 25)
+exp(-3.30 + 0.164 * 30)
+
+library(e1071)
+
+# titanic - model - Naive Bayes classifier
+# los proximos modelos no functionan con columnas de typo character (= string)
+# nosotros nesecitamos cambiar esos a factores o remover esas columnas
+train_factor <- train %>%
+  mutate(Survived = factor(Survived),
+         Sex = factor(Sex),
+         Embarked = factor(Embarked)) %>%
+  select(-Name, -Ticket, -Cabin)
+
+classifier <- naiveBayes(Survived ~ Sex + Age, train_factor)
+
+print(classifier)
+
+train_factor <- train_factor %>%
+  mutate(predSurvived = predict(classifier, train_factor, type = "class"))
+
+table(train_factor$predSurvived, train_factor$Survived)
+sum(train_factor$predSurvived == train_factor$Survived) / nrow(train_factor)
