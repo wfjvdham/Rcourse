@@ -22,10 +22,19 @@ gapminder1952 <- gapminder %>%
 ggplot(gapminder1952) + 
   geom_point(aes(lifeExp, pop))
 ```
-3: Cambia el color depende el continente
+
+1. Cambia el color depende el continente
 
 
+ ```{r, include = FALSE}
+ 
+ggplot(gapminder1952) + 
+  geom_point(aes(lifeExp, pop,color = factor(continent)))
 
-4: Cambia el tamaño depende el GPD
+``` 
+
+  
+  
+4: Cambia el tama�o depende el GPD
 
 5: Hace un pequeño descripción de este plot
