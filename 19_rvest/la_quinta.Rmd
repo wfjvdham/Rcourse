@@ -1,0 +1,17 @@
+---
+title: "Case study"
+output: html_notebook
+---
+
+# "La Quinta is Spanish for 'next to Denny's'"
+
+Verdad o no?
+
+1. Scrape La Quinta location data [link](http://www.lq.com/en/findandbook/hotel-listings.html)
+
+    - [selectorgadget.com](selectorgadget.com)
+  
+1. Descargar los html por cade hotel
+1. Poner todos los hotels en 1 data frame
+1. Scrape Danny's locations
+1. Nearest Neighbors
