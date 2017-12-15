@@ -41,13 +41,18 @@ library(ggplot2)
 
 ## Cache
 
+Show both
+
 ```{r, cache=TRUE}
 for (i in 1:5000) {
     lm((i+1)~i)
 }
+6+9
 ```
 
 ## Echo
+
+Show only output
 
 ```{r echo_example, echo=FALSE}
 x <- rnorm(100)
@@ -57,7 +62,19 @@ cor(x, y)
 
 ## Include
 
+Show nothing
+
 ```{r include_example, include=FALSE}
+x <- rnorm(100)
+y <- 2*x + rnorm(100)
+cor(x, y)
+```
+
+## Hide
+
+Show only code
+
+```{r hide_example, echo=TRUE, results='hide',message=FALSE}
 x <- rnorm(100)
 y <- 2*x + rnorm(100)
 cor(x, y)
