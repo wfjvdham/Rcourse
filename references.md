@@ -19,6 +19,10 @@ Here the most important sources used for this course are mentioned.
 
 - https://www.rstudio.com/resources/cheatsheets/
 
+### Databases
+
+- http://db.Rstudio.com
+
 ## Shiny
 
 - https://www.rstudio.com/products/shiny/shiny-user-showcase/
