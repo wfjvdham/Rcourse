@@ -104,6 +104,12 @@ sp_flights_memory <- spark_read_csv(sc,
   SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
 ```
 
+- With output var
+
+```{sql, connection = sc, output.var='top_10_ewr'}
+  SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
+```
+
 ### dplyr
 
 - Use `dplyr` verbs to interact with the data
