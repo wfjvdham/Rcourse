@@ -1,0 +1,35 @@
+---
+title: "dbplot exersice"
+output: 
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(sparklyr)
+# devtools::install_github("edgararuiz/dbplot")
+library(dbplot)
+library(tidyverse)
+```
+
+# Load data
+
+```{r load_data, include=FALSE}
+conf <- spark_config()
+sc <- spark_connect(master = "local", version = "2.1.0")
+
+spark_diamonds <- copy_to(sc, diamonds, "diamonds")
+```
+
+# Mostrar la distribucion de `carat`
+
+
+# Mostrar relacion entre `price` y `carat`
+
+
+# Mostrar relacion entre `price`, `carat` y `x`
+
+
+# Mostrar la distribucion de `cut`
+
+
+# Mostrar relacion entre `price` y `cut`

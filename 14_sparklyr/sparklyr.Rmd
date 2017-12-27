@@ -18,7 +18,6 @@ output:
 
 ```{r}
   library(sparklyr)
-  library(dplyr)
   library(tidyverse)
 ```
 
