@@ -38,20 +38,32 @@ sum(p_sim_df >= diff) / n * 100
 
 # Applying the normal model
 
-SE = 0.078 # Later we will explain how to obtain this value
+# Check for normality
+# 1. No contact between groups so indipendent (or less than 10% of the population)
+# 2. At least 10 succes and 10 failures?
+
+(p_not_buy_t * 75) > 10
+((1 - p_not_buy_t) * 75) > 10
+(p_not_buy_c * 75) > 10
+((1 - p_not_buy_c) * 75) > 10
+
+# So yes nearly normal
+
+SE = sqrt((p_not_buy_t * (1 - p_not_buy_t)) / 75 + 
+          (p_not_buy_c * (1 - p_not_buy_c)) / 75)
 
 x <- seq(-0.3, 0.3, by = .01)
 
 ggplot() +
   geom_histogram(aes(value), p_sim_df) +
   geom_vline(xintercept = diff) +
-  geom_point(aes(x, dnorm(x, mean = 0, sd = SE) * 23), color = "red")
+  geom_point(aes(x, dnorm(x, mean = 0, sd = SE) * (1 - p_buy) * 75), color = "red")
 
 Z = (0.2 - 0) / SE
 
 (1 - pnorm(Z, mean = 0, sd = 1)) * 100
 
-# p-values are smaal so H0 is rejected
+# p-values are small so H0 is rejected
 
 library(titanic)
 train = as_data_frame(titanic_train)

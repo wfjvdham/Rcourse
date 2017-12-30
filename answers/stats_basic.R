@@ -9,6 +9,9 @@ pnorm(70, mean = 50, sd = 15) - pnorm(50, mean = 50, sd = 15)
 # P(m30 | results) = P(results | m30) * P(m30) / P(results) = .7 * .5 / 0.75 = 0.46
 # P(m20 | results) = P(results | m20) * P(m20) / P(results) = .8 * .5 / 0.75 = 0.53
 
+# M E = z SE = 1.96 × sqrt( p(1 − p) / n )  ≤ 0.04
+# pag. 127
+
 #google intravista
 n=200
 x <- seq(1, n)
