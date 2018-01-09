@@ -70,6 +70,20 @@ ggplot(results) +
 ggplot(results) +
   geom_boxplot(aes(group, result))
 
+# t-distribucion
+# Used when the sample size is smaller than 30
+# df is n_observations - 1
+# higher df is closer to normal, df <= 30 normal
+
+ggplot() +
+  geom_point(aes(x, dt(x, 2)), color = "red") +
+  geom_point(aes(x, dt(x, 6)), color = "blue")
+
+#find 95% conf interfal for two tails
+df = 18
+t_star = 2.1
+pt(t_star, df) - pt(t_star, df, lower.tail = F)
+
 #poisson distribution
 #WC 2,5 goals per game
 
