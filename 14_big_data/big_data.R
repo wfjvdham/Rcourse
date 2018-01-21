@@ -1,5 +1,4 @@
 library(tidyverse)
-library(dbplyr)
 
 # Create connection to the database
 air <- src_postgres(
