@@ -6,9 +6,9 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(purrr)
-load("../functional_programming/data/swapi.rda")
-load("../functional_programming/data/planet_lookup.rda")
-load("../functional_programming/data/neiss_by_day.rda")
+load("../13_functional_programming/data/swapi.rda")
+load("../13_functional_programming/data/planet_lookup.rda")
+load("../13_functional_programming/data/neiss_by_day.rda")
 ```
 
 # How many elements are in people?
@@ -20,7 +20,7 @@ length(people)
 # Who is the first person in people?
 
 ```{r}
-people[[1]]  # Luke!
+people[[1]] # Luke!
 ```
 # What is the difference between people[1] and people[[1]]?
 
@@ -69,14 +69,13 @@ map(people, ~ planet_lookup[[.x$homeworld]])
 # How heavy is each character?
 map_dbl(people, ~ .x[["mass"]])
 # Doesn't work...because we get a string back
-map(people, ~ .x[["mass"]])
+hist(map(people, ~ .x[["mass"]]))
 
 # A little risky
 map_dbl(people, ~ as.numeric(.x[["mass"]]))
 
-# Probably want something like:
-map_chr(people, ~ .x[["mass"]]) %>%
-  readr::parse_number(na = "unknown")
+hist(map(people, ~ .x[["mass"]]))
+hist(map_dbl(people, ~ parse_number(.x$mass, na = "unknown")))
 ```
 
 # Use shortcuts
@@ -86,6 +85,8 @@ map(people, "mass")
 
 map(people, "starships") %>%
   map(length)
+
+map(people, ~ length(.x$starships))
 ```
 
 # More questions
@@ -96,7 +97,9 @@ map(people, "starships") %>%
 map(films, "characters") %>%
   map_int(length) %>%
   set_names(map_chr(films, "title")) %>%
-  sort(decreasing = TRUE)
+  sort(decreasing = TRUE) %>%
+  head(n=1)
+
 ```
 
 ## Create the planet_lookup vector from earlier
@@ -109,8 +112,6 @@ planet_lookup <- map_chr(planets, "name") %>%
 ## Which species has the most possible eye colors?
 
 ```{r}
-species$eye_colors
-
 map_chr(species, "eye_colors") %>%
   strsplit(", ") %>%
   map_int(length)

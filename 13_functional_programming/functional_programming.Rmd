@@ -6,9 +6,9 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(purrr)
-load("../functional_programming/data/swapi.rda")
-load("../functional_programming/data/planet_lookup.rda")
-load("../functional_programming/data/neiss_by_day.rda")
+load("../13_functional_programming/data/swapi.rda")
+load("../13_functional_programming/data/planet_lookup.rda")
+load("../13_functional_programming/data/neiss_by_day.rda")
 ```
 
 # How many elements are in people?
