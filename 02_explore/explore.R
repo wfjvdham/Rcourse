@@ -1,11 +1,8 @@
 # install packages
-# Solo necesitas hacerlo una vez
-# Cuando tu tienes los paquetes no nesecitas descargar otra vez
-#install.packages("tidyverse")
-#install.packages("titanic")
+# install.packages("tidyverse")
+# install.packages("titanic")
 
 # load packages
-# Cada vez cuando tu empiezas con una sesion de R tu necesitas cargar los paquestes
 library(tidyverse)
 library(titanic)
 ?titanic_train
@@ -47,9 +44,7 @@ ggplot(train) +
 ggplot(train) + 
   geom_bar(aes(Sex)) +
   facet_wrap(~factor(Survived)) +
-  ggtitle("...") +
-  ylab("...") +
-  xlab("...")
+  labs(title = "...", x = "...", y = "...")
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
@@ -69,15 +64,7 @@ ggplot(train) +
   geom_bar(aes(cut(Fare,c(-1,50,100,1000)))) +
   facet_wrap(~factor(Survived))
 
-# pipe examples
-sin(sqrt(log(10)))
-
-10 %>%
-  log %>%
-  sqrt %>%
-  sin
-
-#dplyr examples
+# dplyr examples
 train_male <- train %>% 
   filter(Sex == "male")
 
