@@ -38,7 +38,7 @@ Here the most important sources used for this course are mentioned.
 
 - https://www-bcf.usc.edu/~gareth/ISL/
 - https://www.openintro.org/stat/textbook.php?stat_book=os
-- https://r4ds.had.co.nz
+- http://r4ds.had.co.nz
 
 ### Cources
 
