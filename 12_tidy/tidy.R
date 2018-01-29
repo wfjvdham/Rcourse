@@ -1,3 +1,5 @@
+library(tidyverse)
+
 #tidyr examples
 who = as_data_frame(tidyr::who)
 
@@ -35,14 +37,9 @@ who5
 #who5 is tidy! For modeling we could transform all the columns (except cases) to factors
 
 #make tidy the next two datasets
-weather <- read.delim(
-  file = "http://stat405.had.co.nz/data/weather.txt",
-  stringsAsFactors = FALSE
+weather <- read_tsv(
+  "http://stat405.had.co.nz/data/weather.txt"
 )
-
-pew <- read.delim(
-  file = "http://stat405.had.co.nz/data/pew.txt",
-  header = TRUE,
-  stringsAsFactors = FALSE,
-  check.names = F
+pew <- read_tsv(
+  "http://stat405.had.co.nz/data/pew.txt"
 )
