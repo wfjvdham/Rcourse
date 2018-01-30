@@ -61,7 +61,7 @@ ggplot() +
 
 Z = (0.2 - 0) / SE
 
-(1 - pnorm(Z, mean = 0, sd = 1)) * 100
+(1 - pnorm(Z, mean = 0, sd = 1)) * 2
 
 # p-values are small so H0 is rejected
 
