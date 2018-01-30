@@ -1,7 +1,9 @@
+
+
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 29/1/2018
+date: 2018-01-29
 autosize: true
 
 About Myself
@@ -20,6 +22,7 @@ Master Human Media Interaction (AI)
 - Randommonkey
 - Mercadoni
 - Quby
+- Teaching R and ML
 
 About You?
 ========================================================

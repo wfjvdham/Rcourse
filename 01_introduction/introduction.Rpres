@@ -1,7 +1,12 @@
+```{r, include=FALSE}
+library(lubridate)
+date <- date(now())
+```
+
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 29/1/2018
+date: `r date`
 autosize: true
 
 About Myself
@@ -20,6 +25,7 @@ Master Human Media Interaction (AI)
 - Randommonkey
 - Mercadoni
 - Quby
+- Teaching R and ML
 
 About You?
 ========================================================
