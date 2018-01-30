@@ -1,7 +1,9 @@
+
+
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 26/1/2018
+date: 2018-01-30
 autosize: true
 
 
@@ -89,22 +91,22 @@ Random Numbers - Discrete
 # seed
 set.seed(5)
 
-runif(10)
-runif(10, 5.0, 7.5)
+sample(1:10, 2)
+#sample(1:10, 20)
+sample(1:10, 20, replace =TRUE)
 ```
 
 Random Numbers - Continuous
 ========================================================
 
 - Weight
-- Heigt
+- Height
 - Temperature
 
 
 ```r
-sample(1:10, 2)
-#sample(1:10, 20)
-sample(1:10, 20, replace =TRUE)
+runif(10)
+runif(10, 5.0, 7.5)
 ```
 
 Example - Dice
@@ -124,7 +126,7 @@ mean(dice_10)
 sd(dice_10)
 ```
 
-Data from the Experiment
+Data from an Experiment
 ========================================================
 
 Research question:
@@ -134,10 +136,10 @@ Research question:
 
 ```
 # A tibble: 2 x 3
-        cat succes failure
-      <chr>  <dbl>   <dbl>
-1   control     56      19
-2 treatment     41      34
+        cat success failure
+      <chr>   <dbl>   <dbl>
+1   control      56      19
+2 treatment      41      34
 ```
 
 Point Estimate
@@ -145,11 +147,11 @@ Point Estimate
 
 
 ```r
-# ratio of succes for control group
-p_succes_control <- 19 / (19 + 56)
-# ratio of succes for treatment group
-p_succes_treatment <- 34 / (34 + 41)
-# difference in succes rates
+# ratio of success for control group
+p_success_control <- 19 / (19 + 56)
+# ratio of success for treatment group
+p_success_treatment <- 34 / (34 + 41)
+# difference in success rates
 (34 / (34 + 41)) - (19 / (19 + 56))
 ```
 
@@ -157,14 +159,14 @@ p_succes_treatment <- 34 / (34 + 41)
 [1] 0.2
 ```
 
-Gender Discrimination - Hypothesis
+Hypothesis
 ========================================================
 
 **H<sub>0</sub>**: Null hypothesis. The outcome is **not** dependent on the treatment.
 
 **H<sub>A</sub>**: Alternative hypothesis. The outcome is dependent on the treatment.
 
-Gender Discrimination - Simulation
+Simulation
 ========================================================
 
 
@@ -173,13 +175,13 @@ simulated_point_estimates <-
   data_frame(value = seq(1:100)) %>%
   mutate(value = 1:100 %>%
     map_dbl(function(i) {
-      succes_rate_treatment <- sum(
+      success_rate_treatment <- sum(
         runif(75) > 0.5
       ) / 75
-      succes_rate_control <- sum(
+      success_rate_control <- sum(
         runif(75) > 0.5
       ) / 75
-      succes_rate_treatment - succes_rate_control
+      success_rate_treatment - success_rate_control
     }))
 mean(simulated_point_estimates$value)
 ```
@@ -188,10 +190,10 @@ mean(simulated_point_estimates$value)
 [1] -0.004933333
 ```
 
-Gender Discrimination - Distribution
+Distribution
 ========================================================
 
-![plot of chunk unnamed-chunk-10](intro_statistics-figure/unnamed-chunk-10-1.png)
+![plot of chunk unnamed-chunk-11](intro_statistics-figure/unnamed-chunk-11-1.png)
 
 ***
 
@@ -259,11 +261,11 @@ pnorm(1, mean = 0, sd = 1)
 Normal Distribution - R plots
 ========================================================
 
-![plot of chunk unnamed-chunk-12](intro_statistics-figure/unnamed-chunk-12-1.png)
+![plot of chunk unnamed-chunk-13](intro_statistics-figure/unnamed-chunk-13-1.png)
 
 ***
 
-![plot of chunk unnamed-chunk-13](intro_statistics-figure/unnamed-chunk-13-1.png)
+![plot of chunk unnamed-chunk-14](intro_statistics-figure/unnamed-chunk-14-1.png)
 
 Z - score
 ========================================================
@@ -288,18 +290,102 @@ Conditions for Applying the Normal Distribution
 ========================================================
 
 1. Observations are Independent
+  - **Experiment:** Randomly assigned to a group and no contact between groups
+  - **Sample:** Less than 10% of the population
 1. At least 10 successes and 10 failures in our sample
 
 Calculate the Standard Deviation
 ========================================================
 
-$SE_(p_1-p_2) = \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}$
+$SE_{p_1-p_2} = \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}$
 
 
 ```r
-SE = sqrt(
-  (p_succes_control * (1 - p_succes_control)) / 75 + 
-  (p_succes_treatment * (1 - p_succes_treatment)) / 75
+SE <- sqrt(
+  (p_success_control * 
+     (1 - p_success_control)) 
+  / 75 + 
+  (p_success_treatment * 
+     (1 - p_success_treatment)) 
+  / 75
 )
+SE
 ```
 
+```
+[1] 0.07633066
+```
+
+Calculate the Z-score
+========================================================
+
+$Z = \frac{point estimate − null value}{SE}$
+
+
+```r
+Z <- (0.2 - 0) / SE
+Z
+```
+
+```
+[1] 2.620179
+```
+
+Calculate the p-value
+========================================================
+
+
+```r
+p <- (1 - pnorm(Z, mean = 0, sd = 1)) * 2
+p
+```
+
+```
+[1] 0.008788364
+```
+
+```r
+p < 0.05
+```
+
+```
+[1] TRUE
+```
+
+<!-- Confidence Intervals -->
+<!-- ======================================================== -->
+
+<!-- For a 95% confidence interval: -->
+
+<!-- $point estimate ± 1.96 × SE$ -->
+
+<!-- Because: -->
+
+<!-- ```{r} -->
+<!-- pnorm(1.96, 0, 1) - pnorm(-1.96, 0, 1) -->
+<!-- ``` -->
+
+<!-- Confidence Intervals -->
+<!-- ======================================================== -->
+
+<!-- ```{r} -->
+<!-- (p_success_treatment - p_success_control) - 1.96 * SE -->
+<!-- (p_success_treatment - p_success_control) + 1.96 * SE -->
+<!-- ``` -->
+
+<!-- ANOVA -->
+<!-- ======================================================== -->
+
+<!-- - Method for comparing the mean between different groups -->
+<!-- - Compensates for many pairwise comparisons -->
+
+<!-- **H<sub>0</sub>**: Null hypothesis. All the means of the groups are equal. -->
+
+<!-- **H<sub>A</sub>**: Alternative hypothesis. At least one mean is different. -->
+
+<!-- ANOVA - Conditions -->
+<!-- ======================================================== -->
+
+<!-- 1. Observations are independent within and across groups -->
+<!-- 1. Data within each group are nearly normal -->
+<!-- 1. Variability across the groups is about equal -->
