@@ -1,0 +1,56 @@
+---
+title: "Intro Statistics Exersice"
+output: html_notebook
+---
+
+# Dices
+
+**What can you say about the difference in the mean and the standard deviation between two six-sided dices and one 12-sided dice?**
+
+```{r}
+
+```
+
+# Medical Consultant
+
+People providing an organ for donation sometimes seek the help of a special medical con-
+sultant. These consultants assist the patient in all aspects of the surgery, with the goal
+of reducing the possibility of complications during the medical procedure and recovery.
+Patients might choose a consultant based in part on the historical complication rate of the
+consultant’s clients.
+
+One consultant tried to attract patients by noting the average complication rate for
+liver donor surgeries in the US is about 10%, but her clients have had only 3 complications
+in the 62 liver donor surgeries she has facilitated. She claims this is strong evidence that
+her work meaningfully contributes to reducing complications (and therefore she should
+be hired!).
+
+## Simulation
+
+**What is the point estimate of the data?**
+
+```{r}
+
+```
+
+**Is it possible to assess the consultant’s claim using the data?**
+
+**Could the low complication rate of 0.048 be due to chance? Formulate the hypotheses for this question.**
+
+**Run 1000 simulations to get the distribution of the null hypotheses.**
+
+```{r}
+
+```
+
+**Would you reject or accept the H<sub>0</sub> based on this simulation?**
+
+## Normal model application
+
+**Use the normal distribution to calculate the p-value and see if you draw the same conclusion.**
+
+```{r}
+
+```
+
+**What can you say about the p-values found using the different methods? Can you explains that?**

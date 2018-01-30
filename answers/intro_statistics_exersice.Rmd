@@ -1,0 +1,104 @@
+---
+title: "Intro Statistics Exersice"
+output: html_notebook
+---
+
+# Dices
+
+**What can you say about the difference in the mean and the standard deviation between two six-sided dices and one 12-sided dice?**
+
+```{r}
+dice_12 <- sample(1:12, 1000, replace = TRUE) %>%
+  as_data_frame()
+dice_66 <- sample(1:6, 1000, replace = TRUE) + sample(1:6, 1000, replace = TRUE) %>%
+  as_data_frame()
+
+ggplot(dice_12) +
+  geom_bar(aes(value), stat = "count")
+ggplot(dice_66) +
+  geom_bar(aes(value), stat = "count")
+
+mean(dice_12$value)
+mean(dice_66$value)
+
+sd(dice_12$value)
+sd(dice_66$value)
+```
+
+# Medical Consultant
+
+People providing an organ for donation sometimes seek the help of a special medical con-
+sultant. These consultants assist the patient in all aspects of the surgery, with the goal
+of reducing the possibility of complications during the medical procedure and recovery.
+Patients might choose a consultant based in part on the historical complication rate of the
+consultant’s clients.
+
+One consultant tried to attract patients by noting the average complication rate for
+liver donor surgeries in the US is about 10%, but her clients have had only 3 complications
+in the 62 liver donor surgeries she has facilitated. She claims this is strong evidence that
+her work meaningfully contributes to reducing complications (and therefore she should
+be hired!).
+
+## Simulation
+
+**What is the point estimate of the data?**
+
+```{r}
+point_estimate <- 3 / 63
+```
+
+**Is it possible to assess the consultant’s claim using the data?**
+
+No. The claim is that there is a causal connection, but the data are observational.
+For example, maybe patients who can afford a medical consultant can afford better
+medical care, which can also lead to a lower complication rate.
+
+**Could the low complication rate of 0.048 be due to chance? Formulate the hypotheses for this question.**
+
+**H<sub>0</sub>**: There is no association between the consultant’s contributions and the clients’ complication rate. That is, the complication rate for the consultant’s clients is equal to the US average of 10%. In statistical language, p = 0.10. 
+
+**H<sub>A</sub>**: Patients who work with the consultant have a complication rate different than 10%, i.e. p != 0.10.
+
+**Run 1000 simulations to get the distribution of the null hypotheses.**
+
+```{r}
+simulated_point_estimates <- 
+  data_frame(value = seq(1:1000)) %>%
+  mutate(value = 1:1000 %>%
+    map_dbl(function(i) {
+      sum(
+        runif(63) < 0.1
+      ) / 63
+    }))
+mean(simulated_point_estimates$value)
+
+ggplot(simulated_point_estimates) +
+  geom_histogram(aes(value), bins = 50) +
+  geom_vline(xintercept = point_estimate) +
+  labs(title = "Difference in success rates")
+
+p_value_sim <- (sum(simulated_point_estimates$value <= point_estimate) * 2) / 1000
+```
+
+**Would you reject or accept the H<sub>0</sub> based on this simulation?**
+
+`r p_value_sim` > 0.05 so we cannot reject the **H<sub>0</sub>**
+
+## Normal model application
+
+**Use the normal distribution to calculate the p-value and see if you draw the same conclusion.**
+
+```{r}
+# Calculate the standard deviation
+SE <- sqrt((0.1 * (1 - 0.1) / 63))
+# Calculate the Z-score
+Z <- (0.1 - point_estimate) / SE
+# Calculate the p-value
+p_value_norm <- (1- pnorm(Z, 0, 1)) * 2
+```
+
+`r p_value_norm` > 0.05 so we cannot reject the **H<sub>0</sub>**
+
+**What can you say about the p-values found using the different methods? Can you explains that?**
+
+They are very different because the distribution is skewed and therefore the normal distribution method cannot be used here.
