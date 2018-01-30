@@ -1,6 +1,6 @@
 library(tidyverse)
 
-pnorm(70, mean = 50, sd = 15) - pnorm(50, mean = 50, sd = 15)
+#google intravista
 
 # a priori:
 # M: 30% ~ 0.5
@@ -12,7 +12,6 @@ pnorm(70, mean = 50, sd = 15) - pnorm(50, mean = 50, sd = 15)
 # M E = z SE = 1.96 × sqrt( p(1 − p) / n )  ≤ 0.04
 # pag. 127
 
-#google intravista
 n=200
 x <- seq(1, n)
 maquina20 <- ifelse(runif(n) < 0.2, 1, 0)
