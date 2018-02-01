@@ -1,0 +1,115 @@
+```{r, include=FALSE}
+library(lubridate)
+library(modelr)
+library(tidyverse)
+date <- date(now())
+```
+
+Linear Regression
+========================================================
+author: Wim van der Ham
+date: `r date`
+autosize: true
+
+Linear Regression
+========================================================
+
+- Supervised learning
+- Predicting a quantitative response
+- Uses Least Squares to get the coefficients
+
+Formula:
+
+$y = β_0 + β_1 * x_1 + β_2 * x_2 + . . . + β_p * x_p$
+
+In R: `lm()`
+
+Check with the Eye
+========================================================
+
+```{r, echo=FALSE}
+ggplot(sim1) + 
+  geom_point(aes(x, y))
+```
+
+Make Model
+========================================================
+
+```{r}
+sim1_mod <- lm(y ~ x, data = sim1)
+```
+
+Check Model Using Summary
+========================================================
+
+```{r, echo=FALSE}
+summary(sim1_mod)
+```
+
+Check Model Using Summary Coefficients
+========================================================
+
+**Call** the call used to create the model
+
+**Residuals** description of the distribution of the residuals, median should be close to 0, 1Q and 3Q should be more or less the same
+
+**Estimate** the estimated values for the coefficients
+
+**Std. Error** the standard error, can be used to calculate confidence intervals for the estimates
+
+**t value** the t-statistic, a measure of the number of sd the estimate is away from 0
+
+**Pr(>|t|)** the p-value for the t-test
+
+**Residual standard error** the standard error that describes the distribution of your residuals
+
+**Degrees of freedom** $n-2$
+
+**Multiple R-squared**
+
+**Adjusted R-squared** R-squared compensated for the number of variables
+
+**F-statistic**
+
+**p-value** corresponding to the F-statistic
+
+Standard Deviation vs Standard Error
+========================================================
+
+*Standard Deviation* 
+
+- Tells you how close the data is to the mean
+- When the sample size increases converse to a value that is usually not 0
+
+*Standard Error*
+
+- Tells you how good the estimate is of something
+- When the sample size increases converses to 0
+
+Check Model Graphically
+========================================================
+
+```{r, echo=FALSE}
+sim1_coef <- coef(sim1_mod)
+ggplot(sim1) + 
+  geom_point(aes(x, y)) + 
+  geom_abline(intercept = sim1_coef[1], slope = sim1_coef[2], color = "red")
+```
+
+Check Residuals Distribution
+========================================================
+
+```{r, echo=FALSE}
+sim1 <- sim1 %>% 
+  add_residuals(sim1_mod)
+ggplot(sim1) + 
+  geom_histogram(aes(resid), binwidth = 0.5)
+```
+
+Check Residuals
+========================================================
+
+```{r, echo=FALSE}
+ggplot(sim1) + 
+  geom_point(aes(x, resid)) 
+```
