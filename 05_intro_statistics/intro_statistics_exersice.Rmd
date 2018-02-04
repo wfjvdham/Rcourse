@@ -54,3 +54,20 @@ be hired!).
 ```
 
 **What can you say about the p-values found using the different methods? Can you explains that?**
+
+# t distribution
+
+For 150 women the weight of their babies and if they smoke or not is collected. The results are presented in the next table.
+
+| | smoker | nonsmoker |
+| --- | --- | --- |
+| mean | 6.78 | 7.18 |
+| std. dev. | 1.43 | 1.60 |
+| sample size | 50 | 100 |
+
+Use the t distribution to see if smoking has an influence on the baby weight. 
+
+```{r}
+
+```
+

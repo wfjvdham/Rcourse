@@ -3,7 +3,7 @@
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 2018-01-30
+date: 2018-02-04
 autosize: true
 
 
@@ -294,7 +294,7 @@ Conditions for Applying the Normal Distribution
   - **Sample:** Less than 10% of the population
 1. At least 10 successes and 10 failures in our sample
 
-Calculate the Standard Deviation
+Calculate the Standard Error
 ========================================================
 
 $SE_{p_1-p_2} = \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}$
@@ -352,6 +352,91 @@ p < 0.05
 [1] TRUE
 ```
 
+Note
+========================================================
+
+This information is enough to continue. Now some more advanced topics are explained.
+
+t distribution
+========================================================
+
+> *t* distribution is simmilar to the normal distribution but with thicker tails. Therefore the *t* distribution works better for small (<30) sample sizes.
+
+In stead of calculating a Z score based on the normal distribution you calculate a T score based on the *t* distribution. Conceptually they are the same.
+
+Example - Game
+========================================================
+
+Two players play a game.
+
+- Player A won 8 times.
+- Player B won 4 times.
+
+Is player A better than player B?
+
+Example - Game
+========================================================
+
+Two players play a game.
+
+- Player A won 20 times.
+- Player B won 10 times.
+
+Is player A better than player B?
+
+Hypotheses - Game
+========================================================
+
+**H<sub>0</sub>**: The quality of the players is the same.
+
+**H<sub>A</sub>**: One of the players is better
+
+Calculate the Standard Error - Game
+========================================================
+
+$SE_{p} = \sqrt{\frac{p(1-p)}{n}}$
+
+
+```r
+SE <- sqrt(
+  (0.5 * (1 - 0.5)) / 30
+)
+SE
+```
+
+```
+[1] 0.09128709
+```
+
+Calculate the T-score
+========================================================
+
+$T = \frac{point estimate − null value}{SE}$
+
+
+```r
+t <- (0.67 - 0.5) / SE
+t
+```
+
+```
+[1] 1.862257
+```
+
+Calculate the p-value
+========================================================
+
+
+```r
+df <- 30 - 1
+p <- (1 - pt(t, df)) * 2
+p < 0.05
+```
+
+```
+[1] FALSE
+```
+
 <!-- Confidence Intervals -->
 <!-- ======================================================== -->
 
@@ -389,3 +474,6 @@ p < 0.05
 <!-- 1. Observations are independent within and across groups -->
 <!-- 1. Data within each group are nearly normal -->
 <!-- 1. Variability across the groups is about equal -->
+
+<!-- F - test -->
+<!-- ======================================================== -->
