@@ -9,7 +9,6 @@ author: Wim van der Ham
 date: `r date`
 autosize: true
 
-
 Type of Data Collection
 ========================================================
 
@@ -279,6 +278,19 @@ $Z = \frac{point estimate − null value}{SE}$
 
 The standard error in this case is the equivalent of the standard deviation of the
 point estimate, and the null value comes from the null hypothesis.
+
+Standard Deviation vs Standard Error
+========================================================
+
+*Standard Deviation* 
+
+- Tells you how close the data is to the mean
+- When the sample size increases converse to a value that is usually not 0
+
+*Standard Error*
+
+- Tells you how good the estimate is of something
+- When the sample size increases converses to 0
 
 Conditions for Applying the Normal Distribution
 ========================================================
