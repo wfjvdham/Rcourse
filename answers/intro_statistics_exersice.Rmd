@@ -3,6 +3,10 @@ title: "Intro Statistics Exersice"
 output: html_notebook
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+```
+
 # Dices
 
 **What can you say about the difference in the mean and the standard deviation between two six-sided dices and one 12-sided dice?**
@@ -102,3 +106,24 @@ p_value_norm <- (1- pnorm(Z, 0, 1)) * 2
 **What can you say about the p-values found using the different methods? Can you explains that?**
 
 They are very different because the distribution is skewed and therefore the normal distribution method cannot be used here.
+
+# t distribution
+
+For 150 women the weight of their babies and if they smoke or not is collected. The results are presented in the next table.
+
+| | smoker | nonsmoker |
+| --- | --- | --- |
+| mean | 6.78 | 7.18 |
+| std. dev. | 1.43 | 1.60 |
+| sample size | 50 | 100 |
+
+Use the t distribution to see if smoking has an influence on the baby weight. 
+
+```{r}
+point_estimate <- 7.18 - 6.78
+SE <- sqrt((1.60^2 / 100) + (1.43^2 / 50))
+t <- point_estimate / SE
+df <- min((50 - 1), (100 - 1))
+p_value <- (1 - pt(t, df)) * 2
+p_value < 0.05
+```
