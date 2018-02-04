@@ -61,30 +61,16 @@ Check Model Using Summary Coefficients
 
 **Pr(>|t|)** the p-value for the t-test
 
+Check Model Using Summary Coefficients
+========================================================
+
 **Residual standard error** the standard error that describes the distribution of your residuals
 
-**Degrees of freedom** $n-2$
-
-**Multiple R-squared**
+**Multiple R-squared** the normal R-squared
 
 **Adjusted R-squared** R-squared compensated for the number of variables
 
-**F-statistic**
-
-**p-value** corresponding to the F-statistic
-
-Standard Deviation vs Standard Error
-========================================================
-
-*Standard Deviation* 
-
-- Tells you how close the data is to the mean
-- When the sample size increases converse to a value that is usually not 0
-
-*Standard Error*
-
-- Tells you how good the estimate is of something
-- When the sample size increases converses to 0
+**p-value** the p-value for the whole model
 
 Check Model Graphically
 ========================================================
@@ -113,3 +99,19 @@ Check Residuals
 ggplot(sim1) + 
   geom_point(aes(x, resid)) 
 ```
+
+Exercise - Load the Data
+========================================================
+
+```{r}
+library(nycflights13)
+flights = as_data_frame(flights)
+```
+
+Exercise - Questions
+========================================================
+
+Predict which flights are delayed
+
+1. Explore with graphics
+1. Make a model

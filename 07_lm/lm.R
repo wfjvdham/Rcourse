@@ -2,31 +2,6 @@
 library(modelr)
 library(tidyverse)
 
-ggplot(sim1, aes(x, y)) + 
-  geom_point()
-
-ggplot(sim1, aes(x, y)) + 
-  geom_point() +
-  xlim(0, 11) +
-  ylim(0, 30)
-
-sim1_mod <- lm(y ~ x, data = sim1)
-summary(sim1_mod)
-sim1_coef <- coef(sim1_mod)
-
-ggplot(sim1, aes(x, y)) + 
-  geom_point() + 
-  geom_abline(intercept = sim1_coef[1], slope = sim1_coef[2], color = "red")
-
-sim1 <- sim1 %>% 
-  add_residuals(sim1_mod)
-
-ggplot(sim1, aes(resid)) + 
-  geom_histogram(binwidth = 0.5)
-
-ggplot(sim1, aes(x, resid)) + 
-  geom_point() 
-
 ## interactions lm
 ggplot(sim3, aes(x1, y)) + 
   geom_point(aes(colour = x2))

@@ -1,34 +1,11 @@
+library(tidyverse)
 library(nycflights13)
 library(modelr)
+library(broom)
 flights = as_data_frame(flights)
 
-mod <- lm(arr_delay ~ dep_delay, data = flights)
-summary(mod)
+# explore
 
-coef <- coef(mod)
-ggplot(flights, aes(dep_delay, arr_delay)) + 
-  geom_point() + 
-  geom_abline(intercept = coef[1], slope = coef[2], color = "red")
-
-flights <- flights %>% 
-  add_residuals(mod)
-
-ggplot(flights, aes(resid)) + 
-  geom_histogram()
-
-ggplot(flights, aes(arr_delay, resid)) + 
-  geom_point() 
-
-mod_origin <- lm(arr_delay ~ dep_delay + day, flights)
-summary(mod_origin)
-summary(mod)
-
-anova(mod_origin, mod)
-
-glance(mod_origin)
-
-
-## predicir retrasado explore variables
 ggplot(flights) +
   geom_point(aes(dep_delay, arr_delay))
 
@@ -48,10 +25,38 @@ ggplot(flights) +
   theme(axis.text.x = element_text(angle = 90))
 
 ggplot(flights) +
-  geom_histogram(aes(air_time))
-
-ggplot(flights) +
   geom_boxplot(aes(factor(month), arr_delay))
+
+# model arr_delay
+
+mod <- lm(arr_delay ~ dep_delay, data = flights)
+summary(mod)
+
+coef <- coef(mod)
+ggplot(flights, aes(dep_delay, arr_delay)) + 
+  geom_point() + 
+  geom_abline(intercept = coef[1], slope = coef[2], color = "red")
+
+flights <- flights %>% 
+  add_residuals(mod)
+
+ggplot(flights, aes(resid)) + 
+  geom_histogram()
+
+ggplot(flights, aes(arr_delay, resid)) + 
+  geom_point() 
+
+# model dep_delay + origin
+
+mod_origin <- lm(arr_delay ~ dep_delay + origin, flights)
+summary(mod_origin)
+summary(mod)
+
+anova(mod_origin, mod)
+
+glance(mod_origin)
+
+# model all
 
 #format dataset
 flights_factors <- flights %>%
@@ -74,24 +79,3 @@ ggplot(flights_factors_with_err, aes(resid_lm_all)) +
 
 ggplot(flights_factors_with_err, aes(arr_delay, resid_lm_all)) + 
   geom_point() 
-
-model_lm_dep_delay = lm(arr_delay ~ dep_delay, flights)
-summary(model_lm_dep_delay)
-
-anova(model_lm_dep_delay, model_lm_all)
-
-#errors of model_lm_dep_delay
-flights_factors_with_err <- flights_factors_with_err %>%
-  add_residuals(model_lm_dep_delay) %>%
-  rename(resid_lm_dep_delay = resid)
-
-ggplot(flights_factors_with_err, aes(resid_lm_dep_delay)) + 
-  geom_histogram(binwidth = 1)
-
-ggplot(flights_factors_with_err, aes(arr_delay, resid_lm_dep_delay)) + 
-  geom_point() 
-
-library(broom)
-
-glance(model_lm_dep_delay)
-glance(model_lm_all)

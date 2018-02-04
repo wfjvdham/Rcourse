@@ -3,7 +3,7 @@
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-01-30
+date: 2018-02-04
 autosize: true
 
 Linear Regression
@@ -72,30 +72,16 @@ Check Model Using Summary Coefficients
 
 **Pr(>|t|)** the p-value for the t-test
 
-**Residual standard error** the standard error that describes the distribution of your residuals
+Check Model Using Summary Coefficients
+========================================================
 
-**Degrees of freedom** $n-2$
+**Residual standard error** the standard error that describes the distribution of your residuals
 
 **Multiple R-squared**
 
 **Adjusted R-squared** R-squared compensated for the number of variables
 
-**F-statistic**
-
-**p-value** corresponding to the F-statistic
-
-Standard Deviation vs Standard Error
-========================================================
-
-*Standard Deviation* 
-
-- Tells you how close the data is to the mean
-- When the sample size increases converse to a value that is usually not 0
-
-*Standard Error*
-
-- Tells you how good the estimate is of something
-- When the sample size increases converses to 0
+**p-value** the p-value for the whole model
 
 Check Model Graphically
 ========================================================
