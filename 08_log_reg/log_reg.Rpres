@@ -1,0 +1,141 @@
+```{r, include=FALSE}
+library(lubridate)
+library(tidyverse)
+date <- date(now())
+```
+
+Logistic Regression
+========================================================
+author: Wim van der Ham
+date: `r date`
+autosize: true
+
+Logistic Regression
+========================================================
+
+- Supervised learning
+- Predicting a binary response
+- Maximum Likelihood
+
+Formula:
+
+![R squared](./formula.jpg)
+
+In R: `glm(..., family = "binomial")`
+
+Logistic Regression vs Linear Regression
+========================================================
+
+![R squared](./lm_vs_lg.jpg)
+
+- Easier to interpret as a probability
+- Can be extended to qualitative responses with more than two levels
+
+Explore with Graphics
+========================================================
+
+```{r, echo=FALSE}
+library(titanic)
+train <- as_data_frame(titanic_train)
+
+ggplot(train) +
+  geom_bar(aes(factor(Survived))) +
+  facet_wrap(~Sex)
+```
+
+Make the Model
+========================================================
+
+```{r}
+model_sex <- glm(
+  factor(Survived) ~ factor(Sex), 
+  train, family = "binomial"
+) 
+```
+
+Check Model Using Summary
+========================================================
+
+```{r, echo=FALSE}
+summary(model_sex)
+```
+
+Check Model Using Summary Coefficients
+========================================================
+
+**Call** the call used to create the model
+
+**Residuals** description of the distribution of the residuals, median should be close to 0, 1Q and 3Q should be more or less the same
+
+**Estimate** the estimated values for the coefficients
+
+**Std. Error** the standard error, can be used to calculate confidence intervals for the estimates
+
+**t value** the t-statistic, a measure of the number of sd the estimate is away from 0
+
+**Pr(>|t|)** the p-value for the t-test
+
+Calculate Probabilities
+========================================================
+
+```{r}
+exp(1) / (1 + exp(1))
+exp(1 + -2.5) / (1 + exp(1 + -2.5))
+```
+
+Check Model Using Summary Coefficients
+========================================================
+
+**Null deviance** how well the Null model fits the data
+
+**Residual deviance** how well the proposed model fits the data
+
+```{r}
+p_value <- pchisq(
+  1186.7 - 917.8, 1, 
+  lower.tail = FALSE
+)
+p_value
+```
+
+Use Model to make Predictions
+========================================================
+
+```{r}
+train <- train %>%
+  mutate(
+    prob = predict(
+      model_sex, 
+      type = "response"
+    ),
+    pred = ifelse(
+      prob > 0.5, 
+      1, 
+      0
+    )
+  )
+```
+
+Confusion Matrix 
+========================================================
+
+```{r}
+table(train$Survived, train$pred)
+```
+
+Accuracy, Precision and Recall
+========================================================
+
+```{r}
+# Accuracy
+sum(train$pred == train$Survived) / nrow(train)
+# Precision
+sum(train$pred == 1 & train$Survived == 1) / sum(train$pred == 1)
+# Recall
+sum(train$pred == 1 & train$Survived == 1) / sum(train$Survived == 1)
+```
+
+Exercise
+========================================================
+
+Try to improve the example model by adding more factors
