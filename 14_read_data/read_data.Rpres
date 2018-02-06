@@ -1,0 +1,90 @@
+```{r, include=FALSE}
+library(lubridate)
+library(tidyverse)
+date <- date(now())
+```
+
+Reading Data
+========================================================
+author: Wim van der Ham
+date: `r date`
+autosize: true
+
+Reading Data from File
+========================================================
+
+- `read_csv()` reads comma delimited files 
+- `read_csv2()` reads semicolon separated files (common in countries where , is used as the decimal place) 
+- `read_tsv()` reads tab delimited files
+- `read_delim()` reads files with any delimiter
+
+Reading Data from File - Example
+========================================================
+
+``paintings <- read_csv("./14_read_data/paris_paintings.csv")`
+
+Write Data to File
+========================================================
+
+- `read_csv()` writes comma delimited files 
+- `read_tsv()` writes tab delimited files
+- `read_delim()` writes files with any delimiter
+
+Reading and Writing to a R Data File
+========================================================
+
+`readRDS()`
+
+`saveRDS()`
+
+Reading from Excel Files
+========================================================
+
+- Functions are in the [readxl](http://readxl.tidyverse.org/) package
+- `read_excel()` function for reading the excel file
+- `excel_sheets()` function for getting all the sheets
+
+Reading from Other Statistical Packages
+========================================================
+
+Functions are in the [haven](http://haven.tidyverse.org/) package
+
+Reading from Databases
+========================================================
+
+![Database Connection](./database_connection.jpg)
+
+Connection Tab in Rstudio
+========================================================
+
+- Shows all the drives that are installed on the system
+- Changing between data sources is possible by only changing the connection, the rest of the code can stay the same
+
+Type of Problems
+========================================================
+
+![Type of Problems](./type_of_problems.jpg)
+
+Doing Calculations using the Database
+========================================================
+
+- Use `dplyr` to make data transformation commands
+- `compute()` stores the data in a remote temporary table
+- `collect()` retrieves data into a local data frame
+
+Making Graphics using the Database
+========================================================
+
+Using [dbplot](https://rviews.rstudio.com/2017/08/16/visualizations-with-r-and-databases/)
+
+- Only plot summaries
+- Make this summaries on the database
+
+Example in `dbplot.R`
+
+Connecting to Mongo
+========================================================
+
+Using [mongolite](https://jeroen.github.io/mongolite/)
+
+Example in `mongo.R`
