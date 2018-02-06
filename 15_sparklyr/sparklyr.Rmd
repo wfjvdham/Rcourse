@@ -303,33 +303,3 @@ spark_apply(
   names = c("term", "estimate", "std.error", "statistic", "p.value"),
   group_by = "origin")
 ```
-
-```{r}
-# plotting package
-# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
-# devtools::install_github("edgararuiz/dbplot")
-library(dbplot)
-
-ggplot(flights) +
-  geom_histogram(aes(sched_dep_time))
-
-subset_table %>% 
-  dbplot_histogram(sched_dep_time)
-
-ggplot(flights) +
-  geom_point(aes(arr_delay, dep_delay))
-
-subset_table %>%
-  filter(!is.na(arr_delay)) %>%
-  dbplot_raster(arr_delay, dep_delay) 
-
-subset_table %>%
-  dbplot_bar(origin)
-
-subset_table %>%
-  dbplot_line(month)
-
-subset_table %>%
-  dbplot_boxplot(origin, dep_delay)
-
-```
