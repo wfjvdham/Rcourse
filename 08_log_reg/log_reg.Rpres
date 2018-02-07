@@ -10,6 +10,11 @@ author: Wim van der Ham
 date: `r date`
 autosize: true
 
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
+
 Logistic Regression
 ========================================================
 

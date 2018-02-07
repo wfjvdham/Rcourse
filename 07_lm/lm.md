@@ -3,8 +3,13 @@
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-04
+date: 2018-02-06
 autosize: true
+
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
 
 Linear Regression
 ========================================================
@@ -77,11 +82,22 @@ Check Model Using Summary Coefficients
 
 **Residual standard error** the standard error that describes the distribution of your residuals
 
-**Multiple R-squared**
+**Multiple R-squared** the normal R-squared
 
 **Adjusted R-squared** R-squared compensated for the number of variables
 
 **p-value** the p-value for the whole model
+
+R squared
+========================================================
+
+![R squared](./r_squared.jpg)
+
+Adjusted R squared
+========================================================
+
+- Is always smaller or equal to the R squared
+- Adds a cost for adding more variables
 
 Check Model Graphically
 ========================================================
@@ -97,3 +113,20 @@ Check Residuals
 ========================================================
 
 ![plot of chunk unnamed-chunk-7](lm-figure/unnamed-chunk-7-1.png)
+
+Exercise - Load the Data
+========================================================
+
+
+```r
+library(nycflights13)
+flights = as_data_frame(flights)
+```
+
+Exercise - Questions
+========================================================
+
+Predict the delay of each flight
+
+1. Explore with graphics
+1. Make a model

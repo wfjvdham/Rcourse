@@ -3,8 +3,13 @@
 Logistic Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-05
+date: 2018-02-06
 autosize: true
+
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
 
 Logistic Regression
 ========================================================

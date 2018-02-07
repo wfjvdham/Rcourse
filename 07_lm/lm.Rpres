@@ -11,6 +11,11 @@ author: Wim van der Ham
 date: `r date`
 autosize: true
 
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
+
 Linear Regression
 ========================================================
 
@@ -72,6 +77,17 @@ Check Model Using Summary Coefficients
 
 **p-value** the p-value for the whole model
 
+R squared
+========================================================
+
+![R squared](./r_squared.jpg)
+
+Adjusted R squared
+========================================================
+
+- Is always smaller or equal to the R squared
+- Adds a cost for adding more variables
+
 Check Model Graphically
 ========================================================
 
@@ -111,7 +127,7 @@ flights = as_data_frame(flights)
 Exercise - Questions
 ========================================================
 
-Predict which flights are delayed
+Predict the delay of each flight
 
 1. Explore with graphics
 1. Make a model
