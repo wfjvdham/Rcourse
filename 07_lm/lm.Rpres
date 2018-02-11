@@ -79,6 +79,17 @@ Check Model Using Summary Coefficients
 
 **F-statistic** tells you if the additional variables make the model significantly better than the intercept only model
 
+Correlation - R
+========================================================
+
+> Correlation, which always takes values between -1 and 1, describes the strength
+of the linear relationship between two variables. We denote the correlation by R
+
+```{r}
+R <- cor(sim1$x, sim1$y)
+R^2
+```
+
 R squared
 ========================================================
 
