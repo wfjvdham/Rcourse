@@ -3,9 +3,8 @@
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 2018-02-04
+date: 2018-02-11
 autosize: true
-
 
 Type of Data Collection
 ========================================================
@@ -286,6 +285,19 @@ $Z = \frac{point estimate − null value}{SE}$
 The standard error in this case is the equivalent of the standard deviation of the
 point estimate, and the null value comes from the null hypothesis.
 
+Standard Deviation vs Standard Error
+========================================================
+
+*Standard Deviation* 
+
+- Tells you how close the data is to the mean
+- When the sample size increases converse to a value that is usually not 0
+
+*Standard Error*
+
+- Tells you how good the estimate is of something
+- When the sample size increases converses to 0
+
 Conditions for Applying the Normal Distribution
 ========================================================
 
@@ -357,10 +369,50 @@ Note
 
 This information is enough to continue. Now some more advanced topics are explained.
 
+Confidence Intervals
+========================================================
+
+For a 95% confidence interval:
+
+$point estimate ± 1.96 × SE$
+
+Because:
+
+
+```r
+pnorm(1.96, 0, 1) - pnorm(-1.96, 0, 1)
+```
+
+```
+[1] 0.9500042
+```
+
+Confidence Intervals
+========================================================
+
+
+```r
+(p_success_treatment - p_success_control) - 1.96 * SE
+```
+
+```
+[1] 0.0503919
+```
+
+```r
+(p_success_treatment - p_success_control) + 1.96 * SE
+```
+
+```
+[1] 0.3496081
+```
+
+0 is not part of this confidence interval, which is consistent with our previous findings
+
 t distribution
 ========================================================
 
-> *t* distribution is simmilar to the normal distribution but with thicker tails. Therefore the *t* distribution works better for small (<30) sample sizes.
+> *t* distribution is similar to the normal distribution but with thicker tails. Therefore the *t* distribution works better for small (<30) sample sizes. Or when the distribution is moderately skewed
 
 In stead of calculating a Z score based on the normal distribution you calculate a T score based on the *t* distribution. Conceptually they are the same.
 
@@ -369,17 +421,7 @@ Example - Game
 
 Two players play a game.
 
-- Player A won 8 times.
-- Player B won 4 times.
-
-Is player A better than player B?
-
-Example - Game
-========================================================
-
-Two players play a game.
-
-- Player A won 20 times.
+- Player A won 15 times.
 - Player B won 10 times.
 
 Is player A better than player B?
@@ -399,13 +441,13 @@ $SE_{p} = \sqrt{\frac{p(1-p)}{n}}$
 
 ```r
 SE <- sqrt(
-  (0.5 * (1 - 0.5)) / 30
+  (0.5 * (1 - 0.5)) / 25
 )
 SE
 ```
 
 ```
-[1] 0.09128709
+[1] 0.1
 ```
 
 Calculate the T-score
@@ -415,12 +457,12 @@ $T = \frac{point estimate − null value}{SE}$
 
 
 ```r
-t <- (0.67 - 0.5) / SE
+t <- (0.6 - 0.5) / SE
 t
 ```
 
 ```
-[1] 1.862257
+[1] 1
 ```
 
 Calculate the p-value
@@ -428,7 +470,7 @@ Calculate the p-value
 
 
 ```r
-df <- 30 - 1
+df <- 25 - 1
 p <- (1 - pt(t, df)) * 2
 p < 0.05
 ```
@@ -437,26 +479,9 @@ p < 0.05
 [1] FALSE
 ```
 
-<!-- Confidence Intervals -->
-<!-- ======================================================== -->
-
-<!-- For a 95% confidence interval: -->
-
-<!-- $point estimate ± 1.96 × SE$ -->
-
-<!-- Because: -->
-
-<!-- ```{r} -->
-<!-- pnorm(1.96, 0, 1) - pnorm(-1.96, 0, 1) -->
-<!-- ``` -->
-
-<!-- Confidence Intervals -->
-<!-- ======================================================== -->
-
-<!-- ```{r} -->
-<!-- (p_success_treatment - p_success_control) - 1.96 * SE -->
-<!-- (p_success_treatment - p_success_control) + 1.96 * SE -->
-<!-- ``` -->
+```r
+p_norm <- (1 - pnorm(t)) * 2
+```
 
 <!-- ANOVA -->
 <!-- ======================================================== -->
