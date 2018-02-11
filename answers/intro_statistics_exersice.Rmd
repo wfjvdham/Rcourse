@@ -127,3 +127,12 @@ df <- min((50 - 1), (100 - 1))
 p_value <- (1 - pt(t, df)) * 2
 p_value < 0.05
 ```
+
+# Confidence Interval
+
+Calculate the 95% confidence interval for the point estimate of the previous exersice and validate of the conclusion is consistent.
+
+```{r}
+point_estimate - 1.96 * SE
+point_estimate + 1.96 * SE
+```

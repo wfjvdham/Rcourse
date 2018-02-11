@@ -71,3 +71,10 @@ Use the t distribution to see if smoking has an influence on the baby weight.
 
 ```
 
+# Confidence Interval
+
+Calculate the 95% confidence interval for the point estimate of the previous exersice and validate of the conclusion is consistent.
+
+```{r}
+
+```
