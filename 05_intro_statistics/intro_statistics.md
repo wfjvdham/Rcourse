@@ -482,23 +482,3 @@ p < 0.05
 ```r
 p_norm <- (1 - pnorm(t)) * 2
 ```
-
-<!-- ANOVA -->
-<!-- ======================================================== -->
-
-<!-- - Method for comparing the mean between different groups -->
-<!-- - Compensates for many pairwise comparisons -->
-
-<!-- **H<sub>0</sub>**: Null hypothesis. All the means of the groups are equal. -->
-
-<!-- **H<sub>A</sub>**: Alternative hypothesis. At least one mean is different. -->
-
-<!-- ANOVA - Conditions -->
-<!-- ======================================================== -->
-
-<!-- 1. Observations are independent within and across groups -->
-<!-- 1. Data within each group are nearly normal -->
-<!-- 1. Variability across the groups is about equal -->
-
-<!-- F - test -->
-<!-- ======================================================== -->

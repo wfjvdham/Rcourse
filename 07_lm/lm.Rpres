@@ -77,6 +77,8 @@ Check Model Using Summary Coefficients
 
 **p-value** the p-value for the whole model
 
+**F-statistic** tells you if the additional variables make the model significantly better than the intercept only model
+
 R squared
 ========================================================
 
@@ -87,6 +89,39 @@ Adjusted R squared
 
 - Is always smaller or equal to the R squared
 - Adds a cost for adding more variables
+
+ANOVA
+========================================================
+
+- Method for comparing the mean between different groups
+- Compensates for many pairwise comparisons
+
+**H<sub>0</sub>**: Null hypothesis. All the means of the groups are equal.
+
+**H<sub>A</sub>**: Alternative hypothesis. At least one mean is different.
+
+ANOVA - Conditions
+========================================================
+
+1. Observations are independent within and across groups
+1. Data within each group are nearly normal
+1. Variability across the groups is about equal
+
+F - test
+========================================================
+
+- F value is **mean square between groups** / **mean square error**
+- F should be around 1 when there is no effect
+- Using the F-distribution and two degree of freedom values the p-value can be calculated
+  - df<sub>1</sub> = nr_groups - 1
+  - df<sub>2</sub> = nr_data_points - nr_groups
+
+ANOVA - Example
+========================================================
+  
+```{r}
+anova(sim1_mod)
+```
 
 Check Model Graphically
 ========================================================
