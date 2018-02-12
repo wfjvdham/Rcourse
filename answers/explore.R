@@ -1,5 +1,6 @@
 library(nycflights13)
 library(tidyverse)
+flights <- as_data_frame(flights)
 
 flights_na <- flights %>%
   select_if(~ !any(is.na(.)))
