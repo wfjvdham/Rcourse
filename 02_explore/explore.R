@@ -31,7 +31,7 @@ ggplot(train) +
 
 ggplot(train) + 
   geom_point(aes(Fare, Age)) +
-  facet_wrap(factor(Survived) ~ Pclass)
+  facet_wrap(Survived ~ Pclass)
 
 ggplot(train) + 
   geom_point(aes(Fare, Age)) +
@@ -39,11 +39,11 @@ ggplot(train) +
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
-  facet_wrap(~factor(Survived))
+  facet_wrap(~ Survived)
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
-  facet_wrap(~factor(Survived)) +
+  facet_wrap(~ Survived) +
   labs(title = "...", x = "...", y = "...")
 
 ggplot(train) + 
@@ -55,14 +55,14 @@ ggplot(train) +
 
 ggplot(train) + 
   geom_boxplot(aes(factor(Survived), Fare)) +
-  ylim(0,100)
+  ylim(0, 100)
 
 ggplot(train) + 
   geom_histogram(aes(Fare))
 
 ggplot(train) + 
-  geom_bar(aes(cut(Fare,c(-1,50,100,1000)))) +
-  facet_wrap(~factor(Survived))
+  geom_bar(aes(cut(Fare, c(-1, 50, 100, 1000)))) +
+  facet_wrap(Sex ~ Survived)
 
 # dplyr examples
 train_male <- train %>% 
@@ -78,7 +78,8 @@ ggplot(train_male_class1) +
   geom_bar(aes(factor(Pclass)))
 
 train_male_class12 <- train %>% 
-  filter(Sex == "male" & Pclass %in% c(1, 2))
+  filter(Sex == "male") %>%
+  filter(Pclass %in% c(1, 2))
 
 ggplot(train_male_class12) + 
   geom_bar(aes(factor(Pclass)))
@@ -121,7 +122,7 @@ train %>%
   summarise(mean_fare = mean(Fare, na.rm = TRUE))
 
 train %>%
-  mutate(groups = cut(Fare, c(-1,50,100,1000))) %>%
+  mutate(groups = cut(Fare, c(-1, 50, 100, 1000))) %>%
   group_by(groups) %>%
   summarise(n = n())
 
@@ -140,7 +141,7 @@ ggplot(count_sex) +
 ggplot(count_sex) +
   geom_bar(aes(Sex, n), stat = "identity")
 
-#functiones utiles
+# usefull functions
 train %>%
   slice(1)
 
@@ -153,11 +154,11 @@ summary(train)
 
 train %>%
   na.omit() %>%
-  nrow
+  nrow()
 
 cut(train$Age, breaks = 10)
 
-cut(train$Age, breaks = c(0,15,31))
+cut(train$Age, breaks = c(0, 15, 31))
 
 seq(1, 8)
 
@@ -167,8 +168,8 @@ set.seed(5342)
 
 train %>%
   sample_frac(0.5) %>%
-  nrow
+  nrow()
 
 train %>%
   sample_n(100) %>%
-  nrow
+  nrow()
