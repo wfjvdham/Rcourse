@@ -1,11 +1,11 @@
 ---
 title: "R Notebook Demo"
 output:
+  html_notebook: default
   html_document:
     highlight: textmate
     theme: spacelab
     toc: yes
-  html_notebook: default
   pdf_document: default
 ---
 
@@ -74,7 +74,7 @@ cor(x, y)
 
 Show only code
 
-```{r hide_example, echo=TRUE, results='hide',message=FALSE}
+```{r hide_example, echo=TRUE, results='hide',warning=FALSE}
 x <- rnorm(100)
 y <- 2*x + rnorm(100)
 cor(x, y)
