@@ -3,7 +3,7 @@
 Logistic Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-06
+date: 2018-02-13
 autosize: true
 
 Overview
@@ -43,7 +43,7 @@ Make the Model
 
 ```r
 model_sex <- glm(
-  factor(Survived) ~ factor(Sex), 
+  Survived ~ Sex, 
   train, family = "binomial"
 ) 
 ```
@@ -55,17 +55,16 @@ Check Model Using Summary
 ```
 
 Call:
-glm(formula = factor(Survived) ~ factor(Sex), family = "binomial", 
-    data = train)
+glm(formula = Survived ~ Sex, family = "binomial", data = train)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
 -1.6462  -0.6471  -0.6471   0.7725   1.8256  
 
 Coefficients:
-                Estimate Std. Error z value Pr(>|z|)    
-(Intercept)       1.0566     0.1290   8.191 2.58e-16 ***
-factor(Sex)male  -2.5137     0.1672 -15.036  < 2e-16 ***
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   1.0566     0.1290   8.191 2.58e-16 ***
+Sexmale      -2.5137     0.1672 -15.036  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -113,25 +112,20 @@ exp(1 + -2.5) / (1 + exp(1 + -2.5))
 [1] 0.1824255
 ```
 
-Check Model Using Summary Coefficients
-========================================================
+<!-- Check Model Using Summary Coefficients -->
+<!-- ======================================================== -->
 
-**Null deviance** how well the Null model fits the data
+<!-- **Null deviance** how well the Null model fits the data -->
 
-**Residual deviance** how well the proposed model fits the data
+<!-- **Residual deviance** how well the proposed model fits the data -->
 
-
-```r
-p_value <- pchisq(
-  1186.7 - 917.8, 1, 
-  lower.tail = FALSE
-)
-p_value
-```
-
-```
-[1] 1.970839e-60
-```
+<!-- ```{r} -->
+<!-- p_value <- pchisq( -->
+<!--   1186.7 - 917.8, 1,  -->
+<!--   lower.tail = FALSE -->
+<!-- ) -->
+<!-- p_value -->
+<!-- ``` -->
 
 Use Model to make Predictions
 ========================================================
@@ -197,6 +191,22 @@ sum(train$pred == 1 & train$Survived == 1) / sum(train$Survived == 1)
 ```
 [1] 0.6812865
 ```
+
+ROC curve
+========================================================
+
+
+```r
+library(Deducer)
+rocplot(model_sex)
+```
+
+![plot of chunk unnamed-chunk-9](log_reg-figure/unnamed-chunk-9-1.png)
+
+ROC curve - Model Age & Sex
+========================================================
+
+![plot of chunk unnamed-chunk-10](log_reg-figure/unnamed-chunk-10-1.png)
 
 Exercise
 ========================================================

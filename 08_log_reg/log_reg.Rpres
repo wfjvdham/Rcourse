@@ -53,7 +53,7 @@ Make the Model
 
 ```{r}
 model_sex <- glm(
-  factor(Survived) ~ factor(Sex), 
+  Survived ~ Sex, 
   train, family = "binomial"
 ) 
 ```
@@ -88,20 +88,20 @@ exp(1) / (1 + exp(1))
 exp(1 + -2.5) / (1 + exp(1 + -2.5))
 ```
 
-Check Model Using Summary Coefficients
-========================================================
+<!-- Check Model Using Summary Coefficients -->
+<!-- ======================================================== -->
 
-**Null deviance** how well the Null model fits the data
+<!-- **Null deviance** how well the Null model fits the data -->
 
-**Residual deviance** how well the proposed model fits the data
+<!-- **Residual deviance** how well the proposed model fits the data -->
 
-```{r}
-p_value <- pchisq(
-  1186.7 - 917.8, 1, 
-  lower.tail = FALSE
-)
-p_value
-```
+<!-- ```{r} -->
+<!-- p_value <- pchisq( -->
+<!--   1186.7 - 917.8, 1,  -->
+<!--   lower.tail = FALSE -->
+<!-- ) -->
+<!-- p_value -->
+<!-- ``` -->
 
 Use Model to make Predictions
 ========================================================
@@ -138,6 +138,25 @@ sum(train$pred == train$Survived) / nrow(train)
 sum(train$pred == 1 & train$Survived == 1) / sum(train$pred == 1)
 # Recall
 sum(train$pred == 1 & train$Survived == 1) / sum(train$Survived == 1)
+```
+
+ROC curve
+========================================================
+
+```{r}
+library(Deducer)
+rocplot(model_sex)
+```
+
+ROC curve - Model Age & Sex
+========================================================
+
+```{r, echo=FALSE}
+model_age <- glm(
+  Survived ~ Age + Sex, 
+  train, family = "binomial"
+) 
+rocplot(model_age)
 ```
 
 Exercise
