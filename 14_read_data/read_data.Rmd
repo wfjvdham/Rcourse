@@ -1,0 +1,33 @@
+---
+title: "Read data Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+Read the paris_paintings csv.
+
+```{r}
+
+```
+
+Read the example excel and save as a csv.
+
+```{r}
+
+```
+
+Read the csv and save as an Rdata file.
+
+```{r}
+
+```
+
+Read the Rdata file and check if the information is the same as after reading the excel.
+
+```{r}
+
+```

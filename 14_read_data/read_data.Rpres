@@ -18,17 +18,12 @@ Reading Data from File
 - `read_tsv()` reads tab delimited files
 - `read_delim()` reads files with any delimiter
 
-Reading Data from File - Example
-========================================================
-
-``paintings <- read_csv("./14_read_data/paris_paintings.csv")`
-
 Write Data to File
 ========================================================
 
-- `read_csv()` writes comma delimited files 
-- `read_tsv()` writes tab delimited files
-- `read_delim()` writes files with any delimiter
+- `write_csv()` writes comma delimited files 
+- `write_tsv()` writes tab delimited files
+- `write_delim()` writes files with any delimiter
 
 Reading and Writing to a R Data File
 ========================================================
