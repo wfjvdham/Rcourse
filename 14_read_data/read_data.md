@@ -3,7 +3,7 @@
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: 2018-02-06
+date: 2018-02-13
 autosize: true
 
 Reading Data from File
@@ -14,17 +14,12 @@ Reading Data from File
 - `read_tsv()` reads tab delimited files
 - `read_delim()` reads files with any delimiter
 
-Reading Data from File - Example
-========================================================
-
-``paintings <- read_csv("./14_read_data/paris_paintings.csv")`
-
 Write Data to File
 ========================================================
 
-- `read_csv()` writes comma delimited files 
-- `read_tsv()` writes tab delimited files
-- `read_delim()` writes files with any delimiter
+- `write_csv()` writes comma delimited files 
+- `write_tsv()` writes tab delimited files
+- `write_delim()` writes files with any delimiter
 
 Reading and Writing to a R Data File
 ========================================================
@@ -68,6 +63,11 @@ Doing Calculations using the Database
 - `compute()` stores the data in a remote temporary table
 - `collect()` retrieves data into a local data frame
 
+Connecting to MySQL
+========================================================
+
+Example in `read_mysql.R`
+
 Making Graphics using the Database
 ========================================================
 
@@ -76,7 +76,7 @@ Using [dbplot](https://rviews.rstudio.com/2017/08/16/visualizations-with-r-and-d
 - Only plot summaries
 - Make this summaries on the database
 
-Example in `dbplot.R`
+Example in `read_mysql.R`
 
 Connecting to Mongo
 ========================================================

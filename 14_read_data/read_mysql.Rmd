@@ -1,0 +1,65 @@
+---
+title: "Read MySQL Example"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# devtools::install_github("edgararuiz/dbplot")
+
+library(RMySQL)
+library(tidyverse)
+library(dbplot)
+library(nycflights13)
+
+con <- dbConnect(MySQL(), user="root", password="test", dbname="new_schema", host="127.0.0.1")
+```
+
+Three different options to get data from MySQL.
+
+```{r}
+pp_tbl <- tbl(con, "paris_paintings")
+result <- pp_tbl %>%
+  filter(lot == 2) %>%
+  collect()
+# %>% show_query()
+
+rs <- dbSendQuery(con, "select * from paris_paintings where lot = 2 limit 10;")
+result2 <- fetch(rs, n=10)
+dbClearResult(rs)
+
+result3 <- dbGetQuery(con, "select * from paris_paintings where lot = 2 limit 10;")
+```
+
+Read using SQL directly in Rmarkdown.
+
+```{sql, connection = con, output.var='result4'}
+SELECT * FROM paris_paintings WHERE lot = 2 LIMIT 10
+```
+
+Using `dbplot`
+
+```{r}
+flights <- as_data_frame(flights)
+
+pp_tbl %>% 
+  dbplot_histogram(position)
+
+flights %>% 
+  dbplot_histogram(sched_dep_time)
+
+pp_tbl %>%
+  dbplot_raster(position, price) 
+
+flights %>%
+  filter(!is.na(arr_delay)) %>%
+  dbplot_raster(arr_delay, dep_delay) 
+
+pp_tbl %>%
+  dbplot_bar(price)
+
+pp_tbl %>%
+  dbplot_line(price)
+```
+
+ 

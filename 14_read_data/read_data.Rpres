@@ -67,6 +67,11 @@ Doing Calculations using the Database
 - `compute()` stores the data in a remote temporary table
 - `collect()` retrieves data into a local data frame
 
+Connecting to MySQL
+========================================================
+
+Example in `read_mysql.R`
+
 Making Graphics using the Database
 ========================================================
 
@@ -75,7 +80,7 @@ Using [dbplot](https://rviews.rstudio.com/2017/08/16/visualizations-with-r-and-d
 - Only plot summaries
 - Make this summaries on the database
 
-Example in `dbplot.R`
+Example in `read_mysql.R`
 
 Connecting to Mongo
 ========================================================
