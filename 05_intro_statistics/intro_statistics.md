@@ -3,7 +3,7 @@
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 2018-02-11
+date: 2018-02-13
 autosize: true
 
 Type of Data Collection
@@ -363,6 +363,22 @@ p < 0.05
 ```
 [1] TRUE
 ```
+
+Prediction vs Inference
+========================================================
+
+**Inference** You are interested what the relation is between the variables and how the *outcome variable* is influenced by the *input variables*. (linear model, decision tree)
+
+**Prediction** You are only interested in predicting the *outcome variable*. How this depends on the *input variables* can be a black box. (random forest, neural networks)
+
+**Note** Flexible models are more difficult to interpret. They can be better in predicting but only when they do not overfit the data. 
+
+The Bias-Variance Trade-Off
+========================================================
+
+**Variance** Error in the model because of the data used for training the model. This is higher for flexible models because they follow the data more closely.
+
+**Bias** Using a model that is much simpler than the actual relationship. This is higher for simple and inflexible methods.
 
 Note
 ========================================================
