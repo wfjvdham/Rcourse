@@ -3,7 +3,7 @@
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-06
+date: 2018-02-13
 autosize: true
 
 Overview
@@ -88,6 +88,24 @@ Check Model Using Summary Coefficients
 
 **p-value** the p-value for the whole model
 
+**F-statistic** tells you if the additional variables make the model significantly better than the intercept only model
+
+Correlation - R
+========================================================
+
+> Correlation, which always takes values between -1 and 1, describes the strength
+of the linear relationship between two variables. We denote the correlation by R
+
+
+```r
+R <- cor(sim1$x, sim1$y)
+R^2
+```
+
+```
+[1] 0.8846124
+```
+
 R squared
 ========================================================
 
@@ -99,20 +117,65 @@ Adjusted R squared
 - Is always smaller or equal to the R squared
 - Adds a cost for adding more variables
 
+ANOVA
+========================================================
+
+- Method for comparing the mean between different groups
+- Compensates for many pairwise comparisons
+
+**H<sub>0</sub>**: Null hypothesis. All the means of the groups are equal.
+
+**H<sub>A</sub>**: Alternative hypothesis. At least one mean is different.
+
+ANOVA - Conditions
+========================================================
+
+1. Observations are independent within and across groups
+1. Data within each group are nearly normal
+1. Variability across the groups is about equal
+
+F - test
+========================================================
+
+- F value is **mean square between groups** / **mean square error**
+- F should be around 1 when there is no effect
+- Using the F-distribution and two degree of freedom values the p-value can be calculated
+  - df<sub>1</sub> = nr_groups - 1
+  - df<sub>2</sub> = nr_data_points - nr_groups
+
+ANOVA - Example
+========================================================
+  
+
+```r
+anova(sim1_mod)
+```
+
+```
+Analysis of Variance Table
+
+Response: y
+          Df  Sum Sq Mean Sq F value    Pr(>F)    
+x          1 1041.68 1041.68  214.66 1.173e-14 ***
+Residuals 28  135.87    4.85                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
 Check Model Graphically
 ========================================================
 
-![plot of chunk unnamed-chunk-5](lm-figure/unnamed-chunk-5-1.png)
+![plot of chunk unnamed-chunk-7](lm-figure/unnamed-chunk-7-1.png)
 
 Check Residuals Distribution
 ========================================================
 
-![plot of chunk unnamed-chunk-6](lm-figure/unnamed-chunk-6-1.png)
+![plot of chunk unnamed-chunk-8](lm-figure/unnamed-chunk-8-1.png)
 
 Check Residuals
 ========================================================
 
-![plot of chunk unnamed-chunk-7](lm-figure/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-9](lm-figure/unnamed-chunk-9-1.png)
 
 Exercise - Load the Data
 ========================================================
