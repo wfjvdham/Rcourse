@@ -4,9 +4,10 @@ library(ggplot2)
 library(dplyr)
 library(tools)
 library(stringr)
+library(DT)
 
 # Load data ---------------------------------------------------------
-load("../../17_shiny/19_ejercicio/data/movies.Rdata")
+load("../../17_shiny/exercise/data/movies.Rdata")
 
 # Define UI ---------------------------------------------------------
 ui <- fluidPage(
@@ -100,7 +101,7 @@ ui <- fluidPage(
       br(),    # a little bit of visual separation
 
       # Show data table
-      DT::dataTableOutput(outputId = "moviestable")
+      dataTableOutput(outputId = "moviestable")
     )
   )
 )
@@ -146,9 +147,9 @@ server <- function(input, output) {
     )
   
   # Print data table if checked
-  output$moviestable <- DT::renderDataTable(
+  output$moviestable <- renderDataTable(
     if(input$show_data){
-      DT::datatable(data = movies_subset()[, 1:7], 
+      datatable(data = movies_subset()[, 1:7], 
                     options = list(pageLength = 10), 
                     rownames = FALSE)
     }
