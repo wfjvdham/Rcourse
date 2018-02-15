@@ -1,5 +1,6 @@
 ```{r, include=FALSE}
 library(lubridate)
+library(shiny)
 date <- date(now())
 ```
 
@@ -12,13 +13,13 @@ autosize: true
 References
 ========================================================
 
-> Shiny is a R package to construct **interactive** web aplications
+> Shiny is a R package to construct **interactive** web applications
 
 [Widget Gallery](https://shiny.rstudio.com/gallery/widget-gallery.html)
 
 11 examples using: `runExample()`
 
-Achitecture
+Architecture
 ========================================================
 
 1. **UI** results in HTML for the browser
@@ -36,14 +37,217 @@ Output Options
 
 ![Output options](./output_options.jpg)
 
-3 Rules
+Input Object
 ========================================================
 
-1.
-1.
-1.
+Contains the values changed by the user, with the same name as the id of the input UI
+
+```{r, eval=FALSE}
+#UI
+sliderInput(inputId = "num", 
+            label = "Choose a number", 
+            value = 25, min = 1, max = 100)
+#server
+input$num
+```
+
+Output Object
+========================================================
+
+- Contains the values generated in the server, with the same name as the id of the element in the UI
+- Should always be created with a render* function
+- Can use elements from the input object
+
+```{r, eval=FALSE}
+#UI
+plotOutput("hist")
+
+#server
+output$hist <- renderPlot({
+  hist(rnorm(input$num))
+})
+```
+
+Reactivity
+========================================================
+
+> When an input changes an output changes as well
+
+There are 7 different functions in Shiny to control reactivity
+
+1. render* functions
+========================================================
+
+The result is recalculated when one of the inputs changes
+
+Examples:
+
+- `01_slider.R`
+- `02_slider_two_inputs.R`
 
 Render Options
 ========================================================
 
 ![Render options](./render_options.jpg)
+
+2. reactive()
+========================================================
+
+Creates a data frame that changes when one of the inputs changes and is reactive itself
+
+Examples:
+
+- `03_reactive.R`
+
+3. isolate()
+========================================================
+
+Prevents recalculation when a specific input changes
+
+Examples:
+
+- `04_isolate.R`
+
+4. observeEvent()
+========================================================
+
+Runs some R code when a specific input changes
+
+Examples:
+
+- `05_actionButton.R`
+
+5. observe()
+========================================================
+
+Runs some R code when one of the inputs changes but does not render anything
+
+Examples:
+
+- `06_observe.R`
+
+6. eventReactive()
+========================================================
+
+Creates a data frame that changes when a specific input changes and is reactive itself
+
+Examples:
+
+- `07_eventReactive.R`
+
+7. reactiveValues()
+========================================================
+
+Creates list of reactive values
+
+Examples:
+
+- `08_reactiveValues.R`
+
+Compare Functions
+========================================================
+
+| | Creates an output | Only runs R code for the side effects |
+| --- | --- | --- |
+| Depends on all the inputs | `reactive()` | `observe()` |
+| Depends on one specific input | `eventReactive()` | `observeEvent()` |
+
+HTML Tags
+========================================================
+
+- `<h1></h1>`
+- `<p></p>`
+- `<div></div>`
+- `<strong></strong>`
+
+```{r, eval=FALSE}
+shiny::tags
+```
+
+***
+
+- h1()
+- p()
+- div()
+- strong()
+
+`09_tags.R`
+
+Layout - fluidRow
+========================================================
+
+- `fluidRow()` adds a new row to the layout
+- `column(X, ...)` adds a new column with size X
+- `column(..., offset = Y)` moves the column Y steps to the right
+- Total size of the page is 12
+
+`10_row_layout.R`
+
+Layout - sidebarLayout
+========================================================
+
+- `sidebarPanel()` adds the sidebar panel
+- `mainPanel()` adds the bigger main panel
+
+`11_sidebar_layout.R`
+
+Layout - navbarPage
+========================================================
+
+`tabPanel()` adds new page and automatically adds new button to the navigation bar
+
+`12_navbar_layout.R`
+
+Layout - tabsetPanel
+========================================================
+
+- `tabsetPanel()` adds navigation bar
+- `tabPanel()` adds new page and automatically adds new button to the navigation bar
+
+`14_tabs_panel.R`
+
+Layout - navlistPanel
+========================================================
+
+- `navlistPanel()` adds navigation bar as a list to the left of the screen
+- `tabPanel()` adds new page and automatically adds new button to the navigation bar
+
+`15_navlist_panel.R`
+
+wellPanel
+========================================================
+
+`wellPanel()` adds a gray color around some elements
+
+`13_well_panel.R`
+
+Adding CSS
+========================================================
+
+Use the `theme = "theme.css"` argument in `fluidPage()` function
+
+`16_theme.R`
+
+Performance
+========================================================
+
+- Code **outside** the server function runs one time
+- Code **inside** the server function runs one time for every user connecting to the app
+- Code **inside** a render function runs a lot of time per user
+
+Share
+========================================================
+
+Use servers of Rstudio:
+
+http://www.shinyapps.io/
+
+Run it on your own server:
+
+https://www.shinyproxy.io/
+
+Exercise
+========================================================
+
+1. Create an application to show the average minimum and maximum temperature per month and let the user control which months it wants to see
+1. Create an application to explore the movie data in `17_shiny/exercise/data/movies.Rdata`
