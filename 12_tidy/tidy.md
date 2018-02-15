@@ -3,7 +3,7 @@
 tidy
 ========================================================
 author: Wim van der Ham
-date: 2018-02-12
+date: 2018-02-15
 autosize: true
 
 Tidy Data
@@ -66,3 +66,15 @@ pew <- read_tsv(
 )
 ```
 
+Exercise - dplyr and ggplot2
+========================================================
+
+Create the following graphs:
+
+1. The average minimum and maximum temperature per month
+1. An estimation of the average income per religion
+
+Some tips:
+- `geom_bar()` with `position="dodge"``
+- `case_when()`
+- `sum()`
