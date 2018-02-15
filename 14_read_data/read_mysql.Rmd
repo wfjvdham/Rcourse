@@ -37,6 +37,12 @@ Read using SQL directly in Rmarkdown.
 SELECT * FROM paris_paintings WHERE lot = 2 LIMIT 10
 ```
 
+Write results back to a table in SQL.
+
+```{r}
+dbWriteTable(con, name = "test_results", value = result) 
+```
+
 Using `dbplot`
 
 ```{r}
