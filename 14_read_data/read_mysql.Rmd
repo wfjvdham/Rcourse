@@ -21,8 +21,8 @@ Three different options to get data from MySQL.
 pp_tbl <- tbl(con, "paris_paintings")
 result <- pp_tbl %>%
   filter(lot == 2) %>%
-  collect()
-# %>% show_query()
+  #collect() %>% 
+  show_query()
 
 rs <- dbSendQuery(con, "select * from paris_paintings where lot = 2 limit 10;")
 result2 <- fetch(rs, n=10)
