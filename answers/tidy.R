@@ -13,12 +13,8 @@ pew <- pew %>%
 weather <- read.delim(
   file = "http://stat405.had.co.nz/data/weather.txt",
   stringsAsFactors = FALSE
-)
-
-weather <- weather %>%
-  gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE)
-
-weather <- weather %>%
+) %>%
+  gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE) %>%
   spread(key = "element", value = "temperature")
 
 # example of interesting plot for both of them
@@ -54,5 +50,6 @@ pew %>%
             total_estimated_income = sum(estimated_income, na.rm = TRUE)) %>%
   mutate(avg_income = total_estimated_income / n_people) %>%
   ggplot() +
+  # geom_bar(aes(reorder(religion, avg_income), avg_income), stat = "identity") +
   geom_bar(aes(religion, avg_income), stat = "identity") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))

@@ -37,6 +37,7 @@ people[[1]] # A list, dropped one level of heirachy
 length(people[[1]]$starships)
 
 #make it into a recipe by adding a tilde
+~ length(.x$starships)
 
 #do is for all
 map(people, ~ length(.x$starships))
@@ -123,6 +124,8 @@ map_chr(species, "eye_colors") %>%
 ## Make a dataframe with: name, films, episode_ids of the films, number of films, height, species
 
 ```{r}
+people_df <- as_data_frame(people[2:3])
+
 people_df <- data_frame(
   name = map_chr(people, "name"),
   films = map(people, "films"),
@@ -200,8 +203,8 @@ accidents %>%
 # so you can do this kind of thing
 accidents <- accidents %>% 
   mutate(
-    train = map(ts, ~ filter(.x, trmt_date < "2014-01-01")),
-    test = map(ts, ~ filter(.x, trmt_date >= "2014-01-01")),
+    train = map(data, ~ filter(.x, trmt_date < "2014-01-01")),
+    test = map(data, ~ filter(.x, trmt_date >= "2014-01-01")),
     model = map(train, ~ lm(count ~ month + wday, data = .x)))
 
 accidents <- accidents %>% 
