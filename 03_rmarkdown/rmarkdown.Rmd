@@ -1,11 +1,11 @@
 ---
 title: "R Notebook Demo"
 output:
-  html_notebook: default
   html_document:
     highlight: textmate
     theme: spacelab
     toc: yes
+  html_notebook: default
   pdf_document: default
 ---
 
