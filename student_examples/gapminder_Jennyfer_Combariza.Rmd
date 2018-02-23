@@ -1,0 +1,79 @@
+---
+title: "gapminder"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(gapminder)
+gapminder <- as_data_frame(gapminder)
+```
+
+1. Hacer un subset parar 1952
+
+```{r include= TRUE, results ='hide'}
+gapminder1952 <- gapminder %>%
+  filter(year == 1952)
+```
+
+2. Hace un plot de life expectancy (lifeExp) vs. population (pop)
+
+```{r}
+ggplot(gapminder1952) +
+  geom_point(aes(lifeExp, pop))
+
+```
+
+3. Cambia el color depende el continente
+
+
+```{r}
+ggplot(gapminder1952) +
+  geom_point(aes(lifeExp, pop,color = continent))
+
+```
+
+4. Cambia el tamaño depende el GPD
+
+```{r}
+ggplot(gapminder1952) +
+  geom_point(aes(lifeExp, pop,color = continent, size=gdpPercap))
+
+```
+
+5. Hace un pequeña descripción de este plot
+
+Las personas asiaticas que tienen esperanza de vida entre 50 y 60 años, tienen más ingreso percapital que las que tienen esperan de vida inferior a las 50 años. Para este continente se observa mayor cantidad de población para esperanzas de vida proximas en el intervalo [35, 45], con dos puntos atipicos en los  38 y 44 años (aproximadamente).
+
+Las personas de africa tienen baja esperanza de vida,  se observa bajos  ingresos percapita para personas con esperanzas de vida inferiores a los 35 años, hay ingresos percapita de 50000 unidades concentrado en valores proximos a 40 años.
+
+Las personas de europa son las que tienen mas esperanza de vida, con mayor población concentrada en el tramo de edad que van de 60 a 70 años, y esta variable esta positivamente correlacionada con el ingreso per capita (que esta alrededor de las 75 mil unidades).
+
+Se debe ampliar la información para Oceania, al consultar vemos que tiene solo dos datos para Australia y New Zealand
+```{r echo=FALSE}
+gapminder1952 %>%
+  filter(continent == "Oceania")
+```
+
+```{r include=TRUE, echo=FALSE}
+gapminder1952 %>%
+  filter(continent == "Oceania") %>%
+ggplot() +
+  geom_point(aes(lifeExp, pop,color = continent, size=gdpPercap))
+
+```
+Del grafico se desprende que los dos paises de Oceania para el 1952,  tiene esperanza de vida parecida, pero Australia tiene mas población con menor ingreso percapita y New Zealand tiene menos población pero mayor ingreso percapita.
+
+##Grafico adicional
+
+Estudio de esperanza de vida por año
+
+```{r include=TRUE, echo=FALSE}
+ggplot(gapminder) + 
+  geom_boxplot(aes(factor(year), lifeExp))
+```
+
+### Conclusion 
+
+Del grafico anterior podemos decir que de manera gloabal la esperanza de vida ha aumentado a medida que avanza el tiempo. 
+  
