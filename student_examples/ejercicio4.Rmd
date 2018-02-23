@@ -1,0 +1,93 @@
+---
+title: "Taller3"
+author: "Rafael Reyes"
+date: "9 de diciembre de 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(nycflights13)
+```
+
+## R Markdown
+
+```{r , echo = FALSE }
+flights<-as_data_frame(flights)
+summary(flights)
+
+
+```
+
+## Total de atributos NA
+
+Ver cuantos valores son NA y en que atributos estan
+
+```{r}
+summary(flights)
+
+```
+
+## Seleccionar atributos de flight
+
+```{r, include=FALSE}
+ ##flights %>% select(year)
+ min_dep_time <- flights %>% 
+  filter(year==2013) %>%
+  select(dep_time) %>%
+  arrange(dep_time) %>%
+  head(1)
+
+```
+
+el dep time minomo es `r min_dep_time$dep_time`
+
+## con NA
+```{r}
+flights %>%
+  filter (!is.na(air_time)) 
+
+```
+
+
+
+##  test con summarize()
+```{r}
+flights %>% 
+  group_by(dest) %>%
+    summarize(n = n(), promedia = mean(distance)) %>%
+              arrange(n,promedia) 
+                  
+```
+
+```{r vuelos, echo=FALSE}
+
+##plot(flights$air_time , flights$distance)
+
+##ggplot(flights, aes(sched_arr_time,arr_time),colour=day) +
+##  geom_point()
+
+##flights %>% 
+##   filter(arr_time > 759 & arr_time < 801 ) %>% 
+##  ggplot(aes(sched_arr_time,arr_time),colour=day) +
+##  geom_point()
+ 
+flights %>%
+  mutate(arr_time_hour = cut(arr_time, 5)) %>%
+  ggplot(aes(arr_time_hour, sched_arr_time)) +
+  geom_boxplot()
+
+
+```
+
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
