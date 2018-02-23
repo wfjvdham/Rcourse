@@ -3,7 +3,7 @@
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-13
+date: 2018-02-22
 autosize: true
 
 Overview
