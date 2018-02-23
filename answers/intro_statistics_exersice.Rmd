@@ -18,9 +18,9 @@ dice_66 <- sample(1:6, 1000, replace = TRUE) + sample(1:6, 1000, replace = TRUE)
   as_data_frame()
 
 ggplot(dice_12) +
-  geom_bar(aes(value), stat = "count")
+  geom_bar(aes(factor(value)), stat = "count")
 ggplot(dice_66) +
-  geom_bar(aes(value), stat = "count")
+  geom_bar(aes(factor(value)), stat = "count")
 
 mean(dice_12$value)
 mean(dice_66$value)
