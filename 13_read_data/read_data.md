@@ -3,7 +3,7 @@
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: 2018-02-19
+date: 2018-02-24
 autosize: true
 
 Reading Data from File
@@ -13,6 +13,21 @@ Reading Data from File
 - `read_csv2()` reads semicolon separated files (common in countries where , is used as the decimal place) 
 - `read_tsv()` reads tab delimited files
 - `read_delim()` reads files with any delimiter
+
+stringsAsFactors
+========================================================
+
+- Old reading functions have a `.` between words
+- They by default convert `strings` to `factors` because of old R memory usage
+
+
+```r
+paris_paintings_old <- read.csv(
+  "./datasets/paris_paintings.csv", 
+  stringsAsFactors = TRUE
+)
+paris_paintings_tv <- read_csv("./datasets/paris_paintings.csv")
+```
 
 Write Data to File
 ========================================================
