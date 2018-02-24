@@ -1,7 +1,9 @@
+
+
 Rmarkdown
 ========================================================
 author: Wim van der Ham
-date: 29/1/2018
+date: 2018-02-24
 autosize: true
 
 Ways of Working With R
@@ -55,6 +57,18 @@ Example
 ========================================================
 
 Example in `rmarkdown.Rmd`
+
+Extracting R code from a Markdown file
+========================================================
+
+
+```r
+purl(
+  "./03_rmarkdown/rmarkdown.Rmd", 
+   output = "./03_rmarkdown/test.R", 
+  documentation = 2
+)
+```
 
 Exercise
 ========================================================
