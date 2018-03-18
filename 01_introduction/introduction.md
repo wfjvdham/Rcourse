@@ -3,7 +3,7 @@
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-02-23
+date: 2018-03-18
 autosize: true
 
 About Myself
@@ -58,11 +58,15 @@ About R
   - [Bioconductor](https://www.bioconductor.org/)
   - [GitHub](https://github.com)
 
-***
+Style
+========================================================  
 
-**Style:**
+[The tidyverse style guide](http:http://style.tidyverse.org/)
 
-http://adv-r.had.co.nz/Style.html
+**Tools**
+
+- [styler](http://styler.r-lib.org/index.html)
+- [lintr](https://github.com/jimhester/lintr)
 
 R Work Flow
 ========================================================
