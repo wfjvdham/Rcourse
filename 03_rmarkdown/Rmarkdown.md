@@ -3,7 +3,7 @@
 Rmarkdown
 ========================================================
 author: Wim van der Ham
-date: 2018-02-24
+date: 2018-03-18
 autosize: true
 
 Ways of Working With R
@@ -58,6 +58,42 @@ Example
 
 Example in `rmarkdown.Rmd`
 
+Rpresentations
+========================================================
+transition: fade
+
+> Feature of Rstudio to make HTML presentations using a Combination of markdown and R.
+
+[Documentation](https://support.rstudio.com/hc/en-us/sections/200130218-R-Presentations)
+
+Rpresentations
+========================================================
+transition: fade
+type: section
+
+This is a **section**
+
+Rpresentations
+========================================================
+transition: fade
+type: sub-section
+
+Test is a **sub-section**
+
+Rpresentations
+========================================================
+transition: fade
+type: prompt
+
+This is a **prompt**
+
+Rpresentations
+========================================================
+transition: fade
+type: alert
+
+This is a **alert**
+
 Extracting R code from a Markdown file
 ========================================================
 
@@ -65,7 +101,7 @@ Extracting R code from a Markdown file
 ```r
 purl(
   "./03_rmarkdown/rmarkdown.Rmd", 
-   output = "./03_rmarkdown/test.R", 
+  output = "./03_rmarkdown/test.R", 
   documentation = 2
 )
 ```
