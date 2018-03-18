@@ -36,6 +36,7 @@ Here the most important sources used for this course are mentioned.
 
 ### Books
 
+- http://students.brown.edu/seeing-theory/index.html
 - https://www-bcf.usc.edu/~gareth/ISL/
 - https://www.openintro.org/stat/textbook.php?stat_book=os
 - http://r4ds.had.co.nz
