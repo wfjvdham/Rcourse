@@ -91,4 +91,9 @@ sample(1:10, 10, replace = TRUE)
 Example
 ========================================================
 
-Examples can be found in the `resample.R` and `bootstrap.Rmd` files.
+Examples can be found in the `resample.R` file.
+
+Exersice
+========================================================
+
+An exersice can be found in the `bootstrap.Rmd` file.

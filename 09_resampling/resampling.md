@@ -87,10 +87,15 @@ sample(1:10, 10, replace = TRUE)
 ```
 
 ```
- [1] 2 5 5 6 5 6 2 5 3 9
+ [1]  9  3  9  1  9  1  1  9 10  2
 ```
 
 Example
 ========================================================
 
-Examples can be found in the `resample.R` and `bootstrap.Rmd` files.
+Examples can be found in the `resample.R` file.
+
+Exersice
+========================================================
+
+An exersice can be found in the `bootstrap.Rmd` file.
