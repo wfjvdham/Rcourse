@@ -30,7 +30,65 @@ The Validation Set Approach
 The Validation Set Approach
 ========================================================
 
-Downsides:
+Disadvantages:
 
 1. **Highly variable** score depends a lot on which points ar in the test or in the validation group
 2. **Overestimates the test error** because only half of the data is used for training
+
+Leave-One-Out Cross-Validation
+========================================================
+
+> Repedatly train model on all but one observation. Test on the one observation left out.
+
+Leave-One-Out Cross-Validation
+========================================================
+
+![LOOCV](./LOOCV.jpg)
+
+Leave-One-Out Cross-Validation
+========================================================
+
+Advantages:
+
+1. **Low variability** every step you almost use all the data for training
+1. **No randomness** every time this method is used the outcome is the same
+
+***
+
+Disadvantages:
+
+1. **Computational expensive** the model has to be fitted *n* times which can be computational expensive (for a lineair model this is not the case)
+
+k-Fold Cross-Validation
+========================================================
+
+> Devide the data into *k* groups. Repeadetly train on all but one group and test on the group left out.
+
+k-Fold Cross-Validation
+========================================================
+
+![k-Fold CV](./k_fold_cv.jpg)
+
+k-Fold Cross-Validation
+========================================================
+
+Advantages:
+
+1. **Better estimate of score** because it is less prone to overfitting
+1. **Computational less expensive** you need to fit the model *k* times
+
+Emperically *k* = 5 or *k* = 10 show the best results
+
+Bootstrap
+========================================================
+
+> Repeadetly sample your sample with replacement. To quantify the uncertainty of an estimator.
+
+```{r}
+sample(1:10, 10, replace = TRUE)
+```
+
+Example
+========================================================
+
+Examples can be found in the `resample.R` and `bootstrap.Rmd` files.
