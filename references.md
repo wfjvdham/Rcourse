@@ -41,7 +41,7 @@ Here the most important sources used for this course are mentioned.
 - https://www.openintro.org/stat/textbook.php?stat_book=os
 - http://r4ds.had.co.nz
 
-### Cources
+### Courses
 
 - http://www2.stat.duke.edu/courses/Fall17/sta112.01/syllabus/
 
