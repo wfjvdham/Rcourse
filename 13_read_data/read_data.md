@@ -3,7 +3,7 @@
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: 2018-02-24
+date: 2018-04-15
 autosize: true
 
 Reading Data from File
@@ -60,11 +60,12 @@ Reading from Databases
 
 ![Database Connection](./database_connection.jpg)
 
-Connection Tab in Rstudio
+Connection Pane in Rstudio v1.1
 ========================================================
 
-- Shows all the drives that are installed on the system
-- Changing between data sources is possible by only changing the connection, the rest of the code can stay the same
+- View databases, schemas, tables and fields
+- Explore data in tables or views
+- Remembers connections you have made
 
 Type of Problems
 ========================================================

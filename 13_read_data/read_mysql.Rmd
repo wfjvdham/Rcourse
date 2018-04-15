@@ -7,6 +7,10 @@ output: html_notebook
 # httr::set_config( httr::config( ssl_verifypeer = 0L ) )
 # devtools::install_github("edgararuiz/dbplot")
 
+library(odbc)
+
+odbcListDrivers()
+
 library(RMySQL)
 library(tidyverse)
 library(dbplot)
@@ -19,6 +23,8 @@ Three different options to get data from MySQL.
 
 ```{r}
 pp_tbl <- tbl(con, "paris_paintings")
+# or tbl(con, in_schema("production", "paris_paintings")) if the table is not in the default schema
+
 result <- pp_tbl %>%
   filter(lot == 2) %>%
   #collect() %>% 
