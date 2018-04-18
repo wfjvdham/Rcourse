@@ -46,7 +46,7 @@ SELECT * FROM paris_paintings WHERE lot = 2 LIMIT 10
 Write results back to a table in SQL.
 
 ```{r}
-dbWriteTable(con, name = "test_results", value = result) 
+dbWriteTable(con, name = "test_results", value = result2, overwrite = TRUE) 
 ```
 
 Using `dbplot`
@@ -74,4 +74,21 @@ pp_tbl %>%
   dbplot_line(price)
 ```
 
- 
+Use `tidypredict` to use a model to calculate a prediction on the database level.
+
+```{r}
+library(tidypredict)
+
+model <- pp_tbl %>%
+  lm(price ~ year,  data = .)
+summary(model)
+
+tidypredict_sql(model, con)
+
+pp_tbl %>%
+  tidypredict_to_column(model) %>%
+  select(price, fit, year) %>%
+  mutate(diff = fit - price) 
+# %>%  dbplot_histogram(diff)
+```
+
