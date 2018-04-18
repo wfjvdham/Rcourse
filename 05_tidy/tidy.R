@@ -37,9 +37,9 @@ who5
 #who5 is tidy! For modeling we could transform all the columns (except cases) to factors
 
 #make tidy the next two datasets
-weather <- read_tsv(
-  "http://stat405.had.co.nz/data/weather.txt"
+weather <- read_csv(
+  "./datasets/weather.csv"
 )
-pew <- read_tsv(
-  "http://stat405.had.co.nz/data/pew.txt"
+pew <- read_csv(
+  "./datasets/pew.csv"
 )

@@ -1,21 +1,17 @@
 library(tidyverse)
 
-pew <- read.delim(
-  file = "http://stat405.had.co.nz/data/pew.txt",
-  header = TRUE,
-  stringsAsFactors = FALSE,
-  check.names = F
+pew <- read_csv(
+  "./datasets/pew.csv"
 )
 
 pew <- pew %>%
   gather(2:11, key = "income", value = "count")
 
-weather <- read.delim(
-  file = "http://stat405.had.co.nz/data/weather.txt",
-  stringsAsFactors = FALSE
-) %>%
+weather <- read_csv("./datasets/weather.csv") %>%
   gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE) %>%
-  spread(key = "element", value = "temperature")
+  spread(key = "element", value = "temperature") %>%
+  mutate(TMAX = as.numeric(TMAX),
+         TMIN = as.numeric(TMIN))
 
 # example of interesting plot for both of them
 
@@ -50,6 +46,7 @@ pew %>%
             total_estimated_income = sum(estimated_income, na.rm = TRUE)) %>%
   mutate(avg_income = total_estimated_income / n_people) %>%
   ggplot() +
+  # geom_bar(aes(fct_reorder(religion, avg_income), avg_income), stat = "identity") +
   # geom_bar(aes(reorder(religion, avg_income), avg_income), stat = "identity") +
   geom_bar(aes(religion, avg_income), stat = "identity") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
