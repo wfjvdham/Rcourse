@@ -159,3 +159,44 @@ accidents <- accidents %>%
 accidents %>% arrange(rsquare_test) %>% select(name, rsquare_test)
 ```
 
+Example of `pmap`. 
+
+CONSIDER:
+
+```runif(n, min = 0, max = 1)```
+
+Want to do this for several triples of (n, min, max).
+Store each triple as a row in a data frame.
+Now iterate over the rows.
+
+```{r}
+df <- tribble(
+  ~ n, ~ min, ~ max,
+   1L,     0,     1,
+   2L,    10,   100,
+   3L,   100,  1000
+)
+
+# for single rows
+x <- df[1, ]
+runif(n = x$n, min = x$min, max = x$max)
+
+x <- df[2, ]
+runif(n = x$n, min = x$min, max = x$max)
+
+x <- df[3, ]
+runif(n = x$n, min = x$min, max = x$max)
+
+# try with for loop
+
+out <- vector(mode = "list", length = nrow(df))
+
+for (i in 1:nrow(df)) {
+  out[i] <- list(runif(n = df$n[i], min = df$min[i], max = df$max[i]))
+}
+out
+
+# use pmap
+pmap(df, runif)
+```
+
