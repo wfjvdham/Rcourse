@@ -64,4 +64,14 @@ After that you can use
 tfruns::flags()
 ========================================================
 
-Use `flags()` to create a list of parameters that are used in the model. For different runs a different flag list can be given as argument. 
+1. Use `flags()` to create a list of parameters that are used in the model. 
+1. For different runs a different flag list can be given as argument in  the `training_run()` function 
+1. After the different runs can be compared.
+
+cloudml
+========================================================
+
+1. Use `cloudml::cloudml_train()`. Simular to `tfruns::training_run()` only have to supply a `master_type` to specify the machine that will be used.
+1. Use `cloudml::cloudml_train()` with a config.yml file for tuning
+1. `cloudml::job_trails()` ~ `tsruns::ls_runs()`
+1. `cloudml::job_collect()` ~ `tsruns::view_run()`
