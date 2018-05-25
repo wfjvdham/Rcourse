@@ -13,15 +13,71 @@ What is TensorFlow?
 ========================================================
 
 - General purpose numerical computing library (but used a lot for neural networks)
+- Open source 
 - Not all data has to be in RAM
+- Hardware independent (CPU, GPU, TPU)
 - Can distribute computions over different hardware
 - Fast low level computations **c++**
 - R can be really usefull as an interface
 
-Keras API
+How does TensorFlow works? Tensors
 ========================================================
 
-> High level packages for interfacing TensorFlow
+> Data stored in a multidimensional array
+
+```{r, eval=FALSE}
+# 0D
+42
+# 1D
+c(42, 42, 42)
+# 2D
+matrix(42, nrow = 2, ncol = 2)
+iris
+# 3D
+# example: how features change over time per sample
+array(42, dim = c(2, 3, 3))
+# 4D example: image -> weight, height, color, sample
+# 5D example: video -> weight, height, color, sample, time
+```
+
+How does TensorFlow works? Dataflow
+========================================================
+
+Creates a graph based on the model an executes the graph in an optimal way
+
+Deep Learing
+========================================================
+
+- Go from input to output using several layers
+- A layer is a data transformation
+- Feature engenering is learned in stead of hard coded
+
+Because there are multiple layers the learning is called **deep**
+
+Deep Learning Training
+========================================================
+
+[explanation using a video](https://www.youtube.com/watch?v=R9OHn5ZF4Uo)
+
+1. Layers are initialized with random weights
+1. Predictions are made and compared with the true output
+1. Optimizer is used to update the weights using the results from the loss function
+
+Techniques are know for a long time already, but the trick was to use really large models with large amount of data (2012)
+
+Deep Learning Downsides
+========================================================
+
+- Black box
+- Needs a large amount of data
+- Computational expensive
+
+API's for TensorFlow
+========================================================
+
+1. **Keras API** High level packages for Deep Learning
+1. **Estimator API** More classical models
+1. **Core API** Low level acces
 
 Why use TensorFlow?
 ========================================================
