@@ -3,19 +3,19 @@
 TensorFlow
 ========================================================
 author: Wim van der Ham
-date: 2018-05-25
+date: 2018-05-26
 autosize: true
 
 What is TensorFlow?
 ========================================================
 
 - General purpose numerical computing library (but used a lot for neural networks)
-- Open source 
+- Open source
 - Not all data has to be in RAM
 - Hardware independent (CPU, GPU, TPU)
-- Can distribute computions over different hardware
+- Can distribute computations over different hardware
 - Fast low level computations **c++**
-- R can be really usefull as an interface
+- R can be really useful as an interface
 
 How does TensorFlow works? Tensors
 ========================================================
@@ -38,17 +38,17 @@ array(42, dim = c(2, 3, 3))
 # 5D example: video -> weight, height, color, sample, time
 ```
 
-How does TensorFlow works? Dataflow
+How does TensorFlow works? Data flow
 ========================================================
 
 Creates a graph based on the model an executes the graph in an optimal way
 
-Deep Learing
+Deep Learning
 ========================================================
 
 - Go from input to output using several layers
 - A layer is a data transformation
-- Feature engenering is learned in stead of hard coded
+- Feature engineering is learned in stead of hard coded
 
 Because there are multiple layers the learning is called **deep**
 
@@ -75,7 +75,22 @@ API's for TensorFlow
 
 1. **Keras API** High level packages for Deep Learning
 1. **Estimator API** More classical models
-1. **Core API** Low level acces
+1. **Core API** Low level access
+
+Local Example
+========================================================
+
+TODO use keras train example
+
+Layers
+========================================================
+
+- **Dense** traditional neural networks
+- **Convolution** used for image recognition, searching for spacial features
+- **Recurrent** maintain a state, used in sequence oriented applications like text recognition
+- **Embedding** using classifications for words, can be pre-trained like Word2vec or GloVe
+
+Finding the right layers for the application is what costs most of the time
 
 Why use TensorFlow?
 ========================================================
@@ -113,19 +128,19 @@ After that you can use
 
 - `ls_runs()` to view all the runs you did
 - `view_run()` to view one specific run
-- `compare_run()` to compare runs with eachother
+- `compare_run()` to compare runs with each other
 
 tfruns::flags()
 ========================================================
 
-1. Use `flags()` to create a list of parameters that are used in the model. 
-1. For different runs a different flag list can be given as argument in  the `training_run()` function 
+1. Use `flags()` to create a list of parameters that are used in the model.
+1. For different runs a different flag list can be given as argument in  the `training_run()` function
 1. After the different runs can be compared.
 
 cloudml
 ========================================================
 
-1. Use `cloudml::cloudml_train()`. Simular to `tfruns::training_run()` only have to supply a `master_type` to specify the machine that will be used.
+1. Use `cloudml::cloudml_train()`. Similar to `tfruns::training_run()` only have to supply a `master_type` to specify the machine that will be used.
 1. Use `cloudml::cloudml_train()` with a config.yml file for tuning
 1. `cloudml::job_trails()` ~ `tsruns::ls_runs()`
 1. `cloudml::job_collect()` ~ `tsruns::view_run()`
