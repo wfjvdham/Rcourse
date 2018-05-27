@@ -41,6 +41,12 @@ Here the most important sources used for this course are mentioned.
 - https://www.openintro.org/stat/textbook.php?stat_book=os
 - http://r4ds.had.co.nz
 
+#### Deep Learning
+
+- [Deep Learning with R](https://www.amazon.com/Deep-Learning-R-Francois-Chollet/dp/161729554X)
+- [Deep Learning](https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=sr_1_1?ie=UTF8&qid=1472485235&sr=8-1&keywords=deep+learning+book) 
+
+
 ### Courses
 
 - http://www2.stat.duke.edu/courses/Fall17/sta112.01/syllabus/
