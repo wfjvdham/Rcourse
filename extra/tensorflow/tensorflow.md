@@ -3,7 +3,7 @@
 TensorFlow
 ========================================================
 author: Wim van der Ham
-date: 2018-05-26
+date: 2018-05-27
 autosize: true
 
 What is TensorFlow?
@@ -15,9 +15,9 @@ What is TensorFlow?
 - Hardware independent (CPU, GPU, TPU)
 - Can distribute computations over different hardware
 - Fast low level computations **c++**
-- R can be really useful as an interface
+- R can be really useful as an [interface](https://tensorflow.rstudio.com/)
 
-How does TensorFlow works? Tensors
+Tensors
 ========================================================
 
 > Data stored in a multidimensional array
@@ -37,11 +37,6 @@ array(42, dim = c(2, 3, 3))
 # 4D example: image -> weight, height, color, sample
 # 5D example: video -> weight, height, color, sample, time
 ```
-
-How does TensorFlow works? Data flow
-========================================================
-
-Creates a graph based on the model an executes the graph in an optimal way
 
 Deep Learning
 ========================================================
@@ -77,11 +72,6 @@ API's for TensorFlow
 1. **Estimator API** More classical models
 1. **Core API** Low level access
 
-Local Example
-========================================================
-
-TODO use keras train example
-
 Layers
 ========================================================
 
@@ -91,14 +81,6 @@ Layers
 - **Embedding** using classifications for words, can be pre-trained like Word2vec or GloVe
 
 Finding the right layers for the application is what costs most of the time
-
-Why use TensorFlow?
-========================================================
-
-1. Works best for complex perceptual problems:
-  - Vision
-  - Speech
-1. Can handle large amounts of data
 
 Why use the Cloud for Computing?
 ========================================================
@@ -110,12 +92,12 @@ Why use the Cloud for Computing?
 Which services can you use?
 ========================================================
 
-Full control over the machine using `tfruns`
+Full control over the machine using [`tfruns`](https://tensorflow.rstudio.com/tools/tfruns/articles/overview.html)
 
 - [Paperspace](https://www.paperspace.com/)
 - [Amazon AWS](https://aws.amazon.com)
 
-Only trains your model and gives back the results, no control over the machine using `cloudml`
+Only trains your model and gives back the results, no control over the machine using [`cloudml`](https://tensorflow.rstudio.com/tools/cloudml/articles/getting_started.html)
 
 - [Google ML](https://cloud.google.com/products/machine-learning/)
 
