@@ -55,6 +55,17 @@ Selecting the Tuning Parameter
 
 Use Cross-Validation to select the best score and the corresponding tuning parameter.
 
+Curse of Dimensionality
+========================================================
+
+> More features increase the test error when they are not predictive
+
+The classical statistical methods explained until now only function properly when $n > p$
+
+When $n < p$ simple least squares regression line is too flexible and hence over fits the data.
+
+Using the dimensionality reduction described here is key in handling data with a lot of features.
+
 Examples
 ========================================================
 
