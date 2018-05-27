@@ -6,11 +6,18 @@ library(glmnet)
 iris <- as_data_frame(iris)
 
 regfit <- regsubsets(Sepal.Length ~ ., iris, method = "forward", nvmax = 19)
-summary(regfit)
+regfit_backward <- regsubsets(Sepal.Length ~ ., iris, method = "backward", nvmax = 19)
+summary_regfit <- summary(regfit)
+summary_regfit
+summary(regfit_backward)
+names(summary_regfit)
+summary_regfit$adjr2
+summary_regfit$rsq
+plot (regfit, scale = "adjr2")
 coef(regfit, 2)
 
-x <- model.matrix(Sepal.Length~.,data=iris)
-x=x[,-1]
+x <- model.matrix(Sepal.Length ~ ., data = iris)
+x <- x[,-1]
 
 #alpha 0 is ridge 1 is lasso
 lasso = glmnet(x, iris$Sepal.Length, alpha = 1)
