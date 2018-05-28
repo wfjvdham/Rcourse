@@ -19,8 +19,8 @@ Decision Trees
 
 - Supervised learning
 - Both **Regression** and **Classification**
-- Devide the data in groups using a **top-down**, **greedy** method
-- Make the same prediction for every group, using the mean or the most ocurrend value of the group
+- Devise the data in groups using a **top-down**, **greedy** method
+- Make the same prediction for every group, using the mean or the most occurred value of the group
 
 In R: `party::ctree()` or `rpart::rpart()`
 
@@ -29,15 +29,15 @@ Simple Example Tree
 
 ![Example Tree](./example_tree.png)
 
-Overfitted Tree
+Over-fitted Tree
 ========================================================
 
-![Overfitted Tree](./overfitted_tree.png)
+![Over-fitted Tree](./overfitted_tree.png)
 
 Pruning
 ========================================================
 
-1. First trian a large tree that only stops splitting when the groups are smaller than a treshold.
+1. First train a large tree that only stops splitting when the groups are smaller than a threshold.
 1. Like with Lasso, introduce a penalty for the number of leaves a tree has.
 1. Use Cross-Validation to get the best value for this parameter.
 1. Pick the tree for the best value of the parameter.
@@ -47,8 +47,8 @@ Pruning
 Regression and Classification
 ========================================================
 
-- For regression trees the **$RSS$** is used to culculate the best split
-- For clasification trees the **Gini index** is used
+- For regression trees the **$RSS$** is used to calculate the best split
+- For classification trees the **Gini index** is used
 
 Gini Index
 ========================================================
@@ -69,14 +69,14 @@ If the Gini value is small the node is more *pure*
 
 **This is all done by R!**
 
-Trees vs Lineair Models
+Trees vs Linear Models
 ========================================================
 
 - Easy to explain in a graphical way to people
-- Less predictive than lineair models, only when the data is very non-lineair
+- Less predictive than linear models, only when the data is very non-linear
 - Not robust, small changes in the data can result in big changes in the tree
 
-The last point can be imporved a lot by using...
+The last point can be improved a lot by using...
 
 Random Forest
 ========================================================
