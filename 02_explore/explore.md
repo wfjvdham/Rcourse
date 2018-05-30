@@ -3,7 +3,7 @@
 Explore
 ========================================================
 author: Wim van der Ham
-date: 2018-02-23
+date: 2018-05-30
 autosize: true
 
 Explore - Work Flow
@@ -96,7 +96,7 @@ Exercise - Questions 1
 1. Which columns have `NA` values?
 1. How many flights are there on 1^th January 2013?
 1. What is the largest distance (in km!) between two airports? Also give the names of the airports.
-1. How many different destinies are there?
+1. How many different destinations are there?
 
 Exercise - Questions 1 with Tips
 ========================================================
@@ -107,7 +107,7 @@ Exercise - Questions 1 with Tips
 - What is the largest distance (in km!) between two airports? Also give the names of the airports.
 
   `mutate(distance_km = distance * 1.60934)`
-- How many different destinies are there?
+- How many different destinations are there?
 
   `group_by(dest)`
 
@@ -115,7 +115,7 @@ Exercise - Questions 2
 ========================================================
 
 1. What is the median of the distance of all the flights with carrier `DL`?
-1. What is the most popular destiny in januari 2013?
+1. What is the most popular destination in januari 2013?
 1. Show in a graph if more flights are delayed or on time.
 1. Show in a graph what the most popular times are for a flight to take off.
 1. Show the distribution of the arrival delay. What can you say about this variable?
@@ -126,7 +126,7 @@ Exercise - Questions 2 with Tips
 1. What is the median of the distance of all the flights with carrier `DL`?
 
   `summarise(meanDistance = median(distance))`
-1. What is the most popular destiny in januari 2013?
+1. What is the most popular destination in januari 2013?
 
   `filter -> group_by -> summerise -> arrange`
 1. Show in a graph if more flights are delayed or on time.
