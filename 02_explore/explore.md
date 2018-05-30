@@ -66,7 +66,7 @@ dplyr - Most important functions
 ========================================================
 
 | function | description | SQL |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | `select()` | Select specific columns | SELECT |
 | `filter()` | Filter rows using a condition | WHERE |
 | `group_by()` | Make groups | GROUP BY |
