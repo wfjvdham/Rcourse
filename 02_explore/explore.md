@@ -67,12 +67,12 @@ dplyr - Most important functions
 
 | function | description | SQL |
 | --- | --- | --- | --- |
-| `select()` | Select specific columns | SELECT
-| `filter()` | Filter rows using a condition | WHERE
-| `group_by()` | Make groups | GROUP BY
-| `arrange()` | Sort | ORDER BY
-| `summarise()` | Calculate some values per group |
-| `mutate()` | Add a new column using a function |
+| `select()` | Select specific columns | SELECT |
+| `filter()` | Filter rows using a condition | WHERE |
+| `group_by()` | Make groups | GROUP BY |
+| `arrange()` | Sort | ORDER BY |
+| `summarise()` | Calculate some values per group | |
+| `mutate()` | Add a new column using a function | |
 
 dplyr - Examples
 ========================================================
