@@ -1,0 +1,40 @@
+---
+title: "KMeans"
+author: "Wim van der Ham"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+
+iris_df <- as_data_frame(iris)
+
+iris_train <- iris_df %>% 
+  select(-Species)
+
+kclust <- kmeans(iris_train, 2)
+
+iris_pred <- augment(kclust, iris)
+iris_pred %>%
+  count(Species, `.cluster`)
+```
+
+
+
+```{r}
+library(mokken)
+data(acl)
+
+Communality <- acl[, 1:10]
+
+scale <- aisp(Communality, verbose = FALSE)
+scale
+
+Communality_t <- t(Communality)
+
+kclust <- kmeans(Communality_t, 3)
+kclust
+
+Communality_pred <- augment(kclust, Communality_t)
+```
