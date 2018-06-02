@@ -110,7 +110,7 @@ Use Model to make Predictions
 train <- train %>%
   mutate(
     prob = predict(
-      model_sex, 
+      model_sex, train,
       type = "response"
     ),
     pred = ifelse(
