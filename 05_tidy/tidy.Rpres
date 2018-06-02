@@ -3,7 +3,7 @@ library(lubridate)
 date <- date(now())
 ```
 
-tidy
+Tidy
 ========================================================
 author: Wim van der Ham
 date: `r date`
