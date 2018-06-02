@@ -3,7 +3,7 @@
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: 2018-04-15
+date: 2018-05-31
 autosize: true
 
 Reading Data from File

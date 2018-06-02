@@ -16,6 +16,7 @@ library(tidyverse)
 library(dbplot)
 library(nycflights13)
 
+# service mysql start
 con <- dbConnect(MySQL(), user="root", password="test", dbname="new_schema", host="127.0.0.1")
 ```
 
@@ -26,9 +27,9 @@ pp_tbl <- tbl(con, "paris_paintings")
 # or tbl(con, in_schema("production", "paris_paintings")) if the table is not in the default schema
 
 result <- pp_tbl %>%
-  filter(lot == 2) %>%
-  #collect() %>% 
-  show_query()
+  filter(lot == 2) #%>%
+  #collect() 
+  # show_query()
 
 rs <- dbSendQuery(con, "select * from paris_paintings where lot = 2 limit 10;")
 result2 <- fetch(rs, n=10)
@@ -46,7 +47,7 @@ SELECT * FROM paris_paintings WHERE lot = 2 LIMIT 10
 Write results back to a table in SQL.
 
 ```{r}
-dbWriteTable(con, name = "test_results", value = result2, overwrite = TRUE) 
+dbWriteTable(con, name = "test_results", value = result, overwrite = TRUE) 
 ```
 
 Using `dbplot`
