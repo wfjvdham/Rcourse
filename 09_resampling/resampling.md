@@ -3,13 +3,13 @@
 Resampling
 ========================================================
 author: Wim van der Ham
-date: 2018-03-19
+date: 2018-06-01
 autosize: true
 
 Resampling
 ========================================================
 
-> Evaluate the model performance on a different set than the set used to train the model. This way the performance of the model with new data can be assest.
+> Evaluate the model performance on a different set than the set used to train the model. This way the performance of the model with new data can be determined.
 
 1. Cross-Validation
 1. Bootstrap
@@ -35,7 +35,7 @@ Disadvantages:
 Leave-One-Out Cross-Validation
 ========================================================
 
-> Repedatly train model on all but one observation. Test on the one observation left out.
+> Repeatedly train model on all but one observation. Test on the one observation left out.
 
 Leave-One-Out Cross-Validation
 ========================================================
@@ -54,12 +54,12 @@ Advantages:
 
 Disadvantages:
 
-1. **Computational expensive** the model has to be fitted *n* times which can be computational expensive (for a lineair model this is not the case)
+1. **Computational expensive** the model has to be fitted *n* times which can be computational expensive (for a linear model this is not the case)
 
 k-Fold Cross-Validation
 ========================================================
 
-> Devide the data into *k* groups. Repeadetly train on all but one group and test on the group left out.
+> Divide the data into *k* groups. Repeatedly train on all but one group and test on the group left out.
 
 k-Fold Cross-Validation
 ========================================================
@@ -71,15 +71,15 @@ k-Fold Cross-Validation
 
 Advantages:
 
-1. **Better estimate of score** because it is less prone to overfitting
+1. **Better estimate of score** because it is less prone to over fitting
 1. **Computational less expensive** you need to fit the model *k* times
 
-Emperically *k* = 5 or *k* = 10 show the best results
+Empirically *k* = 5 or *k* = 10 show the best results
 
 Bootstrap
 ========================================================
 
-> Repeadetly sample your sample with replacement. To quantify the uncertainty of an estimator.
+> Repeatedly sample your sample with replacement. To quantify the uncertainty of an estimator.
 
 
 ```r
@@ -87,7 +87,7 @@ sample(1:10, 10, replace = TRUE)
 ```
 
 ```
- [1]  9  3  9  1  9  1  1  9 10  2
+ [1]  9  1  8  8  6  9 10  4  3  7
 ```
 
 Example
@@ -95,7 +95,9 @@ Example
 
 Examples can be found in the `resample.R` file.
 
-Exersice
+Exercise
 ========================================================
 
-An exersice can be found in the `bootstrap.Rmd` file.
+1. Use CV to determine the number of polynomials that should be used the predict the `arr_del` using the `dep_delay` with the `flights` dataset
+
+1. An exercise can be found in the `bootstrap.Rmd` file.
