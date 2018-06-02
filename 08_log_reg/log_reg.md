@@ -3,7 +3,7 @@
 Logistic Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-02-22
+date: 2018-06-01
 autosize: true
 
 Overview
