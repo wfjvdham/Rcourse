@@ -3,7 +3,7 @@
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 2018-02-23
+date: 2018-06-02
 autosize: true
 
 Type of Data Collection
@@ -135,10 +135,10 @@ Research question:
 
 ```
 # A tibble: 2 x 3
-        cat success failure
-      <chr>   <dbl>   <dbl>
-1   control      56      19
-2 treatment      41      34
+  cat       success failure
+  <chr>       <dbl>   <dbl>
+1 control       56.     19.
+2 treatment     41.     34.
 ```
 
 Point Estimate
@@ -255,6 +255,14 @@ pnorm(1, mean = 0, sd = 1)
 
 ```
 [1] 0.8413447
+```
+
+```r
+rnorm(1, 0, 1)
+```
+
+```
+[1] 1.167558
 ```
 
 Normal Distribution - R plots
