@@ -3,7 +3,7 @@
 Explore
 ========================================================
 author: Wim van der Ham
-date: 2018-05-30
+date: 2018-06-01
 autosize: true
 
 Explore - Work Flow
