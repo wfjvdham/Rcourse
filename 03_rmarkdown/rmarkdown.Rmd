@@ -1,11 +1,11 @@
 ---
 title: "R Notebook Demo"
 output:
+  html_notebook: default
   html_document:
     highlight: textmate
     theme: spacelab
     toc: yes
-  html_notebook: default
   pdf_document: default
 ---
 
@@ -14,7 +14,7 @@ output:
 This notebook demonstrates many R Notebook features. Ignore this first chunk for now; we'll come back to it.
 
 ```{r, include=FALSE}
-library(ggplot2)
+library(tidyverse)
 ```
 
 # Heading
@@ -57,8 +57,10 @@ Show only output
 ```{r echo_example, echo=FALSE}
 x <- rnorm(100)
 y <- 2*x + rnorm(100)
-cor(x, y)
+result <- cor(x, y)
 ```
+
+Show the result in a nice way in a sentence: `r `
 
 ## Include
 
@@ -121,7 +123,9 @@ Sys.sleep(1); runif(3)
 
 ### Alternate Engines
 
-By default, your R notebook chunks will be run using R. However, it's entirely possible to write chunks that use other engines to execute. For instance, you can add some Python to your notebook:
+By default, your R notebook chunks will be run using R. However, it's entirely possible to write chunks that use other engines to execute. For instance, you can add some Python to your notebook.
+
+**WARING python must be installed in order to be able to run this markdown. If you do not want to install python just comment out the next block**
 
 ```{r python, engine='python'}
 def fib(n):
