@@ -35,6 +35,7 @@ pew %>%
       income == "$30-40k" ~ 35000,
       income == "$40-50k" ~ 45000,
       income == "$50-75k" ~ 62500,
+      income == "$75-100k" ~ 87500,
       income == "$100-150k" ~ 125000,
       income == "$>150k" ~ 200000,
       TRUE ~ NA_real_
