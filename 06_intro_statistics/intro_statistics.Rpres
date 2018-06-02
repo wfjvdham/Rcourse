@@ -235,8 +235,9 @@ Normal Distribution - R
 ========================================================
 
 ```{r}
-dnorm(0, mean = 1, sd = 1)
-pnorm(1, mean = 0, sd = 1)
+dnorm(2, mean = 0, sd = 1)
+pnorm(0, mean = 0, sd = 1)
+rnorm(1, 0, 1)
 ```
 
 Normal Distribution - R plots
