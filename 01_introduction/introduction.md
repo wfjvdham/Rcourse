@@ -3,7 +3,7 @@
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-03-18
+date: 2018-06-02
 autosize: true
 
 About Myself
@@ -61,7 +61,7 @@ About R
 Style
 ========================================================  
 
-[The tidyverse style guide](http:http://style.tidyverse.org/)
+[The tidyverse style guide](http://style.tidyverse.org/)
 
 **Tools**
 
