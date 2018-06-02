@@ -1,4 +1,5 @@
 library(tidyverse)
+library(stringr)
 
 #tidyr examples
 who = as_data_frame(tidyr::who)
@@ -9,12 +10,17 @@ who1 <- who %>%
 who1
 
 #count them to identify the structure
-who1_count <- who1 %>% 
+who1_count <- who2 %>% 
+  group_by(key) %>%
+  summarise(n = n())
+
+# shortcut for counting groups
+who1_count <- who2 %>% 
   count(key)
 
 #rename the newrel column to make column names consistent
 who2 <- who1 %>% 
-  mutate(key = stringr::str_replace(key, "newrel", "new_rel"))
+  mutate(key = str_replace(key, "newrel", "new_rel"))
 who2
 
 #seperate the key value into columns
@@ -42,4 +48,12 @@ weather <- read_csv(
 )
 pew <- read_csv(
   "./datasets/pew.csv"
+)
+
+# What to do to remove the message when loading the data?
+weather <- read_csv(
+  "./datasets/weather.csv",
+  col_types = list(.default = col_integer(),
+                   id = col_character(),
+                   element = col_character())
 )
