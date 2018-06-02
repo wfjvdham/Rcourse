@@ -33,15 +33,15 @@ mod <- lm(arr_delay ~ dep_delay, data = flights)
 summary(mod)
 
 coef <- coef(mod)
-ggplot(flights, aes(dep_delay, arr_delay)) + 
-  geom_point() + 
+ggplot(flights) + 
+  geom_point(aes(dep_delay, arr_delay)) + 
   geom_abline(intercept = coef[1], slope = coef[2], color = "red")
 
 flights <- flights %>% 
   add_residuals(mod)
 
-ggplot(flights, aes(resid)) + 
-  geom_histogram()
+ggplot(flights) + 
+  geom_histogram(aes(resid))
 
 ggplot(flights, aes(arr_delay, resid)) + 
   geom_point() 
@@ -52,7 +52,7 @@ mod_origin <- lm(arr_delay ~ dep_delay + origin, flights)
 summary(mod_origin)
 summary(mod)
 
-anova(mod_origin, mod)
+anova(mod, mod_origin)
 
 glance(mod_origin)
 
