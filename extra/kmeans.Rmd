@@ -1,40 +1,49 @@
 ---
-title: "KMeans"
+title: "Kmeans and Mokking Scale Analysis"
 author: "Wim van der Ham"
 output: html_document
 ---
 
-```{r}
+```{r, setup, include=FALSE}
 library(tidyverse)
 library(broom)
-
-iris_df <- as_data_frame(iris)
-
-iris_train <- iris_df %>% 
-  select(-Species)
-
-kclust <- kmeans(iris_train, 2)
-
-iris_pred <- augment(kclust, iris)
-iris_pred %>%
-  count(Species, `.cluster`)
+library(mokken)
 ```
 
 
+Here an example of the `kmeans()` function is shown. The `iris` dataset is divided in clusters and the clusters are compared to the `Species` column. A wrapper function is used to make it easy to try different number of clusters.
 
 ```{r}
-library(mokken)
+iris_df <- as_data_frame(iris)
+
+kmeans_for_n_clusters <- function(data, n_clusters) {
+  iris_train <- data %>% 
+    dplyr::select(-Species)
+  
+  kclust <- kmeans(iris_train, n_clusters)
+  
+  iris_pred <- augment(kclust, iris)
+  iris_pred %>%
+    count(Species, `.cluster`)
+}
+kmeans_for_n_clusters(iris_df, 2)
+```
+
+# Mokken scaling
+
+[Mokken scaling](https://en.wikipedia.org/wiki/Mokken_scale) is part of the [Item response theory](https://en.wikipedia.org/wiki/Item_response_theory) and can be used to assess whether a number of items measure the same underlying concept. Here an example from the `mokken` package is used and the results are compared to the kmeans method.
+
+```{r}
 data(acl)
 
 Communality <- acl[, 1:10]
 
 scale <- aisp(Communality, verbose = FALSE)
-scale
 
 Communality_t <- t(Communality)
 
 kclust <- kmeans(Communality_t, 3)
-kclust
 
-Communality_pred <- augment(kclust, Communality_t)
+scale
+kclust
 ```
