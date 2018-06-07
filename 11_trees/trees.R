@@ -9,7 +9,7 @@ train = as_data_frame(titanic_train)
 # trees do not work with columns of the type string, so they need to be converted to factors
 # or removed from the data frame
 train_test_factor <- train %>%
-  mutate(inTrain = runif(nrow(train)) > 0.75) %>%
+  mutate(inTrain = runif(nrow(train)) < 0.75) %>%
   mutate(Survived = factor(Survived),
          Sex = factor(Sex),
          Embarked = factor(Embarked),
