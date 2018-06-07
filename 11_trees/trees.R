@@ -1,24 +1,50 @@
 library(tidyverse)
 library(randomForest)
 library(titanic)
+library(caret)
 library(party)
-library(modelr)
 
 train = as_data_frame(titanic_train)
-test = as_data_frame(titanic_test)
 
-# los proximos modelos no functionan con columnas de typo character (= string)
-# nosotros nesecitamos cambiar esos a factores o remover esas columnas
-train_factor <- train %>%
+# trees do not work with columns of the type string, so they need to be converted to factors
+# or removed from the data frame
+train_test_factor <- train %>%
+  mutate(inTrain = runif(nrow(train)) > 0.75) %>%
   mutate(Survived = factor(Survived),
          Sex = factor(Sex),
-         Embarked = factor(Embarked)) %>%
+         Embarked = factor(Embarked),
+         Age = ifelse(is.na(Age), mean(Age, na.rm = TRUE), Age)) %>%
   select(-Name, -Ticket, -Cabin)
 
-# titanic - model - tree
-# en este paquete para hacer trees no hay el parametro c pero hay el parametro mincriterion
-# el mas pequeno el mas profundo es el tree 
-# y el mas grande es la probabilidad para overfitting
+train_factor <- train_test_factor %>%
+  filter(inTrain == TRUE)
+
+test_factor <- train_test_factor %>%
+  filter(inTrain == FALSE)
+
+summary(train_factor)
+
+train_control <- trainControl(method = "cv", number = 5, savePredictions = TRUE)
+
+model <- train(Survived ~ ., data = train_factor, trControl = train_control, method = "rpart")
+summary(model)
+plot(model)
+rattle::fancyRpartPlot(model$finalModel)
+
+results <- test_factor %>%
+  mutate(predTreeCV = predict(model, test_factor)) %>%
+  select(predTreeCV, Survived)
+
+#acuracy
+sum(results$Survived == results$predTreeCV) / nrow(results)
+
+#Precision
+sum(results$Survived == 1 & results$predTreeCV == 1) / sum(results$predTreeCV == 1)
+
+#recall
+sum(results$Survived == 1 & results$predTreeCV == 1) / sum(results$Survived == 1)
+
+# For smaller values of mincriterion the tree will be bigger
 tree <- ctree(Survived ~ ., train_factor)
 plot(tree)
 
@@ -27,50 +53,32 @@ tree_overfitting <- ctree(Survived ~ .,
                           train_factor)
 plot(tree_overfitting)
 
-#IMPORTANTE las scores de los trees son muy altos. Esto es claremente overfitting
-train_factor <- train_factor %>%
-  mutate(predSurvived = predict(tree, train_factor))
+# the next trees give realy high scores so they are overfitted
+results <- results %>%
+  mutate(predTree = predict(tree, test_factor))
 
-table(train_factor$predSurvived, train_factor$Survived)
-sum(train_factor$predSurvived == train_factor$Survived) / nrow(train_factor)
+table(results$predTree, results$Survived)
+sum(results$predTree == results$Survived) / nrow(results)
 
-train_factor <- train_factor %>%
-  mutate(predSurvived = predict(tree_overfitting, train_factor))
+results <- results %>%
+  mutate(predTreeOverfitting = predict(tree_overfitting, test_factor))
 
-table(train_factor$predSurvived, train_factor$Survived)
-sum(train_factor$predSurvived == train_factor$Survived) / nrow(train_factor)
+table(results$predTreeOverfitting, results$Survived)
+sum(results$predTreeOverfitting == results$Survived) / nrow(results)
 
-#bagging
-sample(1:10, 10, replace = TRUE)
-
-titanic_train = as_data_frame(titanic_train) %>%
-  mutate(Name = factor(Name),
-         Sex = factor(Sex),
-         Ticket = factor(Ticket),
-         Cabin = factor(Cabin),
-         Embarked = factor(Embarked))  %>%
-  select(-Ticket, -Cabin, -Name) %>%
-  na.omit()
-
-summary(titanic_train)
-
-forrest_titanic <- randomForest(factor(Survived) ~ ., data=titanic_train, 
-                                do.trace = TRUE, importance=TRUE, ntree=2000)
+forrest_titanic <- randomForest(Survived ~ ., data = train_factor, 
+                                do.trace = TRUE, importance = TRUE, ntree = 200)
 varImpPlot(forrest_titanic)
 print(forrest_titanic)
 
-OOBpredictions <- predict(forrest_titanic)
-sum(titanic_train$Survived == OOBpredictions) / nrow(titanic_train)
-
-#errors forrrest on titanic
-titanic_train <- titanic_train %>%
-  add_predictions(forrest_titanic)
+results <- results %>%
+  mutate(predRandomForrest = predict(forrest_titanic, test_factor))
 
 #acuracy
-sum(titanic_train$Survived == titanic_train$pred) / nrow(titanic_train)
+sum(results$Survived == results$predRandomForrest) / nrow(results)
 
 #Precision
-sum(titanic_train$Survived == 1 & titanic_train$pred == 1) / sum(titanic_train$pred == 1)
+sum(results$Survived == 1 & results$predRandomForrest == 1) / sum(results$predRandomForrest == 1)
 
 #recall
-sum(titanic_train$Survived == 1 & titanic_train$pred == 1) / sum(titanic_train$Survived == 1)
+sum(results$Survived == 1 & results$predRandomForrest == 1) / sum(results$Survived == 1)
