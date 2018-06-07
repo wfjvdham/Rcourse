@@ -83,7 +83,7 @@ Random Forest
 
 - Combination of many imperfect Decision Trees
 - Bagging is used to create a random training set for every tree
-- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available
+- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available, this to have a bigger varinace between trees
 
 Out-of-Bag Error Estimation
 ========================================================
@@ -102,3 +102,12 @@ Regression and Classification
 
 - **Regression** average the predicted responses
 - **Classification** take a majority vote
+
+Examples
+========================================================
+
+Examples can be found in the `trees.R` file.
+
+Exersice
+========================================================
+

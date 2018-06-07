@@ -3,7 +3,7 @@
 Trees and Forests
 ========================================================
 author: Wim van der Ham
-date: 2018-05-28
+date: 2018-06-01
 autosize: true
 
 Overview
@@ -92,7 +92,7 @@ Random Forest
 
 - Combination of many imperfect Decision Trees
 - Bagging is used to create a random training set for every tree
-- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available
+- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available, this to have a bigger varinace between trees
 
 Out-of-Bag Error Estimation
 ========================================================
@@ -104,7 +104,7 @@ sample(1:10, replace = TRUE)
 ```
 
 ```
- [1]  3  3  6  8  3  6  6  1  7 10
+ [1] 6 4 4 5 8 5 7 7 4 3
 ```
 
 The data not used, *Out-of-Bag* can be used for validation
