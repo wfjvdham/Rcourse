@@ -3,7 +3,7 @@
 Trees and Forests
 ========================================================
 author: Wim van der Ham
-date: 2018-06-01
+date: 2018-06-07
 autosize: true
 
 Overview
@@ -19,7 +19,10 @@ Decision Trees
 - Devise the data in groups using a **top-down**, **greedy** method
 - Make the same prediction for every group, using the mean or the most occurred value of the group
 
-In R: `party::ctree()` or `rpart::rpart()`
+In R:
+
+* `party::ctree()`
+* `caret::train(..., method = "rpart")`
 
 Simple Example Tree
 ========================================================
@@ -92,7 +95,9 @@ Random Forest
 
 - Combination of many imperfect Decision Trees
 - Bagging is used to create a random training set for every tree
-- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available, this to have a bigger varinace between trees
+- For every split only a random subset of $m ≈ \sqrt{p}$ variables is available, this to have a bigger variance between trees
+
+In R: `randomForest::randomForest()`
 
 Out-of-Bag Error Estimation
 ========================================================
@@ -104,7 +109,7 @@ sample(1:10, replace = TRUE)
 ```
 
 ```
- [1] 6 4 4 5 8 5 7 7 4 3
+ [1] 9 8 5 9 5 6 1 1 8 1
 ```
 
 The data not used, *Out-of-Bag* can be used for validation
@@ -116,3 +121,20 @@ Regression and Classification
 
 - **Regression** average the predicted responses
 - **Classification** take a majority vote
+
+Examples
+========================================================
+
+Examples can be found in the `trees.R` file.
+
+Exercise
+========================================================
+
+Train a decision tree and a random forest to predict the arrival delay using the `flights` data. Use the same steps as in the example:
+
+1. Divide the data in a `train` and a `test` set
+1. Train your model on the `train` set
+1. evaluate the performance on the `test` set
+
+**NOTE** for the random forest use a small `train` set otherwise it will take a long time
+
