@@ -3,7 +3,7 @@
 Logistic Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-06-01
+date: 2018-06-08
 autosize: true
 
 Overview
@@ -35,7 +35,7 @@ Logistic Regression vs Linear Regression
 Explore with Graphics
 ========================================================
 
-![plot of chunk unnamed-chunk-2](log_reg-figure/unnamed-chunk-2-1.png)
+![plot of chunk bar_sex_sur](log_reg-figure/bar_sex_sur-1.png)
 
 Make the Model
 ========================================================
@@ -135,7 +135,7 @@ Use Model to make Predictions
 train <- train %>%
   mutate(
     prob = predict(
-      model_sex, 
+      model_sex, train,
       type = "response"
     ),
     pred = ifelse(
@@ -195,18 +195,25 @@ sum(train$pred == 1 & train$Survived == 1) / sum(train$Survived == 1)
 ROC curve
 ========================================================
 
+> The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR)
 
-```r
-library(Deducer)
-rocplot(model_sex)
-```
+This is usefull for comparing the overall performance of a model, sum-
+marized over all possible thresholds
 
-![plot of chunk unnamed-chunk-9](log_reg-figure/unnamed-chunk-9-1.png)
+ROC curve - Model Sex
+========================================================
+
+![plot of chunk roc_sex](log_reg-figure/roc_sex-1.png)
 
 ROC curve - Model Age & Sex
 ========================================================
 
-![plot of chunk unnamed-chunk-10](log_reg-figure/unnamed-chunk-10-1.png)
+![plot of chunk roc_age_sex](log_reg-figure/roc_age_sex-1.png)
+
+Accuracy for Different Cutoff values
+========================================================
+
+![plot of chunk acc_cutoff](log_reg-figure/acc_cutoff-1.png)
 
 Exercise
 ========================================================

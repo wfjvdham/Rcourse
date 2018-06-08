@@ -39,7 +39,7 @@ Logistic Regression vs Linear Regression
 Explore with Graphics
 ========================================================
 
-```{r, echo=FALSE}
+```{r bar_sex_sur, echo=FALSE}
 library(titanic)
 train <- as_data_frame(titanic_train)
 
@@ -143,20 +143,52 @@ sum(train$pred == 1 & train$Survived == 1) / sum(train$Survived == 1)
 ROC curve
 ========================================================
 
-```{r}
-library(Deducer)
-rocplot(model_sex)
+> The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR)
+
+This is usefull for comparing the overall performance of a model, sum-
+marized over all possible thresholds
+
+ROC curve - Model Sex
+========================================================
+
+```{r roc_sex, echo=FALSE}
+library(ROCR)
+prediction_object <- prediction(train$prob, train$Survived)
+plot(
+  performance(
+    prediction_object, 
+    "tpr", "fpr"
+  )
+)
 ```
 
 ROC curve - Model Age & Sex
 ========================================================
 
-```{r, echo=FALSE}
+```{r roc_age_sex, echo=FALSE}
 model_age <- glm(
   Survived ~ Age + Sex, 
   train, family = "binomial"
 ) 
-rocplot(model_age)
+prediction_object <- prediction(predict(model_age, train, type = "response"), train$Survived)
+plot(
+  performance(
+    prediction_object,
+    "tpr", "fpr"
+  )
+)
+```
+
+Accuracy for Different Cutoff values
+========================================================
+
+```{r acc_cutoff, echo=FALSE}
+plot(
+  performance(
+    prediction_object,
+    "acc"
+  )
+)
 ```
 
 Exercise
