@@ -3,32 +3,44 @@ title: "Read MySQL Example"
 output: html_notebook
 ---
 
-```{r, include=FALSE}
-# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
-# devtools::install_github("edgararuiz/dbplot")
-
+```{r setup, include=FALSE}
 library(odbc)
-
-odbcListDrivers()
-
 library(RMySQL)
 library(tidyverse)
+# httr::set_config( httr::config( ssl_verifypeer = 0L ) )
+# devtools::install_github("edgararuiz/dbplot")
 library(dbplot)
 library(nycflights13)
+```
 
-# service mysql start
+Here a ways of connecting R to a MySQL databse is shown. First check which driver are installed on your system. If there is no MySQL driver installed it can be downloaded [here](https://dev.mysql.com/downloads/connector/odbc/).
+
+```{r}
+odbcListDrivers()
+```
+
+After that we have to be sure that the MySQL database is running locally. On ubuntu you have to run this commando: `service mysql start`
+
+When MySQL is running we can connect to it using the `dbConnect()` function or by using the graphical interface in the connections tab.
+
+```{r}
 con <- dbConnect(MySQL(), user="root", password="test", dbname="new_schema", host="127.0.0.1")
 ```
 
-Three different options to get data from MySQL.
+When the connection is established there are 4 ways to get data from the database.
+
+1. Using `collect()` in a `dplyr` commando
+1. Using the `dbSendQuery()` function in combination with `fetch`
+1. Using the `dbGetQuery()` function
+1. Using an SQL code block in Rmarkdown 
 
 ```{r}
 pp_tbl <- tbl(con, "paris_paintings")
 # or tbl(con, in_schema("production", "paris_paintings")) if the table is not in the default schema
 
 result <- pp_tbl %>%
-  filter(lot == 2) #%>%
-  #collect() 
+  filter(lot == 2) %>%
+  collect() 
   # show_query()
 
 rs <- dbSendQuery(con, "select * from paris_paintings where lot = 2 limit 10;")
@@ -44,25 +56,27 @@ Read using SQL directly in Rmarkdown.
 SELECT * FROM paris_paintings WHERE lot = 2 LIMIT 10
 ```
 
-Write results back to a table in SQL.
+For writing data back to the database the `dbWriteTable()` can be used.
 
 ```{r}
 dbWriteTable(con, name = "test_results", value = result, overwrite = TRUE) 
 ```
 
-Using `dbplot`
+## dbplot
+
+Using `dbplot` to make the calculations for your plots on the databse. This way the amount of data that needs to be loaded in memory is reduced.
 
 ```{r}
 flights <- as_data_frame(flights)
 
-pp_tbl %>% 
-  dbplot_histogram(position)
+#pp_tbl %>% 
+#  dbplot_histogram(position)
 
 flights %>% 
   dbplot_histogram(sched_dep_time)
 
-pp_tbl %>%
-  dbplot_raster(position, price) 
+#pp_tbl %>%
+#  dbplot_raster(position, price) 
 
 flights %>%
   filter(!is.na(arr_delay)) %>%
@@ -75,7 +89,7 @@ pp_tbl %>%
   dbplot_line(price)
 ```
 
-Use `tidypredict` to use a model to calculate a prediction on the database level.
+Use `tidypredict` to make a model and a prediction on the database level.
 
 ```{r}
 library(tidypredict)
