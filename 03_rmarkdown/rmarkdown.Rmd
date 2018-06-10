@@ -58,9 +58,10 @@ Show only output
 x <- rnorm(100)
 y <- 2*x + rnorm(100)
 result <- cor(x, y)
+result
 ```
 
-Show the result in a nice way in a sentence: `r `
+Show the result in a nice way in a sentence: `r result`
 
 ## Include
 
@@ -74,12 +75,18 @@ cor(x, y)
 
 ## Hide
 
-Show only code
+Show the code and also run the code
 
-```{r hide_example, echo=TRUE, results='hide',warning=FALSE}
-x <- rnorm(100)
-y <- 2*x + rnorm(100)
-cor(x, y)
+```{r hide_run_example, echo=TRUE, results='hide',warning=FALSE}
+z <- rnorm(100)
+```
+
+Show the code but do not run it
+
+```{r hide_example, eval=FALSE}
+a <- rnorm(100)
+b <- 2*x + rnorm(100)
+cor(a, b)
 ```
 
 # Output Types
