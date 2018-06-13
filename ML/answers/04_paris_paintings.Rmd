@@ -10,8 +10,28 @@ pp <- read_csv("../datasets/paris_paintings.csv")
 
 1. Make a model to predict the `log(price)` using 1 numerical variable.
 
+```{r}
+model <- lm(logprice ~ Surface, pp)
+summary(model)
+```
+
 1. Make a model to predict the `log(price)` using 1 discrete variable with only 2 levels.
+
+```{r}
+model <- lm(logprice ~ artistliving, pp)
+summary(model)
+```
   
 1. Make a model to predict the `log(price)` using 1 discrete variable with more than 2 levels.
 
+```{r}
+model <- lm(logprice ~ origin_author, pp)
+summary(model)
+```
+
 1. Make a model to predict the `log(price)` using more than 1 variable.
+
+```{r}
+model <- lm(logprice ~ origin_author + Surface, pp)
+summary(model)
+```

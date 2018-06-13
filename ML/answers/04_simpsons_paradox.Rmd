@@ -1,6 +1,6 @@
 ---
-  title: "Simpson's paradox"
-  output: html_document
+title: "Simpson's paradox"
+output: html_document
 ---
 
 ```{r}
