@@ -6,18 +6,24 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-UCBAdmissions <- as_data_frame(UCBAdmissions)
+UCBAdmissions <- as_data_frame(UCBAdmissions) %>%
+  mutate(Admit = factor(Admit, levels = c("Rejected", "Admitted")))
 ```
+
+Aggregate data on applicants to graduate school at Berkeley for the six largest departments in 1973 classified by admission and sex.
 
 ```{r}
 UCBAdmissions
 ```
 
+Plot showing the ratio of rejection for differed genders. This plot suggests a bias in acceptance.
 
 ```{r}
 ggplot(UCBAdmissions, aes(Gender, n, fill = Admit)) +
   geom_bar(position = "fill", stat = "identity")
 ```
+
+Plot that shows the ratio of acceptance and rejection per gender per department. This shows that some departments are difficult to get in (C, D, E and especially F) while other are easier (A and B).
 
 ```{r}
 ggplot(UCBAdmissions, aes(Gender, n, fill = Admit)) +
@@ -25,14 +31,36 @@ ggplot(UCBAdmissions, aes(Gender, n, fill = Admit)) +
   facet_grid(. ~ Dept)
 ```
 
+Plot that shows the number of people applying to an department per gender. This shows that departments A and B are really popular for males while department C and F are more popular for females.
+
 ```{r}
 ggplot(UCBAdmissions, aes(Gender, n)) +
   geom_bar(position = "dodge", stat = "identity") +
   facet_grid(. ~ Dept)
 ```
 
+The conclusion that there is a bias is not valid in this case. A better conclusion is that males apply for easier departments than females.
+
+## Smoking is Healthy?
+
+Data on age, smoking, and mortality from a one-in-six survey of the electoral roll in Whickham, a mixed urban and rural district near Newcastle upon Tyne, in the UK. The survey was conducted in 1972-1974 to study heart disease and thyroid disease. A follow-up on those in the survey was conducted twenty years later.
+
+A data frame with 1314 observations on women for the following variables.
+
+* `outcome` survival status after 20 years: a factor with levels `Alive` `Dead`
+* `smoker` smoking status at baseline: a factor with levels `No` `Yes`
+* `age` age (in years) at the time of the first survey
+
 ```{r}
 library(mosaicData)
-Whickham <- as_data_frame(Whickham)
+Whickham <- as_data_frame(Whickham) %>%
+  mutate(outcome = factor(outcome, levels = c("Dead", "Alive")))
+Whickham
 ```
 
+The following plot suggests that smoking is healthy because more smokers are still alive. Show if this is a case of the Simpsons paradox or not.
+
+```{r}
+ggplot(Whickham) +
+  geom_bar(aes(smoker, fill = outcome), position = "fill")
+```

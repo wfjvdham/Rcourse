@@ -4,24 +4,30 @@ output: html_document
 ---
 
 ```{r}
-library(mosaicData)
 library(tidyverse)
-Whickham <- as_data_frame(Whickham)
+library(mosaicData)
+Whickham <- as_data_frame(Whickham) %>%
+  mutate(outcome = factor(outcome, levels = c("Dead", "Alive")))
+Whickham
 ```
 
 ```{r}
 ggplot(Whickham) +
-  geom_bar(aes(smoker, fill = outcome), position = "fill") 
+  geom_bar(aes(smoker, fill = outcome), position = "fill")
 ```
+
+When you divide this plot is groups you see a different pattern. Here in all the groups more non-smokers are alive than smokers.
 
 ```{r}
 ggplot(Whickham) +
   geom_bar(aes(smoker, fill = outcome), position = "fill") +
-  facet_wrap(~cut(age, c(0,44,64,Inf)))
+  facet_wrap(~ cut(age, c(0, 44, 64, Inf)))
 ```
+
+The next plot shows that in the group of people aged over 64 a large portion is not smoking. Probably because smoking is unhealthy and most smokers die before 64. 20 years later most of those people are dead so that explains why more smokers stay alive overall.
 
 ```{r}
 ggplot(Whickham) +
   geom_bar(aes(smoker)) +
-  facet_wrap(~cut(age, c(0,44,64,Inf)))
+  facet_wrap(~ cut(age, c(0, 44, 64, Inf)))
 ```
