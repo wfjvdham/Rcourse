@@ -28,8 +28,8 @@ scores <- page %>%
   html_text() %>%
   as.numeric()
 imdb_top_250 <- data_frame(
-  title = titles, 
-  year = years, 
+  title = titles,
+  year = years,
   score = scores[5:254]
   )
 imdb_top_250 <- imdb_top_250 %>%
@@ -38,31 +38,33 @@ imdb_top_250 <- imdb_top_250 %>%
   )
 ```
 
-# Cual peliculas de 1995 son en la lista?
+# Which movies from 1995 are on the list?
 
 ```{r}
-imdb_top_250 %>%
-  filter(year == 1995)
+
 ```
 
-# Cual ano tiene el mas peliculas en esta lista?
+# Which year has the most movies on this list?
 
 ```{r}
-imdb_top_250 %>% 
-  group_by(year) %>%
-  summarise(total = n()) %>%
-  arrange(desc(total)) %>%
-  head(5)
+
 ```
 
-# La promedia de score por ano
+# What is the average score per year?
 
 ```{r}
-imdb_top_250 %>% 
-  group_by(year) %>%
-  summarise(avg_score = mean(score)) %>%
-  ggplot(aes(y = avg_score, x = year)) +
-    geom_point() +
-    geom_smooth(method = "lm") +
-    xlab("year")
+
 ```
+
+# Exercise
+
+1. Scrape http://www.imdb.com/chart/tvmeter 100 rows and 4 columns: `rank`, `movie name`, `year` and `rating`
+
+1. For the first three movies scrape their pages for the following information.
+  - How many episodes so far
+  - First five plot keywords
+  - Genres
+  - Runtime
+  - Country
+  - Language
+
