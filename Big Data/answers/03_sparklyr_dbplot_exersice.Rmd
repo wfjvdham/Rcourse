@@ -20,35 +20,35 @@ sc <- spark_connect(master = "local", version = "2.1.0")
 spark_diamonds <- copy_to(sc, diamonds, "diamonds")
 ```
 
-# Mostrar la distribucion de `carat`
+# Show the distribution of `carat`
 
 ```{r}
 spark_diamonds %>%
   dbplot_histogram(carat)
 ```
 
-# Mostrar relacion entre `price` y `carat`
+# Show the relation between `price` y `carat`
 
 ```{r}
 spark_diamonds %>%
   dbplot_raster(carat, price)
 ```
 
-# Mostrar relacion entre `price`, `carat` y `x`
+# Show the relation between `price`, `carat` y `x`
 
 ```{r}
 spark_diamonds %>%
   dbplot_raster(carat, price, mean(x))
 ```
 
-# Mostrar la distribucion de `cut`
+# Show the distribution of `cut`
 
 ```{r}
 spark_diamonds %>%
   dbplot_bar(cut)
 ```
 
-# Mostrar relacion entre `price` y `cut`
+# Show the relation between `price` y `cut`
 
 ```{r}
 spark_diamonds %>%
