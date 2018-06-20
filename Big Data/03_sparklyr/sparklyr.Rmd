@@ -128,9 +128,9 @@ flights_table %>% head
 Use a spark write function to store the data in HDFS or s3.
 
 ```{r}
-  spark_write_csv(flights_table, "tmp.csv")
-  spark_write_parquet(flights_table, "tmp.parquet")
-  spark_write_json(flights_table, "tmp.json")
+  spark_write_csv(flights_table, "csv_files")
+  spark_write_parquet(flights_table, "parquet_files")
+  spark_write_json(flights_table, "json_files")
 ```
 
 ### show_query()
