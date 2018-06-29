@@ -3,7 +3,7 @@
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-06-02
+date: 2018-06-29
 autosize: true
 
 About Myself
@@ -19,9 +19,9 @@ Master Human Media Interaction (AI)
 
 **Experience:**
 
-- Randommonkey
-- Mercadoni
 - Quby
+- Mercadoni
+- Randommonkey
 - Teaching R and ML
 
 About You?
