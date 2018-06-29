@@ -1,20 +1,18 @@
 ---
 title: "Introducing sparklyr"
-output:
-  html_document:
-    df_print: paged
+output: html_document
 ---
 
 ## Setup
 
-- Install updated versions of `dplyr` and `sparklyr`
+- Install updated versions of `tidyverse` and `sparklyr`
 
 ```{r, eval = FALSE}
   install.packages("sparklyr")
-  install.packages("dplyr")
+  install.packages("tidyverse")
 ```
 
-- Load the libraries 
+- Load the libraries
 
 ```{r}
   library(sparklyr)
@@ -22,7 +20,8 @@ output:
 ```
 
 - Install Spark version 2.1.0 locally in your computer
-```{r}
+
+```{r, eval = FALSE}
   spark_install(version = "2.1.0")
 ```
 
@@ -35,14 +34,14 @@ We will use a custom configuration for the `sparklyr` connection, we are request
 
 ```{r}
   conf <- spark_config()
-  conf$`sparklyr.shell.driver-memory` <- "7G"  
-  conf$spark.memory.fraction <- 0.8 
+  conf$`sparklyr.shell.driver-memory` <- "7G" 
+  conf$spark.memory.fraction <- 0.8
 ```
 
 - Make sure to pass the `conf` variable as the value for the `config` argument
 - Navigate to http://127.0.0.1:4040/executors/
 - In the **Executors** section there is 5.1 GB of Storage Memory assigned (7 * 80%)
-- There are also 8 cores assigned
+- There are also 4 cores assigned
 
 ```{r}
   sc <- spark_connect(master = "local", config = conf, version = "2.1.0")
@@ -50,9 +49,7 @@ We will use a custom configuration for the `sparklyr` connection, we are request
 
 ## Copy data into Spark
 
-## File Setup
-
-To ensure reproducibility, this chunk downloads and save the needed files into the `data` folder.  The folder is created if it does not exist in your Workspace.
+`write_csv()` function can be used to write data from R to a csv file. After that the csv file can be imported.
 
 ```{r}
 library(nycflights13)
@@ -60,27 +57,22 @@ flights <- as_data_frame(flights)
 write_csv(flights, "./flights.csv", na = "NA")
 ```
 
-## Load data 
+## Load data
 
-This next line does the following:
-
-- Creates a new table in the Spark environment called `flights`
-- Points Spark to the `data` folder as its source
-- Asks that the data is not brought into Spark memory
-- Supplies the column names and tells Spark not to try to figure out the schema
+Creates a new table using the previously written csv file in the Spark environment called `flights`
 
 ```{r}
-sp_flights <- spark_read_csv(sc, 
-                             name = "flights", 
-                             path = "./flights.csv", 
+sp_flights <- spark_read_csv(sc,
+                             name = "flights",
+                             path = "./flights.csv",
                              memory = FALSE)
-sp_flights_memory <- spark_read_csv(sc, 
-                             name = "flights_mem", 
-                             path = "./flights.csv", 
+sp_flights_memory <- spark_read_csv(sc,
+                             name = "flights_mem",
+                             path = "./flights.csv",
                              memory = TRUE)
 ```
 
-- See http://127.0.0.1:4040/storage/, to confirm that there's nothing in Storage, yet
+- See http://127.0.0.1:4040/storage/, to confirm that only when `memory = TRUE` the file is in the Spark storage.
 
 ## Spark SQL
 
@@ -89,15 +81,15 @@ sp_flights_memory <- spark_read_csv(sc,
 
 ```{r}
   library(DBI)
-  
+ 
   top10 <- dbGetQuery(sc, "Select * from flights limit 10")
-  
+ 
   top10
 ```
 
 ### Use SQL in a code chunk
 
-- RMarkdown allows non-R chunks like SQL: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql 
+- RMarkdown allows non-R chunks like SQL: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#sql
 
 ```{sql, connection = sc}
   SELECT  * FROM flights WHERE origin = "EWR" LIMIT 10
@@ -112,18 +104,20 @@ sp_flights_memory <- spark_read_csv(sc,
 ### dplyr
 
 - Use `dplyr` verbs to interact with the data
+- Use `show_query()` to see the sql of the `dplyr` command
 
 ```{r}
 flights_table <- sp_flights %>%
   mutate(dep_delay = as.numeric(dep_delay),
          arr_delay = as.numeric(arr_delay),
          sched_dep_time = as.numeric(sched_dep_time)) %>%
-  select(origin, dest, sched_dep_time, sched_arr_time, arr_delay, dep_delay, month) 
-#%>%  show_query()
+  select(origin, dest, sched_dep_time, sched_arr_time,
+         arr_delay, dep_delay, month)
+# %>%  show_query()
 flights_table %>% head
 ```
 
-### Store Data 
+### Store Data
 
 Use a spark write function to store the data in HDFS or s3.
 
@@ -133,16 +127,6 @@ Use a spark write function to store the data in HDFS or s3.
   spark_write_json(flights_table, "json_files")
 ```
 
-### show_query()
-
-- Use `show_query()` to display what is the SQL query that `dplyr` will send to Spark
-
-```{r}
-  sp_flights  %>% 
-    head %>% 
-    show_query()
-```
-
 ### Compute
 
 -`compute()`  caches a Spark DataFrame into memory
@@ -150,7 +134,7 @@ Use a spark write function to store the data in HDFS or s3.
 - After the code below completes, see http://127.0.0.1:4040/storage/, the is a new table called `flights_subset`
 
 ```{r}
-  subset_table <- flights_table %>% 
+  subset_table <- flights_table %>%
     compute("flights_subset")
 ```
 
@@ -168,21 +152,21 @@ subset_table %>%
 
 ```{r}
 # Improved in sparklyr 0.6
-  sp_flights %>% 
-    sample_frac(0.0001) %>% 
+  sp_flights %>%
+    sample_frac(0.0001) %>%
     show_query()
 ```
 
 ```{r}
-  sp_flights %>% 
-    sample_frac(0.0001) %>% 
+  sp_flights %>%
+    sample_frac(0.0001) %>%
     group_by(Year) %>%
     tally
 ```
 
 ## Spark DataFrame (sdf) Functions
 
-### sdf_pivot() 
+### sdf_pivot()
 
 New in `sparklyr` 0.6! - Construct a pivot table over a Spark Dataframe, using a syntax similar to that from `reshape2::dcast()` and `tidyr::spread`
 
@@ -196,10 +180,10 @@ subset_table %>%
 ```{r}
 subset_table %>%
   filter(origin == "EWR" | origin == "JFK") %>%
-  sdf_pivot(origin~dest) 
+  sdf_pivot(origin~dest)
 ```
 
-## Feature Transformers (ft) 
+## Feature Transformers (ft)
 
 https://spark.apache.org/docs/latest/ml-features.html
 
@@ -210,7 +194,7 @@ https://spark.apache.org/docs/latest/ml-features.html
 
 ```{r}
 subset_table %>%
-  ft_binarizer(input.col =  "dep_delay", 
+  ft_binarizer(input.col =  "dep_delay",
                output.col = "delayed",
                threshold = 15) %>%
   head(200)
@@ -237,7 +221,7 @@ sample_data <- subset_table %>%
   filter(!is.na(dep_delay)) %>%
   ft_binarizer(input.col = "dep_delay",
                output.col = "delayed",
-               threshold = 30) %>% 
+               threshold = 30) %>%
   ft_bucketizer(input.col =  "sched_dep_time",
                 output.col = "DepHour",
                 splits = c(0, 400, 800, 1200, 1600, 2000, 2400)) %>%
@@ -249,19 +233,28 @@ sample_data <- subset_table %>%
   training <- compute(sample_data$training, "training")
 ```
 
-- A formula can be used for modeling, as in: `x ~ y + z` 
+- A formula can be used for modeling, as in: `x ~ y + z`
 
 ```{r}
-delayed_model <- ml_logistic_regression(training, delayed ~ dep_delay + DepHour) 
+delayed_model <- ml_logistic_regression(training, delayed ~ dep_delay + DepHour)
 summary(delayed_model)
+# or use ml_summary(delayed_model) for more details
 ```
 
 - We will use the `testing` sample to run predictions
 - It returns the same Spark DataFrame but with new columns
 
 ```{r}
-delayed_testing <- sdf_predict(delayed_model, sample_data$testing) 
+delayed_testing <- sdf_predict(sample_data$testing, delayed_model)
 delayed_testing %>% head
+```
+
+To explore this dataframe in R it must be imported first using `collect()`
+
+```{r}
+delayed_testing_r <- delayed_testing %>%
+  collect()
+delayed_testing_r$prediction
 ```
 
 - Let's see how the model performed
@@ -269,14 +262,14 @@ delayed_testing %>% head
 ```{r}
 delayed_testing %>%
   group_by(delayed, prediction) %>%
-  tally 
+  summarise(n = n())
 ```
 
 ## Distributed R
 
 `spark_apply()` applies an R function to a Spark object.  The R function runs over each RDD in Spark. Please read this article: https://spark.rstudio.com/articles/guides-distributed-r.html
 
-- The `training` Spark DataFrame has 8 partitions, `nrow()` will run in each partition 
+- The `training` Spark DataFrame has 4 partitions, `nrow()` will run in each partition
 
 ```{r}
   training %>%
@@ -303,3 +296,4 @@ spark_apply(
   names = c("term", "estimate", "std.error", "statistic", "p.value"),
   group_by = "origin")
 ```
+
