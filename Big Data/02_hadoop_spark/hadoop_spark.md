@@ -3,7 +3,7 @@
 Hadoop & Spark
 ========================================================
 author: Wim van der Ham
-date: 2018-06-19
+date: 2018-06-29
 autosize: true
 
 What is Hadoop?
