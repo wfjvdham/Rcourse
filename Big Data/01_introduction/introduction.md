@@ -3,7 +3,7 @@
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-06-18
+date: 2018-06-29
 autosize: true
 
 What is Big Data?
@@ -32,7 +32,7 @@ Data > RAM
 Subset
 ========================================================
 
-Take only a part of your data to annelyze
+Take only a part of your data to analyze
 
 * Limit the number of variables
 * Limit the time period
