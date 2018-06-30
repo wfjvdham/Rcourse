@@ -112,7 +112,7 @@ flights_table <- sp_flights %>%
          arr_delay = as.numeric(arr_delay),
          sched_dep_time = as.numeric(sched_dep_time)) %>%
   select(origin, dest, sched_dep_time, sched_arr_time,
-         arr_delay, dep_delay, month)
+         arr_delay, dep_delay, month, distance)
 # %>%  show_query()
 flights_table %>% head
 ```
@@ -263,6 +263,34 @@ delayed_testing_r$prediction
 delayed_testing %>%
   group_by(delayed, prediction) %>%
   summarise(n = n())
+```
+
+## dbplot
+
+https://db.rstudio.com/dbplot/
+
+```{r}
+library(dbplot)
+
+flights_table %>% 
+  dbplot_histogram(sched_dep_time)
+
+flights_table %>%
+  filter(!is.na(arr_delay)) %>%
+  dbplot_raster(arr_delay, dep_delay) 
+
+flights_table %>%
+  filter(!is.na(arr_delay)) %>%
+  dbplot_raster(arr_delay, dep_delay, mean(distance, na.rm = TRUE)) 
+
+flights_table %>%
+  dbplot_bar(origin)
+
+flights_table %>%
+  dbplot_line(month)
+
+flights_table %>%
+  dbplot_boxplot(origin, dep_delay)
 ```
 
 ## Distributed R
