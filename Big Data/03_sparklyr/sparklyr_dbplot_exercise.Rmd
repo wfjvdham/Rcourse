@@ -1,12 +1,11 @@
 ---
-title: "dbplot exersice"
+title: "dbplot exercise"
 output: 
   html_document: default
 ---
 
 ```{r setup, include=FALSE}
 library(sparklyr)
-# devtools::install_github("edgararuiz/dbplot")
 library(dbplot)
 library(tidyverse)
 ```
