@@ -1,5 +1,18 @@
+---
+title: "Sparklyr Exercise"
+author: "Wim van der Ham"
+date: "29 de junio de 2018"
+output: html_document
+---
+
+# Exercise
+
+Make a linear model using the `mtcars` data. Predict the `mpg` using `wt` and `cyl`.
+
+## Connect with Spark
+
+```{r}
 library(sparklyr)
-library(dplyr)
 library(tidyverse)
 
 conf <- spark_config()
@@ -7,21 +20,33 @@ conf$`sparklyr.shell.driver-memory` <- "7G"
 conf$spark.memory.fraction <- 0.8 
 
 sc <- spark_connect(master = "local", config = conf, version = "2.1.0")
+```
 
-#other ml to practice
-# copy mtcars into spark
+## Copy mtcars into Spark
+
+```{r}
 mtcars_tbl <- copy_to(sc, mtcars)
+```
 
-# transform our data set, and then partition into 'training', 'test'
+## Partition into 'training' and 'test' set
+
+```{r}
 partitions <- mtcars_tbl %>%
-  filter(hp >= 100) %>%
-  mutate(cyl8 = cyl == 8) %>%
   sdf_partition(training = 0.5, test = 0.5, seed = 1099)
+```
 
-# fit a linear model to the training dataset
+## Fit a linear model to the training set
+
+```{r}
 fit <- partitions$training %>%
   ml_linear_regression(response = "mpg", features = c("wt", "cyl"))
+```
 
+## Eveluate on the 'test' set
+
+```{r}
 prediction <- sdf_predict(fit, partitions$testing) 
 prediction %>% 
   select(mpg, prediction)
+```
+
