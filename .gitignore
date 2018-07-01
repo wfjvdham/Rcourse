@@ -2,6 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-derby.log
-log4j.spark.log
-rmarkdown.nb.html
+rcourse.Rproj
