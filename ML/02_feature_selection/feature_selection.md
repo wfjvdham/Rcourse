@@ -3,7 +3,7 @@
 Feature Selection
 ========================================================
 author: Wim van der Ham
-date: 2018-05-27
+date: 2018-09-02
 autosize: true
 
 Feature Selection
@@ -70,3 +70,8 @@ Examples
 ========================================================
 
 Examples can be found in the `feature_selection.R` file.
+
+Exercise
+========================================================
+
+Do the same as in the example but for the `flights` dataset
