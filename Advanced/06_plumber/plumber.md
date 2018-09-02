@@ -3,7 +3,7 @@
 Plumber
 ========================================================
 author: Wim van der Ham
-date: 2018-09-01
+date: 2018-09-02
 autosize: true
 
 What is an API?
@@ -14,7 +14,8 @@ Computer friendly website
 - Serves a computer friendly file format (json)
 - Can be called from many languages, platforms and browsers
 
-  - [`httr`](https://github.com/r-lib/httr) package for accesing API's from R
+  - [`httr`](https://github.com/r-lib/httr) package for accessing API's from R
+  - An example of accessing an API using `httr` can be found in the `twitter.R` file 
   
 Example Endpoint
 ========================================================
