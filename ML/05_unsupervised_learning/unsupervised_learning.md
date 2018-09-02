@@ -1,0 +1,39 @@
+
+
+Unsupervised Learning
+========================================================
+author: Wim van der Ham
+date: 2018-09-02
+autosize: true
+
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
+
+Unsupervised Learning
+========================================================
+
+> Unsupervised learning is used when you do not want to predict anything but want to understand your data better. It is much harder than supervised learning because there is no simple goal.
+
+It answers questions like:
+
+- Is there an informative way to visualize the data? 
+- Can we discover subgroups among the variables or among the observations?
+
+Unsupervised Learning
+========================================================
+
+In this chapter we will discuss two different techniques:
+
+1. [principal components analysis](https://en.wikipedia.org/wiki/Principal_component_analysis), a tool
+used for data visualization or data pre-processing
+1. [clustering](https://en.wikipedia.org/wiki/Cluster_analysis), a broad class of methods for discovering
+unknown subgroups in data
+
+PCA
+========================================================
+
+TODO continue from 10.2 Principal Components Analysis
+
+![Two Principal Components Directed allong the Greates Variation](./pca.jpg)
