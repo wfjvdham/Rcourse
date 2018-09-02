@@ -1,0 +1,48 @@
+---
+title: "Tidy evaluation Practice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+```
+
+# Data preparation
+
+We use a sample of the flights data and put all the column names in the columns variable.
+
+```{r}
+flights_sample <- flights %>%
+  sample_n(1000)
+
+columns <- names(flights_sample)
+```
+
+1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
+
+```{r}
+plot_arr_delay_variable <- function(data, variable) {
+  variable <- enquo(variable)
+  
+  ggplot(data) +
+    geom_point(aes(arr_delay, !!variable))
+}
+plot_arr_delay_variable(flights_sample, dep_delay)
+```
+
+
+2. Write a for loop that calculates the mean value of every column in the dataset.
+
+```{r}
+dfs <- vector("list", length(columns))
+
+for (i in seq_along(columns)) {
+  col <- sym(columns[[i]])
+  dfs[[i]] <- flights_sample %>%
+    summarise(avg = mean(!!col, na.rm = TRUE))
+}
+
+set_names(dfs, columns)
+```
+
