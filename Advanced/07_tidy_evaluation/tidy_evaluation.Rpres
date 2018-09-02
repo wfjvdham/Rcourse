@@ -1,0 +1,284 @@
+```{r, include=FALSE}
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+date <- date(now())
+```
+
+Tidy Evaluation
+========================================================
+author: Wim van der Ham
+date: `r date`
+autosize: true
+
+Example of Duplication
+========================================================
+
+```{r, eval=FALSE}
+df1 %>% group_by(x1) %>% 
+  summarise(mean = mean(y1))
+df2 %>% group_by(x2) %>% 
+  summarise(mean = mean(y2))
+df3 %>% group_by(x3) %>% 
+  summarise(mean = mean(y3))
+df4 %>% group_by(x4) %>% 
+  summarise(mean = mean(y4))
+```
+
+Write a Function to Reduce Duplication
+========================================================
+
+```{r}
+grouped_mean <- function(data, group_var, summary_var) {
+  data %>%
+    group_by(group_var) %>%
+    summarise(mean = mean(summary_var))
+}
+```
+
+But does not Work...
+========================================================
+
+```{r, eval=FALSE}
+grouped_mean(mtcars, cyl, mpg)
+```
+
+What Works
+========================================================
+
+```{r}
+grouped_mean <- function(data, group_var, summary_var) {
+  group_var <- enquo(group_var)
+  summary_var <- enquo(summary_var)
+  data %>%
+    group_by(!!group_var) %>%
+    summarise(mean = mean(!!summary_var))
+}
+```
+
+```{r}
+grouped_mean(mtcars, cyl, mpg)
+```
+
+Why?
+========================================================
+
+R has two types of functions
+
+1. **Evaluation functions**, takes the values of the arguments
+1. **Quoting functions**, takes the expression itself for later evaluation
+
+Examples of an Evaluation Function
+========================================================
+
+```{r}
+identity(6)
+identity(2 * 3)
+a <- 2
+b <- 3
+identity(a * b)
+```
+
+Examples of an Quoting Function
+========================================================
+
+```{r}
+quote(6)
+quote(2 * 3)
+quote(a * b)
+```
+
+***
+
+```{r}
+~2 * 3
+"a * b"
+```
+
+Probably you know this Already
+========================================================
+
+**Quoting function**
+
+```{r}
+mtcars$mpg
+```
+
+***
+
+**Evaluating function**
+
+```{r}
+var <- "mpg"
+mtcars[[var]]
+```
+
+Is a Function is Evaluating or Quoting?
+========================================================
+
+**Quoting**
+
+```{r, eval=FALSE}
+temp <- "dplyr"
+library(temp)
+```
+
+```{r, eval=FALSE}
+temp <- cyl == 4
+mtcars %>%
+  filter(temp)
+```
+
+```{r, eval=FALSE}
+mtcars2 <- mtcars
+temp <- "mtcars2"
+rm(temp)
+
+exists("mtcars2")
+exists("temp")
+```
+
+***
+
+**Evaluating**
+
+```{r, eval=FALSE}
+temp <- mtcars$am
+sum(temp)
+```
+
+Ok, so what now?
+========================================================
+
+Evaluating functions are easier to use because they support both direct and indirect references.
+
+**But** most functions in the `tidyverse` are quoting functions.
+
+For quoting functions we need the ability of unquoting arguments.
+
+Quoting Variable
+========================================================
+
+```{r}
+x_var <- quote(cyl)
+y_var <- quote(mpg)
+
+x_var
+y_var
+```
+
+Unquoting in dplyr
+========================================================
+
+```{r}
+mtcars %>%
+  group_by(!!x_var) %>% 
+  summarise(mean = mean(!!y_var))
+```
+
+Unquoting in ggplot
+========================================================
+
+```{r}
+ggplot(mtcars) +  
+  geom_point(aes(!!x_var, !!y_var))
+```
+
+Unquoting in ggplot for facet_wrap()
+========================================================
+
+```{r}
+ggplot(mtcars, aes(disp, drat)) +
+  geom_point() +
+  facet_grid(vars(!!x_var))
+```
+
+qq_show() for debugging dplyr
+========================================================
+
+```{r}
+rlang::qq_show(
+  mtcars %>% 
+  group_by(!!x_var)
+)
+rlang::qq_show(
+  mtcars %>% 
+  summarise(mean = mean(!!y_var))
+)
+```
+
+qq_show() for debugging ggplot
+========================================================
+
+```{r}
+rlang::qq_show(
+  ggplot(mtcars, aes(!!x_var, !!y_var))
+)
+rlang::qq_show(
+  facet_grid(vars(!!x_var))
+)
+```
+
+quote() vs enquo()
+========================================================
+
+While `quote()` quotes what *you* typed, `enquo()` quotes what your *user* typed. In other words it makes an argument automatically quote its input.
+
+This works
+========================================================
+
+```{r}
+grouped_mean <- function(data, group_var, summary_var) {
+  group_var <- enquo(group_var)
+  summary_var <- enquo(summary_var)
+  data %>%
+    group_by(!!group_var) %>%
+    summarise(mean = mean(!!summary_var))
+}
+```
+
+```{r}
+grouped_mean(mtcars, cyl, mpg)
+```
+
+Quoting for Strings
+========================================================
+
+These are **different**:
+
+```{r}
+"height"
+quote(height)
+```
+
+***
+
+These are the **same**:
+
+```{r}
+sym("height")
+quote(height)
+```
+
+Grouped Function that Accepts Strings
+========================================================
+
+```{r}
+grouped_mean2 <- function(data, group_var, summary_var) {
+  group_var <- sym(group_var)
+  summary_var <- sym(summary_var)
+
+  data %>%
+    group_by(!!group_var) %>%
+    summarise(mean = mean(!!summary_var))
+}
+grouped_mean2(mtcars, "cyl", "mpg")
+```
+
+Exercise
+========================================================
+
+Use the `flights` dataset from the `nycflights13` package
+
+1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
+1. Write a for loop that calculates the mean value of every column in the dataset.
