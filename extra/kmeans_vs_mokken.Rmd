@@ -1,7 +1,7 @@
 ---
 title: "Kmeans and Mokking Scale Analysis"
 author: "Wim van der Ham"
-output: html_document
+output: github_document
 ---
 
 ```{r, setup, include=FALSE}
@@ -9,7 +9,6 @@ library(tidyverse)
 library(broom)
 library(mokken)
 ```
-
 
 Here an example of the `kmeans()` function is shown. The `iris` dataset is divided in clusters and the clusters are compared to the `Species` column. A wrapper function is used to make it easy to try different number of clusters.
 
