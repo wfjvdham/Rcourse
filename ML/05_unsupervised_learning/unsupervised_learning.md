@@ -3,7 +3,7 @@
 Unsupervised Learning
 ========================================================
 author: Wim van der Ham
-date: 2018-09-02
+date: 2018-09-03
 autosize: true
 
 Overview
@@ -34,6 +34,66 @@ unknown subgroups in data
 PCA
 ========================================================
 
-TODO continue from 10.2 Principal Components Analysis
+> Allows to summarize a data set with less variables that still explin most of the variation in the data
+
+When the number of variables in the dataset is big it van be difficult to visualize the data. PCA reduces the number of variables while stil showing most of the variation in the data.
+
+PCA - Example Graph
+========================================================
 
 ![Two Principal Components Directed allong the Greates Variation](./pca.jpg)
+
+PCA - USA Arrest Example
+========================================================
+
+Scaling and centering the variables around zero is required to calculate unbiased components
+
+
+```r
+pca <- prcomp(
+  USArrests, 
+  center = TRUE, 
+  scale. = TRUE
+)
+```
+
+Plotting the Result - Code
+========================================================
+
+
+```r
+library(ggfortify)
+autoplot(
+  pca, shape = FALSE, 
+  label.size = 3,
+  loadings = TRUE, loadings.colour = 'blue',
+  loadings.label = TRUE, 
+  loadings.label.size = 3
+)
+```
+
+Plotting the Result - Graph
+========================================================
+
+![plot of chunk unnamed-chunk-4](unsupervised_learning-figure/unnamed-chunk-4-1.png)
+
+Clustering
+========================================================
+
+> Make groups of observations that are similar to each other
+
+Here we will explain two methods:
+
+1. [k-means clustering](https://en.wikipedia.org/wiki/K-means_clustering)
+1. [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
+
+k-means clustering
+========================================================
+
+TODO 10.3.1 K-Means Clustering
+
+Exercise
+========================================================
+
+1. Plot the first two principal components for the `iris` dataset and explain what for information you can get from this graph.
+1. Try to cluster the `iris` dataset and check if it comes close to the actual `Species` label.
