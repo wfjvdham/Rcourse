@@ -8,6 +8,9 @@ iris <- as_data_frame(iris)
 regfit <- regsubsets(Sepal.Length ~ ., iris, method = "forward", nvmax = 19)
 regfit_backward <- regsubsets(Sepal.Length ~ ., iris, method = "backward", nvmax = 19)
 
+model <- lm(Sepal.Length ~ ., data = iris)
+step_model <- step(model)
+
 summary_regfit <- summary(regfit)
 summary_regfit
 summary(regfit_backward)
