@@ -33,7 +33,7 @@ flights %>%
   group_by(carrier) %>%
   summarise(medianDistance = median(distance)) %>%
   filter(carrier == "DL") %>%
-  select(medianDistance) 
+  pluck("medianDistance") 
 
 #El destino mas popular en Enero 2013?
 flights %>%
@@ -42,7 +42,7 @@ flights %>%
   summarise(n = n()) %>%
   arrange(desc(n)) %>%
   slice(1) %>%
-  select(dest)
+  pluck("dest")
 
 #Mostrar en un gráfico si hay mas vuelos en retraso o a tiempo
 flights %>%
