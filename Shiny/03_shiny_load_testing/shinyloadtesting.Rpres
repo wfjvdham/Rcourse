@@ -1,0 +1,19 @@
+```{r, include=FALSE}
+library(lubridate)
+date <- date(now())
+```
+
+Shiny Load Testing
+========================================================
+author: Wim van der Ham
+date: `r date`
+autosize: true
+
+Packages
+========================================================
+
+For load testing a Shiny app the following packages are usefull:
+
+- [`shinyloadtest`](https://github.com/rstudio/shinyloadtest) for recording and analysis
+
+- [`shinycannon`](https://github.com/rstudio/shinycannon) for creating load
