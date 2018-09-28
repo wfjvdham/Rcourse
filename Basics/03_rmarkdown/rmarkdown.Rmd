@@ -15,6 +15,7 @@ This notebook demonstrates many R Notebook features. Ignore this first chunk for
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(kableExtra)
 ```
 
 # Heading
@@ -38,6 +39,10 @@ library(tidyverse)
 [link](http://www.google.com)
 
 # Options for Chunck
+
+*italic*
+
+**bold**
 
 ## Cache
 
@@ -134,14 +139,14 @@ By default, your R notebook chunks will be run using R. However, it's entirely p
 
 **WARING python must be installed in order to be able to run this markdown. If you do not want to install python just comment out the next block**
 
-```{r python, engine='python'}
-def fib(n):
-    a, b = 0, 1
-    for _ in xrange(n):
-        yield a
-        a, b = b, a + b
-print list(fib(11))
-```
+<!-- ```{r python, engine='python'} -->
+<!-- def fib(n): -->
+<!--     a, b = 0, 1 -->
+<!--     for _ in xrange(n): -->
+<!--         yield a -->
+<!--         a, b = b, a + b -->
+<!-- print list(fib(11)) -->
+<!-- ``` -->
 
 Try using the [Feather](https://github.com/wesm/feather) package for R and Python to transfer data between them.
 

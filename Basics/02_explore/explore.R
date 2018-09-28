@@ -39,7 +39,7 @@ ggplot(train) +
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
-  facet_wrap(~ Survived)
+  facet_wrap(Pclass ~ Survived, ncol = 2)
 
 ggplot(train) + 
   geom_bar(aes(Sex)) +
@@ -58,22 +58,29 @@ ggplot(train) +
   ylim(0, 100)
 
 ggplot(train) + 
+  geom_boxplot(aes(factor(Pclass), Fare)) + 
+  coord_cartesian(ylim = c(0, 100))
+
+ggplot(train) + 
   geom_histogram(aes(Fare))
 
 ggplot(train) + 
-  geom_bar(aes(cut(Fare, c(-1, 50, 100, 1000)))) +
+  geom_histogram(aes(Fare), binwidth = 100)
+
+ggplot(train) + 
+  geom_bar(aes(cut(Fare, c(-Inf, 50, 100, Inf)))) +
   facet_wrap(Sex ~ Survived)
 
 # add lines
 
 ggplot(train) + 
   geom_point(aes(x = Fare, y = Age)) +
-  geom_vline(aes(xintercept = 40))  +
-  geom_hline(aes(yintercept = 60))
+  geom_vline(aes(xintercept = mean(Fare))) +
+  geom_hline(aes(yintercept = mean(Age, na.rm = TRUE)))
 
 # dplyr examples
 train_male <- train %>% 
-  filter(Sex == "male")
+  filter(Sex == "male") 
 
 ggplot(train_male) + 
   geom_bar(aes(Sex))
@@ -116,6 +123,9 @@ train %>%
 train %>%
   group_by(Sex) %>%
   summarise(n = n())
+
+train %>%
+  count(Sex)
 
 train %>%
   group_by(Sex) %>%
