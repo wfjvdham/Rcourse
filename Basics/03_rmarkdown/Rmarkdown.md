@@ -3,7 +3,7 @@
 Rmarkdown
 ========================================================
 author: Wim van der Ham
-date: 2018-05-31
+date: 2018-09-28
 autosize: true
 
 Ways of Working With R

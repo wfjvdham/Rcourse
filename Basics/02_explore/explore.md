@@ -3,7 +3,7 @@
 Explore
 ========================================================
 author: Wim van der Ham
-date: 2018-06-01
+date: 2018-09-28
 autosize: true
 
 Explore - Work Flow
@@ -115,7 +115,7 @@ Exercise - Questions 2
 ========================================================
 
 1. What is the median of the distance of all the flights with carrier `DL`?
-1. What is the most popular destination in januari 2013?
+1. What is the most popular destination in January 2013?
 1. Show in a graph if more flights are delayed or on time.
 1. Show in a graph what the most popular times are for a flight to take off.
 1. Show the distribution of the arrival delay. What can you say about this variable?
@@ -126,7 +126,7 @@ Exercise - Questions 2 with Tips
 1. What is the median of the distance of all the flights with carrier `DL`?
 
   `summarise(meanDistance = median(distance))`
-1. What is the most popular destination in januari 2013?
+1. What is the most popular destination in January 2013?
 
   `filter -> group_by -> summerise -> arrange`
 1. Show in a graph if more flights are delayed or on time.
