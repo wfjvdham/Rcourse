@@ -11,7 +11,7 @@ summary(flights)
 #Cuantos vuelvos hay el 1 Enero 2013?
 flights %>%
   filter(year == 2013 & month == 1 & day == 1) %>%
-  nrow
+  nrow()
 
 #la distancia más grande en km! y con cual aeropuerto?
 flights %>%
@@ -24,7 +24,7 @@ flights %>%
 flights %>%
   group_by(dest) %>%
   summarise(n = n()) %>%
-  nrow
+  nrow()
 
 n_distinct(flights$dest)
 
@@ -47,11 +47,15 @@ flights %>%
 #Mostrar en un gráfico si hay mas vuelos en retraso o a tiempo
 flights %>%
   mutate(delayed = arr_delay > 0) %>%
-  na.omit %>%
+  na.omit() %>%
   ggplot() +
   geom_bar(aes(delayed))
 
-if_else(arr_delay > 0, "true", "false")
+flights %>%
+  mutate(delayed = if_else(arr_delay > 0, "vertraagd", "niet vertraagd")) %>%
+  na.omit() %>%
+  ggplot() +
+  geom_bar(aes(delayed))
 
 #Cuales son los tiempos mas populares para salir?
 ggplot(flights) +
