@@ -65,4 +65,3 @@ Optimize your App
 
 1. Add more resources
 1. Profile your app and improve code
-
