@@ -30,6 +30,12 @@ Here the most important sources used for this course are mentioned.
 - https://github.com/rstudio/shiny-examples
 - https://rstudio.github.io/shinydashboard/
 
+## R Package
+
+- https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/
+- https://kbroman.org/pkg_primer/
+- http://r-pkgs.had.co.nz/
+
 ## Statistics
 
 - https://www.mathsisfun.com
@@ -74,7 +80,3 @@ Here the most important sources used for this course are mentioned.
 
 - https://www.kaggle.com/
 - https://trevorstephens.com/kaggle-titanic-tutorial/getting-started-with-r/
-
-## Neural Networks
-
-- https://www.ai-junkie.com/ann/evolved/nnt1.html
