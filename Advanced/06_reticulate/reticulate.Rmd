@@ -4,34 +4,126 @@ output: html_notebook
 ---
 
 ```{r}
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 library(reticulate)
+library(titanic)
+
+train <- as_data_frame(titanic_train)
 py_config()
 ```
 
 ```{python}
-import pandas
-file_name = "http://samplecsvs.s3.amazonaws.com/SalesJan2009.csv"
-df = pandas.read_csv(file_name)
-print(df.head())
-```
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-```{r}
-ggplot(py$df) + geom_bar(aes(Payment_Type))
-```
+# importing data from r
+titanic_df = r.train
 
-```{r}
-grouped <- tibble(card = py$df$Payment_Type) %>% 
-  group_by(card) %>% 
-  summarize(total = n())
+# inspecting data
+titanic_df.info()
 ```
 
 ```{python}
-import matplotlib.pyplot as plt
-print(r.grouped)
-plt.figure()
-plt.bar(r.grouped.card, r.grouped.total)
+titanic_df.head(5)
+titanic_df.isnull().sum()
+titanic_df.describe()
+titanic_df.dtypes
+```
+
+```{python}
+plt.clf()
+plt.scatter(titanic_df['Fare'], titanic_df['Age'])
 plt.show()
 ```
+
+```{python}
+plt.clf()
+titanic_df.plot(x='Fare', y='Age', kind='scatter')
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.regplot(x='Fare', y='Age', data=titanic_df)
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.regplot(x='Fare', y='Age', data=titanic_df, fit_reg=False)
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.lmplot(x='Fare', y='Age', data=titanic_df, hue='Pclass', fit_reg=False)
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.lmplot(x='Fare', y='Age', data=titanic_df, col='Pclass', row='Survived', fit_reg=False)
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.barplot(x='Sex', y='Survived', data=titanic_df)
+plt.show()
+```
+
+```{python}
+plt.clf()
+cts = titanic_df.Sex.value_counts()
+cts.plot(kind='bar')
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.countplot(x='Sex', data=titanic_df)
+plt.show()
+```
+
+```{python}
+plt.clf()
+titanic_df.boxplot(column='Fare', by='Pclass')
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.boxplot(x='Pclass', y='Fare', data=titanic_df)
+plt.show()
+```
+
+```{python}
+plt.clf()
+plt.hist(titanic_df['Fare'])
+plt.show()
+```
+
+```{python}
+plt.clf()
+titanic_df.Fare.plot(kind='hist')
+plt.show()
+```
+
+```{python}
+plt.clf()
+sns.distplot(titanic_df['Fare'])
+plt.show()
+```
+
+```{python}
+plt.clf()
+fig, ax = plt.subplots(1, 1)
+ax.scatter(titanic_df['Fare'], titanic_df['Age'])
+ax.set_title('Age and Fare')
+ax.set_xlabel('Fare')
+ax.set_ylabel('Age')
+plt.show()
+```
+
 
