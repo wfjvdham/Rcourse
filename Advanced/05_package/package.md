@@ -106,7 +106,7 @@ Version Control
 1. Periodically save numbered zip files (or *.tar.gz files)
 1. Use a formal version control system, like github
 
-Exersice
+Exercise
 ========================================================
 
 Create a package with minimal 2 functions that passes the checks of `devtools` and `goodpractice`
