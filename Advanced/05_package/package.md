@@ -3,7 +3,7 @@
 Creating Packages in R
 ========================================================
 author: Wim van der Ham
-date: 2018-09-29
+date: 2018-09-30
 autosize: true
 
 Why Create a Package?
@@ -29,7 +29,6 @@ Optional:
 
 - [`goodpractice`](http://mangothecat.github.io/goodpractice/) package that gives you advise on the quality of your package
 - [`testthat`](http://testthat.r-lib.org/) package for writing tests
-- [`usethis`](http://usethis.r-lib.org/) package for setting up package configuration and tests
 
 How to start?
 ========================================================
@@ -44,6 +43,7 @@ Structure
 - **NAMESPACE** file, file created by `roxygen2` to prevent namespace conflicts
 - **R** folder, containing all the R code for the package
 - **man** folder, containing the documentation of the package
+- **test** folder, containing the tests
 
 Filling out the DESCRIPTION file
 ========================================================
@@ -78,15 +78,26 @@ Every line of `roxygen` documentation starts with `#' `
 
 The export line means that this function should be exported and that everybody using this package can access the function
 
+Tests
+========================================================
+
+1. Add the initial test setup by running `devtools::use_testthat()`. A test folder will appear.
+1. Add a `test-*.R` file in the `testthat` folder for every function
+1. Use the `test_that()` function for every test
+
+Optional:
+
+For CI you can use [travis](https://travis-ci.org/). This can be configures easily using `devtools::use_travis()`
+
 Flow
 ========================================================
 
-- `devtools::document()`
-- `devtools::check()`
-- `goodpractice::gp()`
-- `devtools::test()`
-- `devtools::build()`
-- `devtools::install()`
+- `devtools::document()` generates the documentation
+- `devtools::check()` checks the package for errors and warnings
+- `goodpractice::gp()` checks the package for good practices
+- `devtools::test()` runs the tests
+- `devtools::build()` builds the package, generates a zip of tar.gz file
+- `devtools::install()` installs and loads the package, it now can be used locally
 
 Version Control
 ========================================================
