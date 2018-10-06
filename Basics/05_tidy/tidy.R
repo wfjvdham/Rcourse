@@ -10,7 +10,7 @@ who1 <- who %>%
 who1
 
 #count them to identify the structure
-who1_count <- who2 %>% 
+who1_count <- who1 %>% 
   group_by(key) %>%
   summarise(n = n())
 

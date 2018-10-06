@@ -1,9 +1,9 @@
 
 
-tidy
+Tidy
 ========================================================
 author: Wim van der Ham
-date: 2018-05-31
+date: 2018-10-05
 autosize: true
 
 Tidy Data
