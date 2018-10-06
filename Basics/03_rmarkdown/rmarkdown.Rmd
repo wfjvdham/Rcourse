@@ -49,11 +49,15 @@ library(kableExtra)
 Show both
 
 ```{r, cache=TRUE}
-for (i in 1:5000) {
-    lm((i+1)~i)
-}
-6+9
+# for (i in 1:5000) {
+#     lm((i+1)~i)
+# }
+x <- 6 + 9
+
+number_rows <- nrow(iris)
 ```
+
+x is **`r number_rows`**
 
 ## Echo
 
@@ -199,5 +203,4 @@ If you open the `.nb.html` file in a web browser, you'll see an option to downlo
 # Further reading
 
 [R Notebook Reference](http://rmarkdown.rstudio.com/r_notebooks.html)
-
 
