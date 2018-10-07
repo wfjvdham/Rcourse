@@ -54,8 +54,8 @@ Show when the flights left at 2 january 2013.
 ```{r}
 flights_dt %>% 
   filter(date(dep_time) == ymd(20130102)) %>% 
-  ggplot(aes(dep_time)) + 
-  geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
+  ggplot() + 
+  geom_freqpoly(aes(dep_time), binwidth = 600) # 600 s = 10 minutes
 ```
 
 Show the `sched_dep_time` of all the flights per minute. Are some minutes more populair for scheduling a flight?
@@ -67,8 +67,8 @@ flights_dt %>%
   summarise(
     avg_delay = mean(arr_delay, na.rm = TRUE),
     n = n()) %>%
-  ggplot(aes(minute, n)) +
-  geom_line()
+  ggplot() +
+  geom_line(aes(minute, n))
 ```
 
 The next table show flights that have an arrival time that is before the departure time. How is this possible? Fix the error using a time period.
