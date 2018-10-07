@@ -20,8 +20,11 @@ weather %>%
   summarise(avg_min = mean(TMIN),
             avg_max = mean(TMAX)) %>%
   gather(2:3, key="temptype", value="temp") %>%
-  ggplot(aes(x=factor(month), y=temp, fill=temptype)) +
-  geom_bar(position="dodge", stat="identity") +
+  ggplot() +
+  geom_bar(
+    aes(x=factor(month), y=temp, fill=temptype), 
+    position="dodge", stat="identity"
+  ) +
   labs(title = "Average min and max temperature per month", x = "month")
 
 unique(pew$income)
@@ -50,4 +53,5 @@ pew %>%
   # geom_bar(aes(fct_reorder(religion, avg_income), avg_income), stat = "identity") +
   # geom_bar(aes(reorder(religion, avg_income), avg_income), stat = "identity") +
   geom_bar(aes(religion, avg_income), stat = "identity") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+  # coord_flip() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
