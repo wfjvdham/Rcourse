@@ -1,0 +1,116 @@
+---
+title: "Using quantiles with dplyr"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r, echo=TRUE}
+mtcars %>% 
+  mutate(
+    quantile_95 = quantile(mpg, 0.95),
+    qntl = if_else(mpg < quantile_95, "95%", "5%")
+  ) %>%
+  group_by(qntl) %>%
+  summarise(mean = mean(mpg), n = n())
+```
+
+```{r, eval=FALSE}
+## Syntax datum en versie
+syntax_datum <- "2018-09-25"
+syntax_versie <- "3.0"
+
+## Packages inladen
+library(base)
+library(car)
+library(chron)
+library(class)
+library(datasets)
+library(date)
+library(graphics)
+library(grDevices)
+library(MASS)
+library(utils)
+library(methods)
+library(stats)
+library(tidyverse)
+
+## Dataset DGOA ovariumcarcinoom inladen
+if (get0("schema",ifnotfound = "false") == "false")
+{
+  setwd("S:/Afdelingen/PROMs/Registraties/DGOA/Basisrapportage/Merge")
+  csvfile = "dgoao_merge.csv"
+  df <- read.csv(csvfile, header = TRUE, sep=";")
+}
+names(df) <- tolower(names(df))
+
+## EORTC subschaal seksualiteit
+# Item 25 t/m 28; 2 of 4 items; item range 3
+# Als vraag 26 = 1 (helemaal niet), dan schaal berekenen over vraag 25 en 26
+# Hoe hoger de totaal score, hoe beter de seksualiteit
+
+df$eortcqlqov28_q25x <- as.integer(car::recode(df$eortcqlqov28_q25, "1=1; 2=2; 3=3; 4=4; else=NA"))
+df$eortcqlqov28_q25_ingevuld <- car::recode(df$eortcqlqov28_q25x, "else=1; NA=0")
+df$eortcqlqov28_q26x <- as.integer(car::recode(df$eortcqlqov28_q26, "1=1; 2=2; 3=3; 4=4; else=NA"))
+df$eortcqlqov28_q26_kort_ingevuld <- as.integer(car::recode(df$eortcqlqov28_q26x, "1=1; else=0"))
+
+df$seks_kort_ingevuld <- df$eortcqlqov28_q25_ingevuld + df$eortcqlqov28_q26_kort_ingevuld
+df$eortc_seks_kort_ruw <- (df$eortcqlqov28_q25x + df$eortcqlqov28_q26_kort_ingevuld) / df$seks_kort_ingevuld
+df$eortc_seks_kort <- ((df$eortc_seks_kort_ruw - 1) / 3) * 100
+
+# Als vraag 26 = 2 (een beetje), 3 (nogal) of 4 (heel erg), dan schaal berekenen over vraag 25 t/m 28
+# Hercoderen vraag 28 want als enige anders om gescoord; 1=4, 2=3, 3=2, 4=1
+df$eortcqlqov28_q26xx <- as.integer(car::recode(df$eortcqlqov28_q26, "2=2; 3=3; 4=4; else=NA"))
+df$eortcqlqov28_q27x <-  as.integer(car::recode(df$eortcqlqov28_q27, "1=1; 2=2; 3=3; 4=4; else=NA"))
+df$eortcqlqov28_q28x <-  as.integer(car::recode(df$eortcqlqov28_q28, "1=4; 2=3; 3=2; 4=1; else=NA"))
+df$eortcqlqov28_q26_lang_ingevuld <- car::recode(df$eortcqlqov28_q26xx, "NA=0; 1=0; else=1")
+df$eortcqlqov28_q27_ingevuld <-      car::recode(df$eortcqlqov28_q27x, "NA=0; else=1")
+df$eortcqlqov28_q28_ingevuld <-      car::recode(df$eortcqlqov28_q28x, "NA=0; else=1")
+
+df$seks_lang_ingevuld <- df$eortcqlqov28_q25_ingevuld + df$eortcqlqov28_q26_lang_ingevuld + df$eortcqlqov28_q27_ingevuld + df$eortcqlqov28_q28_ingevuld
+
+df$eortc_seks_lang_ruw <- (df$eortcqlqov28_q25x + df$eortcqlqov28_q26xx + df$eortcqlqov28_q27x + df$eortcqlqov28_q28x) / df$seks_lang_ingevuld
+
+df$eortc_seks_lang <- ((df$eortc_seks_lang_ruw  - 1) / 3) * 100
+
+# Hoe hoger de totaal score, hoe beter de seksualiteit
+df$eortc_sex_ov_totaal_kort_ingevuld <- as.integer(car::recode(df$eortc_seks_kort, "NA=0"))
+df$eortc_sex_ov_totaal_lang_ingevuld <- as.integer(car::recode(df$eortc_seks_lang, "NA=0"))
+df$eortc_sex_ov_totaal <- (df$eortc_sex_ov_totaal_kort_ingevuld + df$eortc_sex_ov_totaal_lang_ingevuld)
+```
+
+```{r}
+read_csv(
+  "../datasets/pew.csv",
+  col_types = list(
+    religion = col_character(),
+    `<$10k` = col_integer(),
+    `$10-20k` = col_integer(),
+    `$20-30k` = col_integer(),
+    `$30-40k` = col_integer(),
+    `$40-50k` = col_integer(),
+    `$50-75k` = col_integer(),
+    `$75-100k` = col_integer(),
+    `$100-150k` = col_integer(),
+    `>150k` = col_integer(),
+    `Don't,know/refused` = col_integer()
+  ))
+
+df %>%
+  mutate(
+    eortcqlqov28_q25x = if_else(
+      eortcqlqov28_q25x <= 5 & eortcqlqov28_q25x > 0,
+      eortcqlqov28_q25x,
+      NA
+    ),
+    eortcqlqov28_q26x = if_else(
+      eortcqlqov28_q26x <= 5 & eortcqlqov28_q26x > 0,
+      eortcqlqov28_q26x,
+      NA
+    ),
+    seks_kort_ingevuld = !is.na(eortcqlqov28_q25x) & eortcqlqov28_q26x == 1
+  )
+```
+
