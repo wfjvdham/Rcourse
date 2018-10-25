@@ -38,6 +38,7 @@ Here the most important sources used for this course are mentioned.
 
 ## Statistics
 
+- https://medium.com/open-machine-learning-course
 - https://www.mathsisfun.com
 
 ### Books
