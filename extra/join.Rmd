@@ -1,6 +1,6 @@
 ---
 title: "Joining Data Frames"
-output: html_notebook
+output: github_document
 ---
 
 For joining data frames you can use the `merge()` function of the join functions from the `dplyr` package. The last ones have the following advantages^[See [here](https://groups.google.com/forum/#!topic/manipulatr/OuAPC4VyfIc)] above the `merge()` function:
