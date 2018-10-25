@@ -65,7 +65,7 @@ flights_factors <- flights %>%
   na.omit()
 
 #lm for arr_delay
-model_lm_all = lm(arr_delay ~ ., flights_factors)
+model_lm_all <- lm(arr_delay ~ ., flights_factors)
 summary(model_lm_all)
 anova(model_lm_all)
 
