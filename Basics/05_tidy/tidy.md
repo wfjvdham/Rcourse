@@ -3,7 +3,7 @@
 Tidy
 ========================================================
 author: Wim van der Ham
-date: 2018-10-05
+date: 2018-10-26
 autosize: true
 
 Tidy Data
@@ -26,10 +26,28 @@ Gather
 
 ![gather](./gather.jpg)
 
+Gather - Arguments
+========================================================
+
+
+```r
+df %>%
+  gather("key", "value", <selection of columns>)
+```
+
 Spread
 ========================================================
 
 ![spread](./spread.jpg)
+
+Spread - Arguments
+========================================================
+
+
+```r
+df %>%
+  spread(<name of the key column>, <name of the value column>)
+```
 
 Separate
 ========================================================

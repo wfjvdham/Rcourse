@@ -1,5 +1,6 @@
 ```{r, include=FALSE}
 library(lubridate)
+library(tidyverse)
 date <- date(now())
 ```
 
@@ -29,10 +30,26 @@ Gather
 
 ![gather](./gather.jpg)
 
+Gather - Arguments
+========================================================
+
+```{r, eval=FALSE}
+df %>%
+  gather("key", "value", <selection of columns>)
+```
+
 Spread
 ========================================================
 
 ![spread](./spread.jpg)
+
+Spread - Arguments
+========================================================
+
+```{r, eval=FALSE}
+df %>%
+  spread(<name of the key column>, <name of the value column>)
+```
 
 Separate
 ========================================================
