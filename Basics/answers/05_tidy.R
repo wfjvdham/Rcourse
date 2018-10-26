@@ -55,3 +55,25 @@ pew %>%
   geom_bar(aes(religion, avg_income), stat = "identity") +
   # coord_flip() +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+data_dictionary <- tibble(
+  column_name = c(rep("geslacht", 3), rep("commal1", 4)),
+  value = c(1, 2, 3, 1, 2, 3, 4),
+  description = c(
+    "Man", "Vrouw", "Ongedifferentieerd", "Ja, actueel",
+    "Ja, curatief behandeld < 5j geleden", "Ja, curatief behandeld > 5j geleden",
+    "Ja, palliatief behandeld"
+  )
+)
+
+data <- tibble(
+  patient_id = seq(1, 8), 
+  geslacht = c(1, 2, 3, 1, 2, 3, 1, 2),
+  commal1 = c(1, 2, 3, 4, 1, 2, 3, 4)
+)
+
+data_description <- data %>%
+  gather("column_name", "value", -patient_id) %>%
+  left_join(data_dictionary, by = c("column_name", "value")) %>%
+  select(-value) %>%
+  spread(column_name, description)
