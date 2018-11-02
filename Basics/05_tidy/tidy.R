@@ -2,11 +2,11 @@ library(tidyverse)
 library(stringr)
 
 #tidyr examples
-who = as_data_frame(tidyr::who)
+who <- as_data_frame(tidyr::who)
 
 #gather all the columns with treathments codes
 who1 <- who %>% 
-  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
+  gather("key", "value", new_sp_m014:newrel_f65, na.rm = TRUE)
 who1
 
 #count them to identify the structure
@@ -15,7 +15,7 @@ who1_count <- who1 %>%
   summarise(n = n())
 
 # shortcut for counting groups
-who1_count <- who2 %>% 
+who2_count <- who2 %>% 
   count(key)
 
 #rename the newrel column to make column names consistent
