@@ -27,6 +27,18 @@ weather %>%
   ) +
   labs(title = "Average min and max temperature per month", x = "month")
 
+# Example without gather
+weather %>%
+  group_by(month) %>%
+  summarise(avg_min = mean(TMIN),
+            avg_max = mean(TMAX)) %>%
+  ggplot() +
+  geom_point(aes(factor(month), avg_min), stat = "identity", color = "blue") +
+  geom_point(aes(factor(month), avg_max), stat = "identity", color = "red") +
+  ylim(0, 400) +
+  labs(title = "Average min and max temperature per month", 
+       x = "month", y = "Average temperature")
+
 unique(pew$income)
 
 pew %>%
@@ -51,10 +63,10 @@ pew %>%
   mutate(avg_income = total_estimated_income / n_people) %>%
   ggplot() +
   # geom_bar(aes(fct_reorder(religion, avg_income), avg_income), stat = "identity") +
-  # geom_bar(aes(reorder(religion, avg_income), avg_income), stat = "identity") +
-  geom_bar(aes(religion, avg_income), stat = "identity") +
-  # coord_flip() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  geom_bar(aes(reorder(religion, avg_income), avg_income), stat = "identity") +
+  # geom_bar(aes(religion, avg_income), stat = "identity") +
+  coord_flip()
+  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 
 data_dictionary <- tibble(
   column_name = c(rep("geslacht", 3), rep("commal1", 4)),
