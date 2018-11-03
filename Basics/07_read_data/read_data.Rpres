@@ -1,13 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-library(tidyverse)
-date <- date(now())
-```
-
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Reading Data from File
@@ -25,6 +18,7 @@ stringsAsFactors
 - They by default convert `strings` to `factors` because of old R memory usage
 
 ```{r, eval=FALSE}
+library(tidyverse)
 paris_paintings_old <- read.csv(
   "./datasets/paris_paintings.csv", 
   stringsAsFactors = TRUE

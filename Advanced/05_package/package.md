@@ -1,9 +1,6 @@
-
-
 Creating Packages in R
 ========================================================
 author: Wim van der Ham
-date: 2018-09-30
 autosize: true
 
 Why Create a Package?

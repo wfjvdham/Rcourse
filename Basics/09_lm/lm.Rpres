@@ -1,14 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-library(modelr)
-library(tidyverse)
-date <- date(now())
-```
-
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Overview
@@ -33,6 +25,8 @@ Check with the Eye
 ========================================================
 
 ```{r, echo=FALSE}
+library(modelr)
+library(tidyverse)
 ggplot(sim1) + 
   geom_point(aes(x, y))
 ```

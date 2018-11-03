@@ -1,9 +1,6 @@
-
-
 Resampling
 ========================================================
 author: Wim van der Ham
-date: 2018-06-01
 autosize: true
 
 Resampling
@@ -87,7 +84,7 @@ sample(1:10, 10, replace = TRUE)
 ```
 
 ```
- [1]  9  1  8  8  6  9 10  4  3  7
+ [1] 7 6 1 9 7 2 7 2 3 7
 ```
 
 Example

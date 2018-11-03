@@ -1,9 +1,6 @@
-
-
 Logistic Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-10-25
 autosize: true
 
 Overview

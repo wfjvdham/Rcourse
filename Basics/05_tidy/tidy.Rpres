@@ -1,13 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-library(tidyverse)
-date <- date(now())
-```
-
 Tidy
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Tidy Data
@@ -34,6 +27,7 @@ Gather - Arguments
 ========================================================
 
 ```{r, eval=FALSE}
+library(tidyverse)
 df %>%
   gather("key", "value", <selection of columns>)
 ```

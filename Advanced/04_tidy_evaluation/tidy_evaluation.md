@@ -1,9 +1,6 @@
-
-
 Tidy Evaluation
 ========================================================
 author: Wim van der Ham
-date: 2018-09-02
 autosize: true
 
 Example of Duplication
@@ -26,6 +23,7 @@ Write a Function to Reduce Duplication
 
 
 ```r
+library(tidyverse)
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%
@@ -284,7 +282,7 @@ ggplot(mtcars) +
   geom_point(aes(!!x_var, !!y_var))
 ```
 
-![plot of chunk unnamed-chunk-18](tidy_evaluation-figure/unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-17](tidy_evaluation-figure/unnamed-chunk-17-1.png)
 
 Unquoting in ggplot for facet_wrap()
 ========================================================
@@ -296,7 +294,7 @@ ggplot(mtcars, aes(disp, drat)) +
   facet_grid(vars(!!x_var))
 ```
 
-![plot of chunk unnamed-chunk-19](tidy_evaluation-figure/unnamed-chunk-19-1.png)
+![plot of chunk unnamed-chunk-18](tidy_evaluation-figure/unnamed-chunk-18-1.png)
 
 qq_show() for debugging dplyr
 ========================================================

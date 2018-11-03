@@ -1,9 +1,6 @@
-
-
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-11-02
 autosize: true
 
 About Myself

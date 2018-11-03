@@ -1,9 +1,6 @@
-
-
 Explore
 ========================================================
 author: Wim van der Ham
-date: 2018-10-05
 autosize: true
 
 Explore - Work Flow
@@ -52,6 +49,7 @@ sin(sqrt(log(10)))
 
 
 ```r
+library(tidyverse)
 10 %>%
   log %>%
   sqrt %>%

@@ -1,13 +1,6 @@
-```{r, include=FALSE}
-library(tidyverse)
-library(lubridate)
-date <- date(now())
-```
-
 Unsupervised Learning
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Overview
@@ -53,6 +46,7 @@ PCA - USA Arrest Example
 Scaling and centering the variables around zero is required to calculate unbiased components
 
 ```{r}
+library(tidyverse)
 pca <- prcomp(
   USArrests, 
   center = TRUE, 

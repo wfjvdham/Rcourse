@@ -1,9 +1,6 @@
-
-
 Plumber
 ========================================================
 author: Wim van der Ham
-date: 2018-09-02
 autosize: true
 
 What is an API?

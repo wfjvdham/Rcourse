@@ -1,14 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-library(dplyr)
-library(ggplot2)
-date <- date(now())
-```
-
 Tidy Evaluation
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Example of Duplication
@@ -29,6 +21,7 @@ Write a Function to Reduce Duplication
 ========================================================
 
 ```{r}
+library(tidyverse)
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%

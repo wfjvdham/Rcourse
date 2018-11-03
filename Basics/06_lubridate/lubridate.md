@@ -1,9 +1,6 @@
-
-
 lubridate
 ========================================================
 author: Wim van der Ham
-date: 2018-10-12
 autosize: true
 
 Dates and Times in R
@@ -29,11 +26,12 @@ Today and Now
 
 
 ```r
+library(lubridate)
 today()
 ```
 
 ```
-[1] "2018-10-12"
+[1] "2018-11-03"
 ```
 
 ```r
@@ -41,7 +39,7 @@ now()
 ```
 
 ```
-[1] "2018-10-12 08:52:08 CEST"
+[1] "2018-11-03 15:20:14 CET"
 ```
 
 Components

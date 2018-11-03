@@ -1,9 +1,6 @@
-
-
 Linear Regression
 ========================================================
 author: Wim van der Ham
-date: 2018-06-01
 autosize: true
 
 Overview
@@ -27,7 +24,7 @@ In R: `lm()`
 Check with the Eye
 ========================================================
 
-![plot of chunk unnamed-chunk-2](lm-figure/unnamed-chunk-2-1.png)
+![plot of chunk unnamed-chunk-1](lm-figure/unnamed-chunk-1-1.png)
 
 Make Model
 ========================================================
@@ -165,17 +162,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Check Model Graphically
 ========================================================
 
-![plot of chunk unnamed-chunk-7](lm-figure/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-6](lm-figure/unnamed-chunk-6-1.png)
 
 Check Residuals Distribution
 ========================================================
 
-![plot of chunk unnamed-chunk-8](lm-figure/unnamed-chunk-8-1.png)
+![plot of chunk unnamed-chunk-7](lm-figure/unnamed-chunk-7-1.png)
 
 Check Residuals
 ========================================================
 
-![plot of chunk unnamed-chunk-9](lm-figure/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-8](lm-figure/unnamed-chunk-8-1.png)
 
 Exercise - Load the Data
 ========================================================

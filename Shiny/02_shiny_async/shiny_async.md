@@ -1,9 +1,6 @@
-
-
 Shiny Async
 ========================================================
 author: Wim van der Ham
-date: 2018-06-13
 autosize: true
 
 Async Programming

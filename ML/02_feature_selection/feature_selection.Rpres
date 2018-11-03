@@ -1,12 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-date <- date(now())
-```
-
 Feature Selection
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Feature Selection

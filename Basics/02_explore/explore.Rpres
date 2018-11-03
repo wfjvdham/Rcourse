@@ -1,13 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-library(tidyverse)
-date <- date(now())
-```
-
 Explore
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Explore - Work Flow
@@ -50,6 +43,7 @@ sin(sqrt(log(10)))
 ```
 
 ```{r}
+library(tidyverse)
 10 %>%
   log %>%
   sqrt %>%

@@ -1,12 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-date <- date(now())
-```
-
 Shiny Load Testing
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Software

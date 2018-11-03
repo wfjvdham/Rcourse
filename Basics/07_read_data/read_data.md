@@ -1,9 +1,6 @@
-
-
 Reading Data
 ========================================================
 author: Wim van der Ham
-date: 2018-11-02
 autosize: true
 
 Reading Data from File
@@ -22,6 +19,7 @@ stringsAsFactors
 
 
 ```r
+library(tidyverse)
 paris_paintings_old <- read.csv(
   "./datasets/paris_paintings.csv", 
   stringsAsFactors = TRUE

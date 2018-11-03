@@ -1,9 +1,6 @@
-
-
 Introduction
 ========================================================
 author: Wim van der Ham
-date: 2018-06-29
 autosize: true
 
 What is Big Data?
@@ -56,12 +53,12 @@ It does not make sense to plot all data because it will not give a clear image.
 
 ***
 
-![plot of chunk unnamed-chunk-2](introduction-figure/unnamed-chunk-2-1.png)
+![plot of chunk unnamed-chunk-1](introduction-figure/unnamed-chunk-1-1.png)
 
 Making Graphics - Using Summaries
 ========================================================
 
-![plot of chunk unnamed-chunk-3](introduction-figure/unnamed-chunk-3-1.png)
+![plot of chunk unnamed-chunk-2](introduction-figure/unnamed-chunk-2-1.png)
 
 Making Graphics - Using Summaries
 ========================================================

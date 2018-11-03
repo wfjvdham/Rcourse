@@ -1,7 +1,6 @@
 Trees and Forests
 ========================================================
 author: Wim van der Ham
-date: 2018-10-19
 autosize: true
 
 Overview
@@ -107,7 +106,7 @@ sample(1:10, replace = TRUE)
 ```
 
 ```
- [1] 9 3 3 9 3 9 6 6 5 9
+ [1]  5  9  3  4 10  6  5  4  7  7
 ```
 
 The data not used, *Out-of-Bag* can be used for validation

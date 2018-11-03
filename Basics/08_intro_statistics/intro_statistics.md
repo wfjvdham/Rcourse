@@ -1,9 +1,6 @@
-
-
 Introductory Statistics
 ========================================================
 author: Wim van der Ham
-date: 2018-06-02
 autosize: true
 
 Type of Data Collection
@@ -137,8 +134,8 @@ Research question:
 # A tibble: 2 x 3
   cat       success failure
   <chr>       <dbl>   <dbl>
-1 control       56.     19.
-2 treatment     41.     34.
+1 control        56      19
+2 treatment      41      34
 ```
 
 Point Estimate
@@ -192,7 +189,7 @@ mean(simulated_point_estimates$value)
 Distribution
 ========================================================
 
-![plot of chunk unnamed-chunk-11](intro_statistics-figure/unnamed-chunk-11-1.png)
+![plot of chunk unnamed-chunk-10](intro_statistics-figure/unnamed-chunk-10-1.png)
 
 ***
 
@@ -268,11 +265,11 @@ rnorm(1, 0, 1)
 Normal Distribution - R plots
 ========================================================
 
-![plot of chunk unnamed-chunk-13](intro_statistics-figure/unnamed-chunk-13-1.png)
+![plot of chunk unnamed-chunk-12](intro_statistics-figure/unnamed-chunk-12-1.png)
 
 ***
 
-![plot of chunk unnamed-chunk-14](intro_statistics-figure/unnamed-chunk-14-1.png)
+![plot of chunk unnamed-chunk-13](intro_statistics-figure/unnamed-chunk-13-1.png)
 
 Z - score
 ========================================================

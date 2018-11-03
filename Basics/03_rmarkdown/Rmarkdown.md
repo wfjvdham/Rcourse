@@ -1,9 +1,6 @@
-
-
 Rmarkdown
 ========================================================
 author: Wim van der Ham
-date: 2018-11-02
 autosize: true
 
 Ways of Working With R
@@ -99,6 +96,7 @@ Extracting R code from a Markdown file
 
 
 ```r
+library(knitr)
 purl(
   "./03_rmarkdown/rmarkdown.Rmd", 
   output = "./03_rmarkdown/test.R", 

@@ -1,12 +1,6 @@
-```{r, include=FALSE}
-library(lubridate)
-date <- date(now())
-```
-
 Creating Packages in R
 ========================================================
 author: Wim van der Ham
-date: `r date`
 autosize: true
 
 Why Create a Package?

@@ -1,9 +1,6 @@
-
-
 Shiny Load Testing
 ========================================================
 author: Wim van der Ham
-date: 2018-09-29
 autosize: true
 
 Software
