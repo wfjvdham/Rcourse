@@ -8,14 +8,18 @@ library(tidyverse)
 diamonds <- as_data_frame(diamonds)
 ```
 
-1. Describe the distribution of the `price` variable
+1. Show the distribution of the `price` variable in a plot.
 
-1. How many diamonts are there per type?
+1. How many diamonts are there per `cut`?
 
-1. Show the relation between the `depht` and `price` only for the `fair` diamonds.
+1. Show the relation between the `carat` and `price` only for the `fair` diamonds.
+
+1. Now show the relationship between the `carat` and `price` for all the different type of cuts in one graph.
 
 1. For every type of diamond calculate the following variables:
   * minimal `price`
   * maximal `price`
   * mean `price`
   * median `price`
+  
+1. Calculate the average price per `cut` and show the averages in a graph.
