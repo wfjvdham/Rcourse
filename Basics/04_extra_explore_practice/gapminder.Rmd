@@ -13,7 +13,7 @@ gapminder <- as_data_frame(gapminder)
 
 1. Which country had the highest life expectancy in **1952**?
 
-1. Make a plot of the life expectancy (`lifeExp`) vs. population (`pop`).
+1. Make a plot of the life expectancy (`lifeExp`) vs. population (`pop`) in **1952**.
 
 1. Change the color of the country depending on the continent.
 
