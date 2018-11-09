@@ -1,0 +1,76 @@
+---
+title: "Funnel plot"
+output: github_document
+---
+
+A [funnel plot](https://en.wikipedia.org/wiki/Funnel_plot) is a plot that shows how much a single observation is deviated from the total mean. Also a confidence interval is show so you can see if the deviation of an observation is significant. The confidence interval depends on the number of observations. 
+
+# Dummy Data
+
+First a sample data set is created. This example is about patients who have some treatment in a hospital and after this treatment have an event or not. Event can be complication death or something else depending on the application.
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r}
+df <- tibble(
+  patient_id = 1:100,
+  hospital_id = sample(15, 100, replace = TRUE),
+  event = rep(0:1, 50)
+)
+df
+```
+
+From this data the total event ratio can be calculated like:
+
+```{r}
+total_event_ratio <- mean(df$event)
+total_event_ratio
+```
+
+Besides the total event rate we also need to know the event rate per hospital. So we can compare hospitals with each other an with the global mean. We create a different data frame for this:
+
+```{r}
+df_event_rate <- df %>%
+  group_by(hospital_id) %>%
+  summarise(
+    total_patients = n(),
+    total_events = sum(event)
+  ) %>%
+  mutate(event_rate = total_events / total_patients)
+df_event_rate
+```
+
+Now we want to calculate the confidence intervals. First we specify the range over which we calculate the confidence intervals.
+
+```{r}
+n_patients_seq <- seq(0.1, max(df_event_rate$total_patients) + 1, by = 0.1)
+n_patients_seq
+```
+
+Using this range and using the [formula](https://www.mathsisfun.com/data/confidence-interval.html) for calculating confidence intervals we can make a new data frame:
+
+```{r}
+df_conf <- tibble(
+  n_patients = n_patients_seq,
+  conf_upper = total_event_ratio + 1.96 * (sd(df$event) / sqrt(n_patients)),
+  conf_lower = total_event_ratio - 1.96 * (sd(df$event) / sqrt(n_patients))
+)
+df_conf
+```
+
+Combining all this into one graph with different layers gives us the result we want.
+
+```{r}
+ggplot() +
+  geom_ribbon(aes(x = n_patients_seq, ymin = conf_lower, ymax = conf_upper), df_conf, fill = "grey70") +
+  geom_hline(yintercept = total_event_ratio, linetype = 4) +
+  geom_point(aes(total_patients, event_rate), df_event_rate) + 
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(
+    title = "Hospital event rates for different sizes",
+    x = "Hospital size",
+    y = "Event rate"
+  )
+```
