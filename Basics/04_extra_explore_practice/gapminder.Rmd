@@ -3,6 +3,8 @@ title: "gapminder"
 output: html_notebook
 ---
 
+Part of the data set that can be found on the [gapminder](https://www.gapminder.org/) website. Here also the interesting [documentary](https://www.gapminder.org/videos/dont-panic-end-poverty/) by Hans Rosling can be found. The following exersices resemble the graphs shown in the documentary. 
+
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(gapminder)
