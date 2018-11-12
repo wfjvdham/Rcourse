@@ -271,7 +271,8 @@ grouped_mean2(mtcars, "cyl", "mpg")
 Exercise
 ========================================================
 
-Use the `flights` dataset from the `nycflights13` package
+Use the `flights` data set from the `nycflights13` package
 
 1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
-1. Write a for loop that calculates the mean value of every column in the dataset.
+1. Write a for loop that calculates the mean value of every column in the data set.
+1. Write a function that converts one of the columns `dep_time`, `arr_time`, `sched_dep_time` or `sched_arr_time` to a date time object.
