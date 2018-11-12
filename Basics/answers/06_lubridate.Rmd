@@ -9,6 +9,7 @@ output: html_document
 library(tidyverse)
 library(lubridate)
 library(nycflights13)
+library(rlang)
 ```
 
 Convert the following four columns from the `flights` dataset to a date-time object using `lubridate`.
@@ -24,7 +25,6 @@ make_datetime_100 <- function(year, month, day, time) {
 }
 
 flights_dt <- flights %>% 
-  filter(!is.na(dep_time), !is.na(arr_time)) %>% 
   mutate(
     dep_time = make_datetime_100(year, month, day, dep_time),
     arr_time = make_datetime_100(year, month, day, arr_time),
@@ -89,4 +89,3 @@ flights_dt <- flights_dt %>%
 flights_dt %>% 
   filter(arr_time < dep_time) 
 ```
-

@@ -32,7 +32,7 @@ plot_arr_delay_variable(flights_sample, dep_delay)
 ```
 
 
-2. Write a for loop that calculates the mean value of every column in the dataset.
+2. Write a for loop that calculates the mean value of every column in the data set.
 
 ```{r}
 dfs <- vector("list", length(columns))
@@ -44,5 +44,35 @@ for (i in seq_along(columns)) {
 }
 
 set_names(dfs, columns)
+```
+
+3. Write a function that converts one of the columns `dep_time`, `arr_time`, `sched_dep_time` or `sched_arr_time` to a date time object.
+
+```{r}
+make_datetime_column <- function(df, time_column) {
+  
+  time_column <- enquo(time_column)
+  
+  df %>%
+    mutate(
+      dep_time = make_datetime(
+        year, month, day, 
+        !!time_column %/% 100, !!time_column %% 100
+      )
+    )
+}
+
+flights_dt <- flights %>%
+  make_datetime_column(dep_time)
+
+make_datetime_100 <- function(year, month, day, time) {
+  make_datetime(year, month, day, time %/% 100, time %% 100)
+}
+
+flights_df2 <- flights %>%
+  mutate_at(
+    vars(ends_with("time")), 
+    funs(make_datetime_100(year, month, day, .))
+  )
 ```
 
