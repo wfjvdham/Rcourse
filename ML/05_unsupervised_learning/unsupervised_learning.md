@@ -73,17 +73,118 @@ autoplot(
 Plotting the Result - Graph
 ========================================================
 
+![plot of chunk unnamed-chunk-3](unsupervised_learning-figure/unnamed-chunk-3-1.png)
+
+Clustering
+========================================================
+
+> Make groups of observations that are similar to each other
+
+Here we will explain two methods:
+
+1. [k-means clustering](https://en.wikipedia.org/wiki/K-means_clustering), devides the data in a pre-defined number of clusters
+1. [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering), creates a dendrogram
+
+k-means clustering
+========================================================
+
+1. Randomly assign every point to a cluster, the number of clusters is defined by the user
+1. Repeat the next steps untill the centers are stable
+  - Update the locations of the centers by taking the average of all assigned points
+  - Assign each point to the closest (using the [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)) center for that point
+
+k-means clustering - Wine Example
+========================================================  
 
 
-
-
-
-
-
-
-
-
+```r
+library(rattle)
+kc <- kmeans(wine, 3)
+kc
+```
 
 ```
-Error in library(ggfortify) : there is no package called 'ggfortify'
+K-means clustering with 3 clusters of sizes 62, 47, 69
+
+Cluster means:
+      Type  Alcohol    Malic      Ash Alcalinity Magnesium  Phenols
+1 2.258065 12.92984 2.504032 2.408065   19.89032 103.59677 2.111129
+2 1.021277 13.80447 1.883404 2.426170   17.02340 105.51064 2.867234
+3 2.275362 12.51667 2.494203 2.288551   20.82319  92.34783 2.070725
+  Flavanoids Nonflavanoids Proanthocyanins    Color       Hue Dilution
+1   1.584032     0.3883871        1.503387 5.650323 0.8839677 2.365484
+2   3.014255     0.2853191        1.910426 5.702553 1.0782979 3.114043
+3   1.758406     0.3901449        1.451884 4.086957 0.9411594 2.490725
+    Proline
+1  728.3387
+2 1195.1489
+3  458.2319
+
+Clustering vector:
+  [1] 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 1 1 2 2 1 2 2 2 2 2 2
+ [36] 1 1 2 2 1 1 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 1 3 1 3 3 1 3 3 1 1
+ [71] 1 3 3 2 1 3 3 3 1 3 3 1 1 3 3 3 3 3 1 1 3 3 3 3 3 1 1 3 1 3 1 3 3 3 1
+[106] 3 3 3 3 1 3 3 1 3 3 3 3 3 3 3 1 3 3 3 3 3 3 3 3 3 1 3 3 1 1 1 1 3 3 3
+[141] 1 1 3 3 1 1 3 1 1 3 3 3 3 1 1 1 3 1 1 1 3 1 3 1 1 3 1 1 1 1 3 3 1 1 1
+[176] 1 1 3
+
+Within cluster sum of squares by cluster:
+[1]  566610.4 1360951.4  443180.5
+ (between_SS / total_SS =  86.5 %)
+
+Available components:
+
+[1] "cluster"      "centers"      "totss"        "withinss"    
+[5] "tot.withinss" "betweenss"    "size"         "iter"        
+[9] "ifault"      
 ```
+
+Confusion Matrix
+========================================================  
+
+
+```r
+table(wine$Type, kc$cluster)
+```
+
+```
+   
+     1  2  3
+  1 13 46  0
+  2 20  1 50
+  3 29  0 19
+```
+
+Graph of Clusters
+========================================================  
+
+
+```r
+wine %>%
+  mutate(cluster = as.factor(kc$cluster)) %>%
+  ggplot() +
+  geom_point(
+    aes(Alcohol, Malic, color = cluster)
+  )
+```
+
+![plot of chunk unnamed-chunk-6](unsupervised_learning-figure/unnamed-chunk-6-1.png)
+
+Dendogram mtcars example
+========================================================
+
+
+```r
+# prepare hierarchical cluster
+hc = hclust(dist(mtcars))
+# very simple dendrogram
+plot(hc, hang = -1)
+```
+
+![plot of chunk unnamed-chunk-7](unsupervised_learning-figure/unnamed-chunk-7-1.png)
+
+Exercise
+========================================================
+
+1. Plot the first two principal components for the `iris` dataset and explain what for information you can get from this graph.
+1. Try to cluster the `iris` dataset and check if it comes close to the actual `Species` label.
