@@ -14,14 +14,14 @@ who1_count <- who1 %>%
   group_by(key) %>%
   summarise(n = n())
 
-# shortcut for counting groups
-who2_count <- who2 %>% 
-  count(key)
-
 #rename the newrel column to make column names consistent
 who2 <- who1 %>% 
   mutate(key = str_replace(key, "newrel", "new_rel"))
 who2
+
+# shortcut for counting groups
+who2_count <- who2 %>% 
+  count(key)
 
 #seperate the key value into columns
 who3 <- who2 %>% 

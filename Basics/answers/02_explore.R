@@ -2,15 +2,22 @@ library(nycflights13)
 library(tidyverse)
 flights <- as_data_frame(flights)
 
+has_na <- function(x) {
+  any(is.na(x))
+}
+
+tmp <- flights %>% 
+  summarise_all(has_na)
+
 flights_na <- flights %>%
-  select_if(~ !any(is.na(.)))
+  select_if(~ any(is.na(.)))
 
 #Cuales columnos tiene valores de NA?
 summary(flights)
 
 #Cuantos vuelvos hay el 1 Enero 2013?
 flights %>%
-  filter(year == 2013 & month == 1 & day == 1) %>%
+  filter(year == 2013, month == 1, day == 1) %>%
   nrow()
 
 #la distancia más grande en km! y con cual aeropuerto?
@@ -47,7 +54,6 @@ flights %>%
 #Mostrar en un gráfico si hay mas vuelos en retraso o a tiempo
 flights %>%
   mutate(delayed = arr_delay > 0) %>%
-  na.omit() %>%
   ggplot() +
   geom_bar(aes(delayed))
 
