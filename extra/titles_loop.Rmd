@@ -1,0 +1,22 @@
+---
+title: "Titles in a loop"
+output: 
+  html_notebook:
+    toc: true
+    toc_depth: 5
+---
+
+# JA
+
+## JAJA
+
+### JAJAJA
+
+#### JAJAJAJA
+
+```{r, results='asis', echo=FALSE}
+for (i in seq_len(5)) {
+  cat('\n')
+  cat(paste('##### title', i))
+}
+```
