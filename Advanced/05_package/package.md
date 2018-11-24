@@ -52,6 +52,19 @@ Filling out the DESCRIPTION file
 - **Description** small description of what the package does
 - **License** [choose one here](https://choosealicense.com/) or `GPL-3`
 
+Dependencies
+========================================================
+
+[Reference](https://kbroman.org/pkg_primer/pages/depends.html)
+
+- `Imports` packages listed here *must* be present for your package to work, but do not need to be loaded using `library()`. Packages listed here can be used in your package in the following ways:
+
+  - `dplyr::select()`
+  - `#' @import dplyr`
+  - `#' @importFrom dplyr select filter`
+
+- `Suggests` packages where your package can benefit from, but are not required. Packages you use in tyour examples, tests or vignettes.
+
 Adding Documentation to Functions
 ========================================================
 
