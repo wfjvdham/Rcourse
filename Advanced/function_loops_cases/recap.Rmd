@@ -1,0 +1,71 @@
+---
+title: "Why use map?"
+output: html_notebook
+---
+
+```{r setup, echo = FALSE}
+library(tidyverse)
+library(babynames)
+babynames
+```
+
+I'm reducing the data to just the names that appeared every single year.
+
+```{r}
+everpresent <- babynames %>% 
+  group_by(name, sex) %>% 
+  summarise(years = n()) %>% 
+  ungroup() %>% 
+  filter(years == max(years))
+babynames <- babynames %>% 
+  semi_join(everpresent)
+```
+
+First, let's prototype what we want to do with a single name.
+
+```{r}
+joe <- babynames %>% 
+  filter(name == "Joe" & sex == "M")
+```
+
+```{r}
+joe %>% 
+  ggplot(aes(year, prop)) +
+  geom_line() +
+  geom_smooth(method = lm)
+```
+
+```{r}
+joe_mod <- lm(prop ~ year, data = joe)
+coef(joe_mod)['year']
+summary(joe_mod)$r.squared
+```
+
+```{r}
+babymods <- babynames %>% 
+  group_by(name, sex) %>% 
+  nest() %>% 
+  mutate(
+    model = map(data, ~lm(prop ~ year, data = .x)),
+    slope = map_dbl(model, ~coef(.x)['year']),
+    r_squared = map_dbl(model, ~summary(.x)$r.squared)
+  )
+```
+
+```{r}
+babymods %>% 
+  arrange(desc(slope)) %>% 
+  head(5) %>% 
+  unnest(data) %>% 
+  ggplot() +
+    geom_line(aes(year, prop, color = name))
+```
+
+```{r}
+babymods %>% 
+  arrange(r_squared) %>% 
+  head(5) %>% 
+  unnest(data) %>% 
+  ggplot() +
+    geom_line(aes(year, prop, color = name))
+```

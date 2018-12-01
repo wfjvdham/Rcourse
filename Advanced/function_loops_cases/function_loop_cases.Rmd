@@ -1,0 +1,214 @@
+---
+title: "Function and Loop Cases"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(nycflights13)
+# sample dataset to make plots faster
+flights <- as_data_frame(flights) %>%
+  sample_n(1000)
+```
+
+# Iris exploration
+
+1. Calculate the mean of all columns
+
+1. Calculate the mean for all columns per `Species`
+
+```{r}
+iris %>%
+  map_df(mean)
+
+iris %>%
+  group_by(Species) %>%
+  summarise_all(mean)
+
+tmp <- iris %>%
+  group_by(Species) %>%
+  nest() %>%
+  mutate(
+    means = map(data, ~summarise_all(.x, mean))
+  )
+```
+
+# Gapminder
+
+1. Check which countries have an interesting history based on the r squared of the fitted models over time
+
+# Flights exploration plots
+
+1. Make a point plot of the `arr_delay` with the following columns:
+  - `dep_time`
+  - `dep_delay`
+  - `air_time`
+  - `distance`
+
+1. Make a linear model between the priviously mentioned variables and `arr_delay` and select the coefficients of the model with the highst `r.squared`
+
+```{r}
+columns <- c("dep_time", "dep_delay", "air_time", "distance")
+
+plot_arr_delay <- function(column) {
+  column <- sym(column)
+  ggplot(flights) +
+    geom_point(aes(arr_delay, !!column))
+}
+
+map(columns, plot_arr_delay)
+
+get_r_coef <- function(column) {
+  model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
+  tibble(
+    "variable" = column,
+    "r.squared" = summary(model)$r.squared,
+    "coefs" = list(coef(model))
+  )
+}
+models <- map_df(columns, get_r_coef)
+
+plot_arr_delay_with_model <- function(column, coefs) {
+  column <- sym(column)
+  ggplot(flights) +
+    geom_point(aes(arr_delay, !!column)) +
+    geom_abline(intercept = coefs[1], slope = coefs[2], color = "red")
+}
+map2(models$variable, models$coefs, ~plot_arr_delay_with_model(.x, .y))
+```
+
+
+# Age calculations
+
+1. For the 3 data frames that are given you want to add a column `age` that calculates the age based on the current year. Also set `age` to `NA` when people are older than 130 and with a negative age.
+
+1. Set `age` to `NA` when `age` is lower than 18.
+
+1. Now you want to do the same but the `geboortejaar` colomn has a different name in every data frame.
+
+1. What if you have 50 data frames...
+
+```{r}
+df1 <- tibble(
+  geboortejaar = c(1986, 1987, 19880)
+)
+df2 <- tibble(
+  geboortejaar = c(1989, 1990, 19910)
+)
+df3 <- tibble(
+  geboortejaar = c(1992, 1993, 19940)
+)
+
+calculate_age <- function(df) {
+  df1 %>%
+    mutate(
+      age = year(now()) - geboortejaar,
+      age = if_else(age < 130 & age > 0, age, NA_real_)
+    )
+}
+
+df1 <- df1 %>%
+  calculate_age()
+df2 <- df2 %>%
+  calculate_age()
+df3 <- df3 %>%
+  calculate_age()
+
+df1 <- tibble(
+  geboortejaar = c(1986, 1987, 1988)
+)
+df2 <- tibble(
+  gebjaar = c(1989, 1990, 1991)
+)
+df3 <- tibble(
+  born = c(1992, 1993, 1994)
+)
+
+calculate_age <- function(df, birth_year_column) {
+  birth_year_column <- enquo(birth_year_column)
+  df %>%
+    mutate(
+      age = year(now()) - !!birth_year_column,
+      age = if_else(age < 130 & age > 0, age, NA_real_)
+    )
+}
+
+df1 <- df1 %>%
+  calculate_age(geboortejaar)
+df2 <- df2 %>%
+  calculate_age(gebjaar)
+df3 <- df3 %>%
+  calculate_age(born)
+
+df_list <- list(df1, df2, df3)
+birth_year_column_list <- c(quote(geboortejaar), quote(gebjaar), quote(born))
+birth_year_column_list <- map(c("geboortejaar", "gebjaar", "born"), sym)
+
+df_list <- df_list %>%
+  map2(birth_year_column_list, calculate_age)
+```
+
+# Re-coding variables
+
+1. Set for all the columns in the data frame all the values higher than 5 to `NA`
+
+1. Now for only the columns 1, 2 and 3.
+
+1. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`
+
+```{r}
+df <- tibble(
+  c1 = seq(10),
+  c2 = seq(10),
+  c3 = seq(10),
+  c4 = seq(10),
+  c5 = seq(10),
+  c6 = seq(10),
+  c7 = seq(10),
+  c8 = seq(10),
+  c9 = seq(10),
+  c10 = seq(10)
+)
+
+df <- df %>%
+  map_df(~ if_else(.x > 5, NA_integer_, .x))
+
+df <- df %>%
+  mutate_all(
+    function(x) if_else(x > 5, NA_integer_, x)
+  )
+
+df <- df %>%
+  mutate_at(
+    vars(1:3),
+    function(x) if_else(x > 5, NA_integer_, x)
+  )
+
+allowed_column_values = list(
+  seq(1), 
+  seq(2),
+  seq(3),
+  seq(4),
+  seq(5),
+  seq(6), 
+  seq(7),
+  seq(8),
+  seq(9),
+  seq(10)
+) %>%
+  set_names(colnames(df))
+
+recode <- function(column, allowed_values) {
+  if_else(column %in% allowed_values, column, NA_integer_)
+}
+
+names <- colnames(df)
+recode(df[[names[1]]], allowed_column_values[[names[1]]])
+
+df <- names %>%
+  map(~ recode(df[[.x]], allowed_column_values[[.x]])) %>%
+  set_names(names) %>%
+  as_data_frame()
+```
+
