@@ -3,40 +3,127 @@ title: "Function and Loop Cases"
 output: html_notebook
 ---
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
 library(lubridate)
+library(gapminder)
 library(nycflights13)
 # sample dataset to make plots faster
 flights <- as_data_frame(flights) %>%
   sample_n(1000)
+gapminder <- as_data_frame(gapminder)
+```
+
+# Functions
+
+```{r, eval=FALSE}
+print(x)
+
+x <- "hallo"
+print(x)
+
+print_x <- function() {
+  print(x)
+}
+print_x
+print_x()
+
+print_a <- function() {
+  print(a)
+}
+print_a()
+
+print_input <- function(input) {
+  print(input)
+}
+print_input()
+
+print_input("test")
+print_input(x)
+
+print_inputs <- function(a) {
+  print(a)
+  print(b)
+}
+
+print_inputs(x)
+
+b <- "b"
+print_inputs(x)
+
+print_inputs(x)
+
+return_sum <- function(a, b) {
+  a + b
+}
+result <- return_sum(2, 3)
+
+calc_sum_multi <- function(a, b) {
+  a + b
+  a * b
+}
+result <- calc_sum_multi(2, 3)
+
+calc_sum_multi <- function(a, b) {
+  list(
+    a + b,
+    a * b  
+  )
+}
+result <- calc_sum_multi(2, 3)
+result[[1]]
+
+calc_sum_multi <- function(a, b) {
+  list(
+    'sum' = a + b,
+    'multi' = a * b  
+  )
+}
+result <- calc_sum_multi(2, 3)
+result[['sum']]
+```
+
+# Gapminder
+
+1. Make a linear model to predict the `pop`, population, depending on `year` for Afghanistan
+
+```{r}
+
+```
+
+2. Get the `r.squared` from this model and the slope.
+
+```{r}
+
+```
+
+3. Plot the model and the original data in one graph.
+
+```{r}
+
+```
+
+4. Make a linear model for all the countries and select the 5 with the largest slope and with the lowest `r.squared`
+
+```{r}
+
 ```
 
 # Iris exploration
 
 1. Calculate the mean of all columns
 
-1. Calculate the mean for all columns per `Species`
-
 ```{r}
-iris %>%
-  map_df(mean)
 
-iris %>%
-  group_by(Species) %>%
-  summarise_all(mean)
-
-tmp <- iris %>%
-  group_by(Species) %>%
-  nest() %>%
-  mutate(
-    means = map(data, ~summarise_all(.x, mean))
-  )
 ```
 
-# Gapminder
+2. Calculate the mean for all columns per `Species`
 
-1. Check which countries have an interesting history based on the r squared of the fitted models over time
+```{r}
+
+```
+
+1. What if there where 50 columns in your data...
 
 # Flights exploration plots
 
@@ -45,49 +132,22 @@ tmp <- iris %>%
   - `dep_delay`
   - `air_time`
   - `distance`
-
-1. Make a linear model between the priviously mentioned variables and `arr_delay` and select the coefficients of the model with the highst `r.squared`
-
+  
 ```{r}
-columns <- c("dep_time", "dep_delay", "air_time", "distance")
 
-plot_arr_delay <- function(column) {
-  column <- sym(column)
-  ggplot(flights) +
-    geom_point(aes(arr_delay, !!column))
-}
-
-map(columns, plot_arr_delay)
-
-get_r_coef <- function(column) {
-  model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
-  tibble(
-    "variable" = column,
-    "r.squared" = summary(model)$r.squared,
-    "coefs" = list(coef(model))
-  )
-}
-models <- map_df(columns, get_r_coef)
-
-plot_arr_delay_with_model <- function(column, coefs) {
-  column <- sym(column)
-  ggplot(flights) +
-    geom_point(aes(arr_delay, !!column)) +
-    geom_abline(intercept = coefs[1], slope = coefs[2], color = "red")
-}
-map2(models$variable, models$coefs, ~plot_arr_delay_with_model(.x, .y))
 ```
 
+2. Make a linear model between the priviously mentioned variables and `arr_delay` and select the coefficients of the model with the highst `r.squared`
+
+```{r}
+
+```
 
 # Age calculations
 
 1. For the 3 data frames that are given you want to add a column `age` that calculates the age based on the current year. Also set `age` to `NA` when people are older than 130 and with a negative age.
 
 1. Set `age` to `NA` when `age` is lower than 18.
-
-1. Now you want to do the same but the `geboortejaar` colomn has a different name in every data frame.
-
-1. What if you have 50 data frames...
 
 ```{r}
 df1 <- tibble(
@@ -99,22 +159,11 @@ df2 <- tibble(
 df3 <- tibble(
   geboortejaar = c(1992, 1993, 19940)
 )
+```
 
-calculate_age <- function(df) {
-  df1 %>%
-    mutate(
-      age = year(now()) - geboortejaar,
-      age = if_else(age < 130 & age > 0, age, NA_real_)
-    )
-}
+3. Now you want to do the same but the `geboortejaar` colomn has a different name in every data frame.
 
-df1 <- df1 %>%
-  calculate_age()
-df2 <- df2 %>%
-  calculate_age()
-df3 <- df3 %>%
-  calculate_age()
-
+```{r}
 df1 <- tibble(
   geboortejaar = c(1986, 1987, 1988)
 )
@@ -124,38 +173,17 @@ df2 <- tibble(
 df3 <- tibble(
   born = c(1992, 1993, 1994)
 )
+```
 
-calculate_age <- function(df, birth_year_column) {
-  birth_year_column <- enquo(birth_year_column)
-  df %>%
-    mutate(
-      age = year(now()) - !!birth_year_column,
-      age = if_else(age < 130 & age > 0, age, NA_real_)
-    )
-}
+4. What if you have 50 data frames...
 
-df1 <- df1 %>%
-  calculate_age(geboortejaar)
-df2 <- df2 %>%
-  calculate_age(gebjaar)
-df3 <- df3 %>%
-  calculate_age(born)
+```{r}
 
-df_list <- list(df1, df2, df3)
-birth_year_column_list <- c(quote(geboortejaar), quote(gebjaar), quote(born))
-birth_year_column_list <- map(c("geboortejaar", "gebjaar", "born"), sym)
-
-df_list <- df_list %>%
-  map2(birth_year_column_list, calculate_age)
 ```
 
 # Re-coding variables
 
 1. Set for all the columns in the data frame all the values higher than 5 to `NA`
-
-1. Now for only the columns 1, 2 and 3.
-
-1. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`
 
 ```{r}
 df <- tibble(
@@ -170,21 +198,18 @@ df <- tibble(
   c9 = seq(10),
   c10 = seq(10)
 )
+df
+```
 
-df <- df %>%
-  map_df(~ if_else(.x > 5, NA_integer_, .x))
+2. Now for only the columns 1, 2 and 3.
 
-df <- df %>%
-  mutate_all(
-    function(x) if_else(x > 5, NA_integer_, x)
-  )
+```{r}
 
-df <- df %>%
-  mutate_at(
-    vars(1:3),
-    function(x) if_else(x > 5, NA_integer_, x)
-  )
+```
 
+3. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`
+
+```{r}
 allowed_column_values = list(
   seq(1), 
   seq(2),
@@ -198,17 +223,6 @@ allowed_column_values = list(
   seq(10)
 ) %>%
   set_names(colnames(df))
-
-recode <- function(column, allowed_values) {
-  if_else(column %in% allowed_values, column, NA_integer_)
-}
-
-names <- colnames(df)
-recode(df[[names[1]]], allowed_column_values[[names[1]]])
-
-df <- names %>%
-  map(~ recode(df[[.x]], allowed_column_values[[.x]])) %>%
-  set_names(names) %>%
-  as_data_frame()
+allowed_column_values
 ```
 
