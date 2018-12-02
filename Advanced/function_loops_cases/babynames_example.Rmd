@@ -1,5 +1,5 @@
 ---
-title: "Why use map?"
+title: "Babyname example of list columns"
 output: html_notebook
 ---
 
