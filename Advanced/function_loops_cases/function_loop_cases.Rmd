@@ -81,6 +81,16 @@ calc_sum_multi <- function(a, b) {
 }
 result <- calc_sum_multi(2, 3)
 result[['sum']]
+
+df <- tibble(
+  a = c(1, 2, 3),
+  b = c(1, 2, 3),
+  c = c(3, 3, 3)
+)
+c <- 2
+d <- 2
+df %>%
+  filter(a == c)
 ```
 
 # Gapminder
