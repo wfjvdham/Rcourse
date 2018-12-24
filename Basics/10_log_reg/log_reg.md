@@ -124,6 +124,33 @@ exp(1 + -2.5) / (1 + exp(1 + -2.5))
 <!-- p_value -->
 <!-- ``` -->
 
+Odds Ratios and Confidence Intervals
+========================================================
+
+
+```r
+or_ci <- exp(cbind(
+  OR = coef(model_sex), confint(model_sex)
+)) %>%
+  as_tibble(rownames = "estimates")
+or_ci
+```
+
+```
+# A tibble: 2 x 4
+  estimates       OR `2.5 %` `97.5 %`
+  <chr>        <dbl>   <dbl>    <dbl>
+1 (Intercept) 2.88    2.24      3.72 
+2 Sexmale     0.0810  0.0580    0.112
+```
+
+Odds Ratios and Confidence Intervals
+========================================================
+
+**Odds Ratio** defined as the ratio of the odds of A in the presence of B and the odds of A without the presence of B. If much bigger or smaller than 1 A is considered associated with B.
+
+The odds ratio for survival between men and women is 0.0809673
+
 Use Model to make Predictions
 ========================================================
 
