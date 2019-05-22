@@ -1,0 +1,18 @@
+---
+title: "fligth crashes"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(fivethirtyeight)
+airline_safety <- as_tibble(airline_safety)
+```
+
+1. Is the data tidy? If not make a tidy version of the data frame.
+
+1. Show in a graph which airlines have the greatest difference in incidents / fatal accidents / fatalities between before and after 2000.
+
+1. Is there a relation ship between the incidents / fatal accidents / fatalities before 2000 and after?
+
+1. Some question for absoluut numbers.
