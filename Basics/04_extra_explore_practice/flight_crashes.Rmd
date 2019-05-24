@@ -15,4 +15,4 @@ airline_safety <- as_tibble(airline_safety)
 
 1. Is there a relation ship between the incidents / fatal accidents / fatalities before 2000 and after?
 
-1. Some question for absoluut numbers.
+1. Same question for absolute numbers.

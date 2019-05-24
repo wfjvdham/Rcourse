@@ -13,3 +13,5 @@ murder_2015_final <- as_tibble(murder_2015_final)
 1. Is the data tidy? If not make a tidy version of the data frame.
 
 1. Make a model that predicts the murders based on year, city and state. Which factor is the most important?
+
+1. Show in a graphs the top 10 cities with the largest increase in murders.

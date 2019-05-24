@@ -1,0 +1,17 @@
+---
+title: "murders"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+#devtools::install_github("hadley/usdanutrients")
+library(tidyverse)
+library(usdanutrients)
+nutrient <- as_tibble(nutrient)
+food <- as_tibble(food)
+food_group <- as_tibble(food_group)
+```
+
+1. Which food has the most combined nutrients?
+
+1. Which food group has the most combined nutrients?

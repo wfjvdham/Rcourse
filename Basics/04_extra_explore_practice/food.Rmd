@@ -1,0 +1,21 @@
+---
+title: "murders"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(fueleconomy)
+common <- as_tibble(common)
+vehicles <- as_tibble(vehicles)
+```
+
+1. Which `make` has the most different models?
+
+1. Which `make` has the most cars in total?
+
+1. What is the average years per `make`?
+
+1. Show in a graph the fuel ratios over the years. 
+
+1. Show the number of car classes over the years.
