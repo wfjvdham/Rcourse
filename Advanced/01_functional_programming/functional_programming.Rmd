@@ -13,14 +13,13 @@ load("../../datasets/neiss_by_day.rda")
 # How many elements are in people?
 
 ```{r}
-people[[1]]
+
 ```
 
 # Who is the first person in people?
 
 ```{r}
-people[[1]]$homeworld
-planet_lookup[['http://swapi.co/api/planets/2/']]
+
 ```
 
 # What is the difference between people[1] and people[[1]]?
