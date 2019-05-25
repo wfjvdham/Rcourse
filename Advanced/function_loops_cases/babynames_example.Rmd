@@ -6,7 +6,7 @@ output: html_notebook
 ```{r setup, echo = FALSE}
 library(tidyverse)
 library(babynames)
-babynames
+babynames <- as_tibble(babynames)
 ```
 
 I'm reducing the data to just the names that appeared every single year.

@@ -5,10 +5,9 @@ output: html_notebook
 
 ```{r}
 library(tidyverse)
-library(purrr)
-load("../datasets/swapi.rda")
-load("../datasets/planet_lookup.rda")
-load("../datasets/neiss_by_day.rda")
+load("../../datasets/swapi.rda")
+load("../../datasets/planet_lookup.rda")
+load("../../datasets/neiss_by_day.rda")
 ```
 
 # How many elements are in people?
@@ -106,7 +105,7 @@ map(films, "characters") %>%
 ## Create the planet_lookup vector from earlier
 
 ```{r}
-planet_lookup <- map_chr(planets, "name") %>% 
+planet_lookup <- map_chr(planets, "name") %>%
   set_names(map(planets, "url"))
 ```
 
@@ -115,7 +114,8 @@ planet_lookup <- map_chr(planets, "name") %>%
 ```{r}
 map_chr(species, "eye_colors") %>%
   strsplit(", ") %>%
-  map_int(length)
+  map_int(length) %>%
+  set_names(map(species, "name"))
 # this is lazy, what about n/a and unknown?
 ```
 
