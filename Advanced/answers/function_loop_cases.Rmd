@@ -191,6 +191,17 @@ nested_iris %>%
 ```{r}
 columns <- c("dep_time", "dep_delay", "air_time", "distance")
 
+flights_plot_columns <- flights %>%
+  select(columns)
+
+point_plot <- function(column, x_label) {
+  ggplot(flights) +
+    geom_point(aes(column, arr_delay)) +
+    labs(x = x_label)
+}
+
+map2(flights_plot_columns, columns, point_plot)
+
 plot_arr_delay <- function(column) {
   column <- sym(column)
   ggplot(flights) +
@@ -205,21 +216,33 @@ map(columns, plot_arr_delay)
 ```{r}
 get_r_coef <- function(column) {
   model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
-  tibble(
+  list(
     "variable" = column,
     "r.squared" = summary(model)$r.squared,
-    "coefs" = list(coef(model))
+    "intercept" = coef(model)[[1]],
+    "coef_2" = coef(model)[[2]]
   )
 }
 models <- map_df(columns, get_r_coef)
 
-plot_arr_delay_with_model <- function(column, coefs) {
-  column <- sym(column)
+plot_arr_delay_with_model <- function(variable, intercept, coef_2) {
+  column <- sym(variable)
   ggplot(flights) +
     geom_point(aes(!!column, arr_delay)) +
-    geom_abline(intercept = coefs[1], slope = coefs[2], color = "red")
+    geom_abline(intercept = intercept, slope = coef_2, color = "red")
 }
-map2(models$variable, models$coefs, ~plot_arr_delay_with_model(.x, .y))
+
+models %>%
+  select(-r.squared) %>%
+  pmap(plot_arr_delay_with_model)
+
+library(broom)
+
+get_glance <- function(column) {
+  model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
+  glance(model)
+}
+models <- map_df(columns, get_glance)
 ```
 
 # Age calculations
