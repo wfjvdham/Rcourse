@@ -17,3 +17,4 @@ summary(model)
 
 1. Create an example dataframe that can be used to run this code.
 1. Reduce the amount of copy-and-paste by rewriting the code.
+1. Use the `broom` package to get the information from the model in a dataframe.
