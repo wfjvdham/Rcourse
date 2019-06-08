@@ -40,6 +40,18 @@ gapminder <- as_data_frame(gapminder)
 
 ```
 
+# Calculate percentages
+
+Create a data frame with 20 rows that contains: 
+  - a `group` column containing the values `group_1` till `group_5`
+  - columns `a`, `b` and `c` containing the values **0** or **1**
+
+Calculate for every group the percentages of 1's for every column.
+
+```{r}
+
+```
+
 # Iris exploration
 
 1. Calculate the mean of all columns
