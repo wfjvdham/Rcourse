@@ -1,5 +1,5 @@
 ---
-title: "Function and Loop Cases"
+title: "Function and Iteration Practice"
 output: html_notebook
 ---
 
