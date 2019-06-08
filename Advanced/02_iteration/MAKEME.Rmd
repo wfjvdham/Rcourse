@@ -1,0 +1,72 @@
+---
+title: "Iteration"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+load("../../datasets/swapi.rda")
+load("../../datasets/planet_lookup.rda")
+```
+
+# How many elements are in people?
+
+```{r}
+
+```
+
+# Who is the first person in people?
+
+```{r}
+
+```
+
+# What is the difference between people[1] and people[[1]]?
+
+```{r}
+
+```
+
+# How many starships has each character been on?
+
+```{r}
+
+```
+
+# Find the name of each characters homeworld
+
+```{r}
+
+```
+
+# Combine names of persons with their home planet
+
+Use the `set_names()` function.
+
+```{r}
+
+```
+
+# How heavy is each person?
+
+```{r}
+
+```
+
+# Which film (see films) has the most characters?
+
+```{r}
+
+```
+
+# Create the planet_lookup vector from earlier
+
+```{r}
+
+```
+
+# Which species has the most possible eye colors?
+
+```{r}
+
+```

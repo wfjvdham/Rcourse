@@ -1,0 +1,105 @@
+---
+title: "Iteration Answers"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+load("../../datasets/swapi.rda")
+load("../../datasets/planet_lookup.rda")
+```
+
+# How many elements are in people?
+
+```{r}
+length(people)
+```
+
+# Who is the first person in people?
+
+```{r}
+people[[1]] # Luke!
+```
+# What is the difference between people[1] and people[[1]]?
+
+```{r}
+people[1] # A list inside a list
+
+people[[1]] # A list, dropped one level of heirachy
+```
+
+# How many starships has each character been on?
+
+```{r}
+#do it for one
+length(people[[1]]$starships)
+
+#make it into a function
+count_starships <- function(x) {
+  length(x$starships)
+}
+
+#do is for all
+map(people, count_starships)
+```
+
+# Find the name of each characters homeworld
+
+```{r}
+#do it for one
+planet_lookup[[people[[1]]$homeworld]]
+
+#make it into a function
+get_homeworld <- function(x) {
+  planet_lookup[[x$homeworld]]
+}
+
+#do is for all
+map(people, get_homeworld)
+```
+
+# Combine names of persons with their home planet
+
+```{r}
+people <- people %>%
+  set_names(map_chr(people, "name"))
+
+map(people, get_homeworld)
+```
+
+# How heavy is each person?
+
+```{r}
+get_mass <- function(x) {
+  parse_number(x$mass, na = "unknown")
+}
+
+map_dbl(people, get_mass)
+```
+
+# Which film (see films) has the most characters?
+
+```{r}
+map(films, "characters") %>%
+  map_int(length) %>%
+  set_names(map_chr(films, "title")) %>%
+  sort(decreasing = TRUE) %>%
+  head(n=1)
+```
+
+# Create the planet_lookup vector from earlier
+
+```{r}
+planet_lookup <- map_chr(planets, "name") %>%
+  set_names(map(planets, "url"))
+```
+
+# Which species has the most possible eye colors?
+
+```{r}
+map_chr(species, "eye_colors") %>%
+  strsplit(", ") %>%
+  map_int(length) %>%
+  set_names(map(species, "name"))
+# this is lazy, what about n/a and unknown?
+```
