@@ -1,0 +1,89 @@
+---
+title: "Functions"
+output: html_notebook
+---
+
+1. Run the following lines and predict what will be the result before running a line.
+
+```{r, eval=FALSE}
+print(x)
+
+x <- "hallo"
+print(x)
+
+print_x <- function() {
+  print(x)
+}
+print_x
+print_x()
+
+print_a <- function() {
+  print(a)
+}
+print_a()
+
+print_input <- function(input) {
+  print(input)
+}
+print_input()
+
+print_input("test")
+print_input(x)
+
+print_inputs <- function(a) {
+  print(a)
+  print(b)
+}
+
+print_inputs(x)
+
+b <- "b"
+print_inputs(x)
+
+print_inputs(x)
+
+return_sum <- function(a, b) {
+  a + b
+}
+result <- return_sum(2, 3)
+
+calc_sum_multi <- function(a, b) {
+  a + b
+  a * b
+}
+result <- calc_sum_multi(2, 3)
+
+calc_sum_multi <- function(a, b) {
+  list(
+    a + b,
+    a * b  
+  )
+}
+result <- calc_sum_multi(2, 3)
+result[[1]]
+
+calc_sum_multi <- function(a, b) {
+  list(
+    'sum' = a + b,
+    'multi' = a * b  
+  )
+}
+result <- calc_sum_multi(2, 3)
+result[['sum']]
+
+df <- tibble(
+  a = c(1, 2, 3),
+  b = c(1, 2, 3),
+  c = c(3, 3, 3)
+)
+c <- 2
+d <- 2
+df %>%
+  filter(a == c)
+```
+
+2. Create a function that calculates the percentages of 0's in a vector.
+2. Create a function that calculates the percentages of 1's in a vector.
+2. Create a function that has an extra argument and calculates the percentage of that argument in the vector.
+2. Add an argument to the function that determines how to deal with `NA`'s.
+2. Are there arguments that should have a default value? If so give them the correct one.
