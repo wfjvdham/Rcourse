@@ -8,10 +8,10 @@ library(titanic)
 ?titanic_train
 
 # load data
-train <- as_data_frame(titanic_train)
+train <- as_tibble(titanic_train)
 
 # examples ggplot
-ggplot(train) + 
+ggplot(train) +
   geom_point(aes(x = Fare, y = Age))
 
 ggplot(train) + 
@@ -86,9 +86,9 @@ ggplot(train_male) +
   geom_bar(aes(Sex))
 
 train_male_class1 <- train %>% 
-  filter(Sex != "male" & Pclass == 1)
+  filter(Sex == "male" & Pclass == 1)
 
-train_male_class1 <- filter(train, Sex != "male" & Pclass == 1)
+train_male_class1 <- filter(train, Sex == "male" & Pclass == 1)
 
 ggplot(train_male_class1) + 
   geom_bar(aes(factor(Pclass)))
@@ -120,9 +120,16 @@ train %>%
   mutate(Age_10 = Age + 10) %>%
   select(Age_10, Age)
 
+train <- train %>%
+  mutate(Pclass_factor = factor(Pclass))
+
 train %>%
   group_by(Sex) %>%
-  summarise(n = n())
+  summarise(
+    n = n(),
+    missing = sum(is.na(Age))
+  ) %>%
+  mutate(perc_missing = missing / sum(n) * 100)
 
 train %>%
   count(Sex)
@@ -162,7 +169,8 @@ ggplot(mean_age_sex) +
 
 # usefull functions
 train %>%
-  slice(1)
+  arrange(desc(Age)) %>%
+  slice(1:50)
 
 train %>%
   slice(1:5)

@@ -25,7 +25,7 @@ flights %>%
   arrange(desc(distance)) %>%
   slice(1) %>%
   mutate(distance_km = distance * 1.60934) %>%
-  select(distance_km, dest)
+  select(distance_km, origin, dest)
 
 #Cuantos destinos hay?
 flights %>%

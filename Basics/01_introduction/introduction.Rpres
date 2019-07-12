@@ -17,8 +17,8 @@ Master Human Media Interaction (AI)
 **Experience:**
 
 - Quby
-- Mercadoni
-- Randommonkey
+- KPN
+- Tomato Glass House
 - Teaching R and ML
 
 About You?
@@ -106,4 +106,3 @@ Install - one time
 Load - every time you start with using R
 
 `library("tidyverse")`
-
