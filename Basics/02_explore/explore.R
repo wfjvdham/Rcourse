@@ -169,8 +169,7 @@ ggplot(mean_age_sex) +
 
 # usefull functions
 train %>%
-  arrange(desc(Age)) %>%
-  slice(1:50)
+  slice(1)
 
 train %>%
   slice(1:5)
