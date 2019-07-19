@@ -9,6 +9,8 @@ output: html_document
 library(tidyverse)
 library(lubridate)
 library(nycflights13)
+
+flights <- flights
 ```
 
 Convert the following four columns from the `flights` dataset to a date-time object using `lubridate`.

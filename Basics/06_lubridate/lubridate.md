@@ -17,9 +17,9 @@ It is installed when `tidyverse` is installed, but not automatically loaded. So 
 
 Has 3 types of date/time data:
 
-1. A **date**. Tibbles print this as `<date>`.
-1. A **time** within a day. Tibbles print this as `<time>`.
-1. A **date-time** is a date plus a time: it uniquely identifies an instant in time (typically to the nearest second). Tibbles print this as `<dttm>`. 
+1. A **date**. *Tibble* print this as `<date>`.
+1. A **time** within a day. *Tibble* print this as `<time>`.
+1. A **date-time** is a date plus a time: it uniquely identifies an instant in time (typically to the nearest second). *Tibble* print this as `<dttm>`. 
 
 Today and Now
 ========================================================
@@ -31,7 +31,7 @@ today()
 ```
 
 ```
-[1] "2018-11-03"
+[1] "2019-07-19"
 ```
 
 ```r
@@ -39,7 +39,7 @@ now()
 ```
 
 ```
-[1] "2018-11-03 15:20:14 CET"
+[1] "2019-07-19 10:40:09 CEST"
 ```
 
 Components
