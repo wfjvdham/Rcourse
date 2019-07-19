@@ -5,11 +5,11 @@ pew <- read_csv(
 )
 
 pew <- pew %>%
-  gather(2:11, key = "income", value = "count")
+  gather("income", "count", 2:11)
 
 weather <- read_csv("./datasets/weather.csv") %>%
-  gather(d1:d31, key = "day", value = "temperature", na.rm = TRUE) %>%
-  spread(key = "element", value = "temperature") %>%
+  gather("day", "temperature", d1:d31, na.rm = TRUE) %>%
+  spread("element", "temperature") %>%
   mutate(TMAX = as.numeric(TMAX),
          TMIN = as.numeric(TMIN))
 
@@ -19,7 +19,7 @@ weather %>%
   group_by(month) %>%
   summarise(avg_min = mean(TMIN),
             avg_max = mean(TMAX)) %>%
-  gather(2:3, key="temptype", value="temp") %>%
+  gather("temptype", "temp", 2:3) %>%
   ggplot() +
   geom_bar(
     aes(x=factor(month), y=temp, fill=temptype), 
@@ -52,8 +52,7 @@ pew %>%
       income == "$50-75k" ~ 62500,
       income == "$75-100k" ~ 87500,
       income == "$100-150k" ~ 125000,
-      income == "$>150k" ~ 200000,
-      TRUE ~ NA_real_
+      income == "$>150k" ~ 200000
     ) * count
   ) %>%
   filter(!is.na(estimated_income)) %>%
