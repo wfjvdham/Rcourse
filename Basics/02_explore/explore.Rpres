@@ -73,7 +73,7 @@ Exercise - Load Data
 ```{r}
 # install.packages("nycflights13")
 library(nycflights13)
-flights <- as_data_frame(flights)
+flights <- as_tibble(flights)
 ?flights
 ```
 
