@@ -175,13 +175,13 @@ Exercise - Load the Data
 
 ```{r}
 library(nycflights13)
-flights = as_data_frame(flights)
+flights <- as_tibble(flights)
 ```
 
 Exercise - Questions
 ========================================================
 
-Predict the delay of each flight
+Predict the arrival delay of each flight
 
 1. Explore with graphics
 1. Make a model
