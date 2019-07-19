@@ -1,28 +1,40 @@
 ---
-title: "gapminder"
+title: "Explore the Gapminder Dataset"
 output: html_notebook
 ---
 
-Part of the data set that can be found on the [gapminder](https://www.gapminder.org/) website. Here also the interesting [documentary](https://www.gapminder.org/videos/dont-panic-end-poverty/) by Hans Rosling can be found. The following exersices resemble the graphs shown in the documentary. 
+Part of the data set that can be found on the 
+[gapminder](https://www.gapminder.org/) website. Here also the interesting [documentary](https://www.gapminder.org/videos/dont-panic-end-poverty/) by 
+Hans Rosling can be found. The following exersices resemble the graphs shown in 
+the documentary. 
 
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(gapminder)
-gapminder <- as_data_frame(gapminder)
+gapminder <- as_tibble(gapminder)
 ```
 
 1. Which country had the highest life expectancy in **1952**?
 
-1. Make a plot of the life expectancy (`lifeExp`) vs. population (`pop`) in **1952**.
+```{r}
+var <- 28
+var
+```
+
+var is: `r var` 
+
+1. Make a plot of the life expectancy (`lifeExp`) vs. population (`pop`) in 
+**1952**.
 
 1. Change the color of the country depending on the continent.
 
 1. Change the size of the country depending the GPD.
-
-1. Describe what you see.
 
 1. Check if every country has the same number of measurements.
 
 1. Show the population growth on earth over time.
 
 1. Show the average life expectancy per continent in a graph.
+
+1. Show in a graph for every country the percentage of the world population that
+is living there in **2007**
