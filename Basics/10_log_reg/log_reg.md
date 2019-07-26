@@ -94,6 +94,7 @@ Calculate Probabilities
 
 
 ```r
+# Sex == female
 exp(1) / (1 + exp(1))
 ```
 
@@ -102,6 +103,7 @@ exp(1) / (1 + exp(1))
 ```
 
 ```r
+# Sex == male
 exp(1 + -2.5) / (1 + exp(1 + -2.5))
 ```
 
@@ -149,7 +151,7 @@ Odds Ratios and Confidence Intervals
 
 **Odds Ratio** defined as the ratio of the odds of A in the presence of B and the odds of A without the presence of B. If much bigger or smaller than 1 A is considered associated with B.
 
-The odds ratio for survival between men and women is 0.0809673
+The odds ratio for survival between men linkand women is 0.0809673
 
 Use Model to make Predictions
 ========================================================
@@ -169,6 +171,13 @@ train <- train %>%
     )
   )
 ```
+
+Predict Types
+========================================================
+
+- **`link`** calculates the log-odds (the logarithm of the odds ratio's)
+- **`response`** calculates the probabilities 
+- **`terms`** calculates a matrix with fitted values for each term
 
 Confusion Matrix 
 ========================================================
