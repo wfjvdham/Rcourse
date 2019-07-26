@@ -103,6 +103,12 @@ perc <- function(col) {
 df %>%
   group_by(group) %>%
   summarise_all(perc)
+
+df %>%
+  gather("key", "value", -group) %>%
+  group_by(group, key) %>%
+  summarise(perc_1 = sum(value) / n()) %>%
+  spread(key, perc_1)
 ```
 
 # Iris exploration
@@ -112,6 +118,13 @@ df %>%
 ```{r}
 iris %>%
   map_df(mean)
+
+iris %>%
+  select(-Species) %>%
+  gather("key", "value") %>%
+  group_by(key) %>%
+  summarise(mean_values = mean(value)) %>%
+  spread(key, mean_values)
 ```
 
 2. Calculate the mean for all columns per `Species`
@@ -120,8 +133,13 @@ iris %>%
 iris %>%
   group_by(Species) %>%
   summarise_all(mean)
-```
 
+iris %>%
+  gather("key", "value", -Species) %>%
+  group_by(Species, key) %>%
+  summarise(mean_values = mean(value)) %>%
+  spread(key, mean_values)
+```
 
 ```{r}
 nested_iris <- iris %>%
@@ -199,6 +217,13 @@ get_glance <- function(column) {
   glance(model)
 }
 models <- map_df(columns, get_glance)
+
+models <- flights %>%
+  select(arr_delay, columns) %>%
+  gather("key", "value", -arr_delay) %>%
+  group_by(key) %>%
+  summarise(model = list(glance(lm(arr_delay ~ value)))) %>%
+  unnest()
 ```
 
 # Age calculations
@@ -222,7 +247,7 @@ calculate_age <- function(df) {
   df1 %>%
     mutate(
       age = year(now()) - geboortejaar,
-      age = if_else(age < 130 & age > 0, age, NA_real_)
+      age = ifelse(age < 130 & age > 0, age, NA)
     )
 }
 
@@ -232,6 +257,17 @@ df2 <- df2 %>%
   calculate_age()
 df3 <- df3 %>%
   calculate_age()
+
+df1$df = "1"
+df2$df = "2"
+df3$df = "3"
+
+df_all <- rbind(df1, df2, df3) %>%
+  mutate(
+    age = year(now()) - geboortejaar,
+    age = if_else(age < 130 & age > 0, age, NA_real_)
+  ) %>%
+  group_split(df)
 ```
 
 3. Now you want to do the same but the `geboortejaar` colomn has a different name in every data frame.
@@ -273,6 +309,14 @@ birth_year_column_list <- map(c("geboortejaar", "gebjaar", "born"), sym)
 
 df_list <- df_list %>%
   map2(birth_year_column_list, calculate_age)
+
+cbind(df1, df2, df3) %>%
+  gather("key", "value") %>%
+  mutate(
+    age = year(now()) - value,
+    age = if_else(age < 130 & age > 0, age, NA_real_)
+  ) %>%
+  group_split(key)
 ```
 
 # Re-coding variables
