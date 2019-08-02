@@ -101,8 +101,33 @@ Use Packages
 
 Install - one time
 
-`install.packages("tidyverse")`
+
+```r
+install.packages("tidyverse")
+```
 
 Load - every time you start with using R
 
-`library("tidyverse")`
+
+```r
+library("tidyverse")
+```
+
+Get Help
+========================================================
+
+
+```r
+?cut()
+help(cut)
+?mtcars
+help(mtcars)
+```
+
+Work in a Project
+========================================================
+
+- Working directories are set correctly automatically so sharing becomes easy.
+- Files and scripts that belong together are kept together.
+
+Open the Rcourse.Rproj file to start!
