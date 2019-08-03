@@ -1,6 +1,8 @@
 ggplot
 ========================================================
 author: Wim van der Ham
+width: 1440
+height: 900
 
 Work Flow
 ========================================================
@@ -110,7 +112,9 @@ With `cut()` you can change a continues varibale into a discrete one. The `break
 
 ```r
 ggplot(titanic_train) +
-  geom_boxplot(aes(cut(Age, 5), Fare))
+  geom_boxplot(
+    aes(cut(Age, 5), Fare)
+  )
 ```
 
 ![plot of chunk unnamed-chunk-8](README-figure/unnamed-chunk-8-1.png)

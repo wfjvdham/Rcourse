@@ -1,0 +1,285 @@
+dplyr
+========================================================
+author: Wim van der Ham
+autosize: true
+
+Pipe %>%
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+library(titanic)
+titanic_train <- as_tibble(titanic_train)
+```
+
+```{r}
+sin(sqrt(log(10)))
+```
+
+```{r}
+10 %>%
+  log %>%
+  sqrt %>%
+  sin
+```
+
+dplyr - Most important functions
+========================================================
+
+| function | description | SQL |
+| --- | --- | --- |
+| `select()` | Select specific columns | SELECT |
+| `filter()` | Filter rows using a condition | WHERE |
+| `mutate()` | Add a new column using a function | |
+| `group_by()` | Make groups | GROUP BY |
+| `summarise()` | Calculate some values per group | |
+| `arrange()` | Sort | ORDER BY |
+
+select() - Column names
+========================================================
+
+```{r}
+titanic_train %>%
+  select(Sex, Fare)
+```
+
+select() - Negated column names
+========================================================
+
+```{r}
+titanic_train %>%
+  select(-Age)
+```
+
+select() - Colon with column names
+========================================================
+
+```{r}
+titanic_train %>%
+  select(Sex:Parch)
+```
+
+select() - Colon with numbers
+========================================================
+
+```{r}
+titanic_train %>%
+  select(1:3)
+```
+
+Condition
+========================================================
+
+> Expression that can be `TRUE` or `FALSE`
+
+| | |
+| --- | ---|
+| **`==`** | is equal |
+| **`!=`** | is not equal |
+| **`>=`, `>`, `=<`, `<`** | comparison |
+| **<code>&</code>, <code>&#124;</code>** | logical comparison|
+| **`%in%`** | is in a list or vector |
+| **`is.na()`** | is equal to `NA` |
+| **`!`** | reverses the result of a condition |
+
+filter() - Single condition
+========================================================
+
+```{r}
+titanic_train %>%
+  filter(Sex == "male")
+```
+
+filter() - Multiple conditions &
+========================================================
+
+```{r}
+titanic_train %>%
+  filter(Sex == "male" & Pclass == 1)
+```
+
+filter() - Multiple conditions ,
+========================================================
+
+```{r}
+titanic_train %>%
+  filter(Sex == "male", Pclass %in% c(1, 2))
+```
+
+mutate() 
+========================================================
+
+```{r}
+titanic_train %>%
+  mutate(Age_10 = Age + 10) %>%
+  select(Age, Age_10)
+```
+
+mutate() 
+========================================================
+
+```{r}
+titanic_train %>%
+  mutate(Pclass_factor = factor(Pclass)) %>%
+  select(Pclass, Pclass_factor)
+```
+
+group_by() + summarise() - n()
+========================================================
+
+```{r}
+titanic_train %>%
+  group_by(Sex) %>%
+  summarise(n = n())
+```
+
+count()
+========================================================
+
+```{r}
+titanic_train %>%
+  count(Sex)
+```
+
+group_by() + summarise() - 1 function
+========================================================
+
+```{r}
+titanic_train %>%
+  group_by(Sex) %>%
+  summarise(
+    mean_age = mean(Age, na.rm = TRUE)
+  )
+```
+
+group_by() + summarise() - 2 functions
+========================================================
+
+```{r}
+titanic_train %>%
+  group_by(Sex) %>%
+  summarise(
+    n = n(),
+    missing = sum(is.na(Age))
+  )
+```
+
+summarise()
+========================================================
+
+```{r}
+titanic_train %>%
+  summarise(
+    n = n(),
+    missing = sum(is.na(Age))
+  )
+```
+
+arrange() - Ascending
+========================================================
+
+```{r}
+titanic_train %>%
+  arrange(Age) %>%
+  select(Age)
+```
+
+arrange() - Descending
+========================================================
+
+```{r}
+titanic_train %>%
+  arrange(desc(Age)) %>%
+  select(Age)
+```
+
+Calculate a Percentage
+========================================================
+
+```{r}
+titanic_train %>%
+  group_by(Sex) %>%
+  summarise(
+    n = n(),
+    missing = sum(is.na(Age))
+  ) %>%
+  mutate(
+    perc_missing = missing / sum(n) * 100
+  )
+```
+
+Plot a Summary Value
+========================================================
+
+```{r}
+mean_age_sex <- titanic_train %>%
+  group_by(Sex) %>%
+  summarise(
+    mean_age = mean(Age, na.rm = TRUE)
+  )
+
+ggplot(mean_age_sex) +
+  geom_bar(aes(Sex, mean_age), stat = "identity")
+```
+
+Extra Functions
+========================================================
+
+- `slice()` Select 1 or multiple rows based on the position of the row
+- `nrow()` Counts the number of rows of a data frame
+- `summary()` Gives summaries of all the variables in a data frame (not tidy!)
+
+Group a Continues Variable
+========================================================
+
+```{r}
+titanic_train %>%
+  mutate(
+    groups = cut(Fare, c(-1, 50, 100, 1000))
+  ) %>%
+  group_by(groups) %>%
+  summarise(n = n())
+```
+
+Exercise - Questions 1
+========================================================
+
+1. Which columns have `NA` values?
+1. How many flights are there on 1^th January 2013?
+1. What is the largest distance (in km!) between two airports? Also give the names of the airports.
+1. How many different destinations are there?
+
+Exercise - Questions 1 with Tips
+========================================================
+
+- How many flights are there on 1^th January 2013? 
+  
+  `filter(day == ... & month == ...)`
+- What is the largest distance (in km!) between two airports? Also give the names of the airports.
+
+  `mutate(distance_km = distance * 1.60934)`
+- How many different destinations are there?
+
+  `group_by(dest)`
+
+Exercise - Questions 2
+========================================================
+
+1. What is the median of the distance of all the flights with carrier `DL`?
+1. What is the most popular destination in January 2013?
+1. Show in a graph if more flights are delayed or on time.
+1. Show in a graph what the most popular times are for a flight to take off.
+1. Show the distribution of the arrival delay. What can you say about this variable?
+
+Exercise - Questions 2 with Tips
+========================================================
+
+1. What is the median of the distance of all the flights with carrier `DL`?
+
+  `summarise(meanDistance = median(distance))`
+1. What is the most popular destination in January 2013?
+
+  `filter -> group_by -> summerise -> arrange`
+1. Show in a graph if more flights are delayed or on time.
+
+  `aes(arr_delay > 0)`
