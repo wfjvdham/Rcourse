@@ -7,6 +7,9 @@
 # Run the next line and check that a flights data frame loads in your 
 # environment
 
+flights <- as_tibble(flights) %>%
+  sample_n(10000)
+
 # Show in a graph the distribution of the distances of the flights
 
 # Show in a graph number of flights per origin
