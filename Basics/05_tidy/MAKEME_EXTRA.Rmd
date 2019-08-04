@@ -1,0 +1,38 @@
+---
+title: "Tidy Extra Exersice Answers"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+Use the tidy version of the following datasets to answer the nexts questions:
+
+```{r}
+weather <- read_csv(
+  "../../datasets/weather.csv",
+  col_types = list(
+    .default = col_integer(),
+    id = col_character(),
+    element = col_character()
+  )
+)
+pew <- read_csv(
+  "../../datasets/pew.csv",
+  col_types = list(
+    .default = col_double(),
+    religion = col_character()
+  )
+)
+```
+
+# weather
+
+1. Calculate the number of days for which we have a measurement per month. And display this in a plot.
+1. Show in a graph the average min and max temperature per month
+
+# pew
+
+1. Show the percentage of `Don't,know/refused` per religion in a graph.
+1. Show in a graph per income group the percantage of persons from the 3 biggest religions.

@@ -1,0 +1,28 @@
+---
+title: "Tidy Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+Make tidy the two following datasets
+
+```{r}
+weather <- read_csv(
+  "../../datasets/weather.csv",
+  col_types = list(
+    .default = col_integer(),
+    id = col_character(),
+    element = col_character()
+  )
+)
+pew <- read_csv(
+  "../../datasets/pew.csv",
+  col_types = list(
+    .default = col_double(),
+    religion = col_character()
+  )
+)
+```

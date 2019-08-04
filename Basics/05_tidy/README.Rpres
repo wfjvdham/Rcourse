@@ -1,7 +1,8 @@
 Tidy
 ========================================================
 author: Wim van der Ham
-autosize: true
+width: 1440
+height: 900
 
 Tidy Data
 ========================================================
@@ -16,7 +17,6 @@ tidy package
 1. `gather()` Collapse multiple columns into key-value pairs
 1. `spread()` Spread a key-value pair across multiple columns
 1. `separate()` Split single column into multiple columns
-1. `unite()` Paste together multiple columns ass one
 
 Gather
 ========================================================
@@ -26,10 +26,14 @@ Gather
 Gather - Arguments
 ========================================================
 
-```{r, eval=FALSE}
+```{r, include=FALSE}
 library(tidyverse)
+library(stringr)
+```
+
+```{r, eval=FALSE}
 df %>%
-  gather("key", "value", <selection of columns>)
+  gather("key", "value", <columns>)
 ```
 
 Spread
@@ -42,7 +46,7 @@ Spread - Arguments
 
 ```{r, eval=FALSE}
 df %>%
-  spread(<name of the key column>, <name of the value column>)
+  spread(<key column>, <value column>)
 ```
 
 Separate
@@ -50,43 +54,71 @@ Separate
 
 ![separate](./separate.jpg)
 
-Unite
+Example - Load example dataset
 ========================================================
-
-![unite](./unite.jpg)
-
-Example
-========================================================
-
-Examples in the `tidy.R` file
-
-Exercise
-========================================================
-
-Make the following dataset tidy
 
 ```{r}
-library(tidyverse)
-weather <- read_tsv(
-  "http://stat405.had.co.nz/data/weather.txt"
-)
+who <- as_tibble(tidyr::who)
 ```
 
-```{r}
-pew <- read_tsv(
-  "http://stat405.had.co.nz/data/pew.txt"
-)
-```
-
-Exercise - dplyr and ggplot2
+Example - Gather columns with treathments codes
 ========================================================
 
-Create the following graphs:
+```{r}
+who1 <- who %>% 
+  gather("key", "value", new_sp_m014:newrel_f65, na.rm = TRUE)
+who1
+```
 
-1. The average minimum and maximum temperature per month
-1. An estimation of the average income per religion
+Example - Count them to check keys
+========================================================
 
-Some tips:
-- `geom_bar()` with `position="dodge"``
-- `case_when()`
-- `sum()`
+```{r}
+who1 %>% 
+  group_by(key) %>%
+  summarise(n = n())
+```
+
+Example - Fix typo in key
+========================================================
+
+```{r}
+who2 <- who1 %>% 
+  mutate(key = str_replace(key, "newrel", "new_rel"))
+who2
+```
+
+Example - Check if fixed
+========================================================
+
+```{r}
+who2 %>% 
+  count(key)
+```
+
+Example - Seperate the key value into columns
+========================================================
+
+```{r}
+who3 <- who2 %>% 
+  separate(key, c("new", "type", "sexage"), sep = "_")
+who3
+```
+
+Example - Drop columns
+========================================================
+
+```{r}
+who4 <- who3 %>% 
+  select(-new, -iso2, -iso3)
+who4
+```
+
+Example - Split sexage into sex and age
+========================================================
+
+```{r}
+who5 <- who4 %>% 
+  separate(sexage, c("sex", "age"), sep = 1)
+who5
+```
