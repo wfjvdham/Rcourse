@@ -1,0 +1,104 @@
+---
+title: "R Notebook Demo"
+output:
+  html_notebook: default
+---
+
+# Heading
+
+## Sub-heading
+
+### Another deeper heading
+
+# Lists
+
+* apples
+* oranges
+* pears
+
+1. apples
+1. oranges
+1. pears
+
+# Link
+
+[link](http://www.google.com)
+
+# Options for Chunck
+
+*italic*
+
+**bold**
+
+# Code Visability
+
+## Do not show but run
+
+Typically used for loading packages
+
+```{r, include=FALSE}
+library(tidyverse)
+library(knitr)
+```
+
+## Show both
+
+```{r}
+4 + 5
+```
+
+## Show only the output
+
+```{r, echo=FALSE}
+4 + 5
+```
+
+## Shows the code but does not run it
+
+```{r, eval=FALSE}
+4 + 5
+```
+
+# Outputs
+
+## Variables
+
+The output of a variable shows in the following way:
+
+```{r}
+4 + 5
+```
+
+This can be presented nicer using inline r:
+
+```{r}
+answer <- 4 + 5
+```
+
+4 + 5 = **`r answer`**
+
+## Plots
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(Sepal.Length, Petal.Length, color = Species))  
+```
+
+## Tables
+
+### Print a data frame directly
+
+This looks nice in a html format but not really in word or pdf
+
+```{r}
+iris
+```
+
+### Use the kable package
+
+Looks better in pdf and word
+
+```{r}
+iris %>%
+  kable()
+```

@@ -1,0 +1,22 @@
+---
+title: "Extra Markdown Exersice"
+output: html_notebook
+---
+
+This file contains some questions to practice the material learned until now. Make sure the result is presentable!
+
+```{r, include=FALSE}
+library(tidyverse)
+diamonds <- as_tibble(diamonds)
+```
+
+1. Show the distribution of the `price` variable in a plot.
+1. How many diamonts are there per `cut`? Display the result in a graph and a table.
+1. Show the relationship between `cut` and the average price per `cut`. Now show this per `carat_group`. This is a varibale you need to create yourself.
+1. Give the following statistice of the dataset:
+
+  - The number of diamonds: 
+  - The average price: 
+  - The min price: 
+  - The max price: 
+  - The number of `cut`'s:
