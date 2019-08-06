@@ -1,0 +1,65 @@
+join
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+Join
+========================================================
+
+> Combine multiple data frames into 1 based on one or more columns
+
+merge() vs join
+========================================================
+
+For joining data frames you can use the `merge()` function from `base` or the join functions from the `dplyr` package. The last ones have the following [advantages](https://groups.google.com/forum/#!topic/manipulatr/OuAPC4VyfIc) above the `merge()` function:
+
+* Rows are kept in existing order
+* Much faster
+* Tells you what keys you’re merging by (if you don’t supply)
+* Also work with database tables
+
+Type of joins
+========================================================
+
+![](join-image.jpg)
+
+Join - 1 column
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+flights2 <- flights %>% 
+  select(year, hour, origin, dest, tailnum, carrier) %>%
+  sample_n(20000)
+```
+
+```{r}
+flights2 %>% 
+  left_join(airlines)
+```
+
+Join - Multiple columns
+========================================================
+
+```{r}
+flights2 %>% 
+  left_join(weather)
+```
+
+Join - Same columns names
+========================================================
+
+```{r}
+flights2 %>% 
+  left_join(planes, by = "tailnum")
+```
+
+Join - Different column names
+========================================================
+
+```{r}
+flights2 %>% 
+  left_join(airports, c("dest" = "faa"))
+```
