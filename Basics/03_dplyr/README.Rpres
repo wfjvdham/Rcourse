@@ -229,7 +229,7 @@ Extra Functions
 - `nrow()` Counts the number of rows of a data frame
 - `summary()` Gives summaries of all the variables in a data frame (not tidy!)
 - `sum()` Sums all the values
-- `mean()` Avergae of the values
+- `mean()` Average of the values
 - `median()` Median of the values
 - `pull()` Get the values in a column
 - `if_else()` Returns different values based on a condition

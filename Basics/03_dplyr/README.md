@@ -368,7 +368,7 @@ titanic_train %>%
 2 male     577     124
 ```
 
-summarise()
+summarise() without group_by()
 ========================================================
 
 
@@ -488,6 +488,12 @@ Extra Functions
 - `slice()` Select 1 or multiple rows based on the position of the row
 - `nrow()` Counts the number of rows of a data frame
 - `summary()` Gives summaries of all the variables in a data frame (not tidy!)
+- `sum()` Sums all the values
+- `mean()` Average of the values
+- `median()` Median of the values
+- `pull()` Get the values in a column
+- `if_else()` Returns different values based on a condition
+- `case_when()` Returns different values based on many conditions
 
 Group a Continues Variable
 ========================================================
@@ -510,46 +516,3 @@ titanic_train %>%
 2 (50,100]      107
 3 (100,1e+03]    53
 ```
-
-Exercise - Questions 1
-========================================================
-
-1. Which columns have `NA` values?
-1. How many flights are there on 1^th January 2013?
-1. What is the largest distance (in km!) between two airports? Also give the names of the airports.
-1. How many different destinations are there?
-
-Exercise - Questions 1 with Tips
-========================================================
-
-- How many flights are there on 1^th January 2013? 
-  
-  `filter(day == ... & month == ...)`
-- What is the largest distance (in km!) between two airports? Also give the names of the airports.
-
-  `mutate(distance_km = distance * 1.60934)`
-- How many different destinations are there?
-
-  `group_by(dest)`
-
-Exercise - Questions 2
-========================================================
-
-1. What is the median of the distance of all the flights with carrier `DL`?
-1. What is the most popular destination in January 2013?
-1. Show in a graph if more flights are delayed or on time.
-1. Show in a graph what the most popular times are for a flight to take off.
-1. Show the distribution of the arrival delay. What can you say about this variable?
-
-Exercise - Questions 2 with Tips
-========================================================
-
-1. What is the median of the distance of all the flights with carrier `DL`?
-
-  `summarise(meanDistance = median(distance))`
-1. What is the most popular destination in January 2013?
-
-  `filter -> group_by -> summerise -> arrange`
-1. Show in a graph if more flights are delayed or on time.
-
-  `aes(arr_delay > 0)`
