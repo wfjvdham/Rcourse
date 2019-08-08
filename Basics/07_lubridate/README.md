@@ -24,10 +24,23 @@ Has 3 types of date/time data:
 Today and Now
 ========================================================
 
-```{r}
-library(lubridate)
+
+
+
+```r
 today()
+```
+
+```
+[1] "2019-08-08"
+```
+
+```r
 now()
+```
+
+```
+[1] "2019-08-08 09:40:40 CEST"
 ```
 
 Components
@@ -43,28 +56,71 @@ Abbreviation | Component | Get/set | Periods
 **s** | second | `second()` | `seconds()`
 **tz** | timezone | `tz()` | 
 
-From a String - Date
+From a String to Date
 ========================================================
 
-```{r}
+
+```r
 ymd("2017-01-31")
+```
+
+```
+[1] "2017-01-31"
+```
+
+```r
 mdy("January 31st, 2017")
+```
+
+```
+[1] "2017-01-31"
+```
+
+```r
 dmy("31-Jan-2017")
+```
+
+```
+[1] "2017-01-31"
 ```
 
 ***
 
-```{r}
+
+```r
 ymd(20170131)
 ```
 
-From a String - Date-Time
+```
+[1] "2017-01-31"
+```
+
+From a String to Date-Time
 ========================================================
 
-```{r}
+
+```r
 ymd_hms("2017-01-31 20:11:59")
+```
+
+```
+[1] "2017-01-31 20:11:59 UTC"
+```
+
+```r
 mdy_hm("01/31/2017 08:01")
-ymd(20170131, tz = "UTC")
+```
+
+```
+[1] "2017-01-31 08:01:00 UTC"
+```
+
+```r
+ymd_hms(20170131083055, tz = "UTC")
+```
+
+```
+[1] "2017-01-31 08:30:55 UTC"
 ```
 
 make_datetime()
@@ -72,12 +128,10 @@ make_datetime()
 
 > Function to create dates from numeric values
 
-```{r, include=FALSE}
-library(tidyverse)
-library(nycflights13)
-```
 
-```{r}
+
+
+```r
 flights %>% 
   mutate(
     departure = make_datetime(
@@ -88,42 +142,129 @@ flights %>%
   slice(1)
 ```
 
+```
+# A tibble: 1 x 1
+  departure          
+  <dttm>             
+1 2013-01-01 05:15:00
+```
+
 Unix Epoch
 ========================================================
 
 > The number of seconds since 1970-01-01 00:00:00 UTC
 
-```{r}
+
+```r
 as_datetime(60 * 60 * 10)
+```
+
+```
+[1] "1970-01-01 10:00:00 UTC"
 ```
 
 Periods
 ========================================================
 
-```{r}
+
+```r
 seconds(15)
+```
+
+```
+[1] "15S"
+```
+
+```r
 minutes(10)
+```
+
+```
+[1] "10M 0S"
+```
+
+```r
 hours(c(12, 24))
+```
+
+```
+[1] "12H 0M 0S" "24H 0M 0S"
 ```
 
 ***
 
-```{r}
+
+```r
 days(7)
+```
+
+```
+[1] "7d 0H 0M 0S"
+```
+
+```r
 years(1)
+```
+
+```
+[1] "1y 0m 0d 0H 0M 0S"
+```
+
+```r
 months(1:3)
+```
+
+```
+[1] "1m 0d 0H 0M 0S" "2m 0d 0H 0M 0S" "3m 0d 0H 0M 0S"
 ```
 
 Periods - Calculations
 ========================================================
 
-```{r}
-10 * (months(6) + days(1))
-days(50) + hours(25) + minutes(2)
+
+```r
+10 * (months(6) + days(1)) / years(1)
+```
+
+```
+[1] 5.027379
+```
+
+```r
+(days(50) + hours(25) + minutes(2)) / days(1)
+```
+
+```
+[1] 51.04306
+```
+
+```r
 ymd("2016-01-01") + years(1)
 ```
 
-Exercise
+```
+[1] "2017-01-01"
+```
+
+Intervals
 ========================================================
 
-An exercise can be found in the `lubridate.Rmd` file.
+> A period of time between two specific dates. Can be used to calculate the difference in any unit adjusting for different lengths of months, leap years etc.
+
+
+```r
+interval(ymd(20180101), ymd(20180201)) / days(1)
+```
+
+```
+[1] 31
+```
+
+```r
+ymd(20180201) %--% ymd(20180301) / days(1)
+```
+
+```
+[1] 28
+```
+

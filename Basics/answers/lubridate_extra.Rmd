@@ -1,0 +1,64 @@
+---
+title: "Extra lubridate Exersice Answers"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(nycflights13)
+
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Show the `sched_dep_time` of all the flights per minute. Are some minutes more populair for than others for scheduling a flight?
+
+```{r}
+flights %>% 
+  mutate(
+    sched_dep_time_dt = make_datetime(
+      year, month, day, sched_dep_time %/% 100, sched_dep_time %% 100
+    ),
+    m = minute(sched_dep_time_dt)
+  ) %>%
+  ggplot() +
+  geom_bar(aes(m))
+```
+
+2. Group the flights based on `dep_time` and the moment of the day (morning, afternoon, evening, night). Show in a graph the relation between `air_time` and part of the day.
+
+```{r}
+flights %>% 
+  mutate(
+    dep_time_dt = make_datetime(
+      year, month, day, dep_time %/% 100, dep_time %% 100
+    ),
+    day_part = case_when(
+      hour(dep_time_dt) < 6 ~ "night",
+      hour(dep_time_dt) < 12 ~ "morning",
+      hour(dep_time_dt) < 18 ~ "afternoon",
+      TRUE ~ "evening"
+    )
+  ) %>%
+  ggplot() +
+  geom_boxplot(aes(day_part, air_time))
+```
+
+3. First convert both `arr_time` and `dep_time` to a `dttm`. Filter the flights that have an `arr_time` that is before `dep_time`. How is this possible? Fix the error.
+
+```{r}
+flights %>% 
+  mutate(
+    dep_time_dt = make_datetime(
+      year, month, day, sched_dep_time %/% 100, sched_dep_time %% 100
+    ),
+    arr_time_dt = make_datetime(
+      year, month, day, arr_time %/% 100, arr_time %% 100
+    ),
+    overnight = arr_time_dt < dep_time_dt,
+    arr_time_dt = arr_time_dt + days(overnight * 1)
+  ) %>%
+  filter(overnight == TRUE) %>%
+  select(dep_time_dt, arr_time_dt)
+```

@@ -1,0 +1,17 @@
+---
+title: "Extra lubridate Exersice"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(nycflights13)
+
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Show the `sched_dep_time` of all the flights per minute. Are some minutes more populair for than others for scheduling a flight?
+2. Group the flights based on `dep_time` and the moment of the day (morning, afternoon, evening, night). Show in a graph the relation between `air_time` and part of the day.
+3. First convert both `arr_time` and `dep_time` to a `dttm`. Filter the flights that have an `arr_time` that is before `dep_time`. How is this possible? Fix the error.

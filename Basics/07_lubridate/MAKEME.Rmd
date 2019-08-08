@@ -1,0 +1,14 @@
+---
+title: "lubridate Exersice"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+```
+
+1. How many days does the year 2004 have?
+2. How old are you in days?
+3. How many seconds have pased since 1970-01-01?
+4. Today 2 years ago, 25 days later, what was the day of the week?
