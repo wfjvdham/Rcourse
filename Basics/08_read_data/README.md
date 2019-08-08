@@ -17,13 +17,17 @@ stringsAsFactors
 - Old reading functions have a `.` between words
 - They by default convert `strings` to `factors` because of old R memory usage
 
-```{r, eval=FALSE}
-library(tidyverse)
+
+
+
+```r
 paris_paintings_old <- read.csv(
   "./datasets/paris_paintings.csv", 
-  stringsAsFactors = TRUE
+  stringsAsFactors = FALSE
 )
-paris_paintings_tv <- read_csv("./datasets/paris_paintings.csv")
+paris_paintings_tv <- read_csv(
+  "./datasets/paris_paintings.csv"
+)
 ```
 
 Write Data to File
@@ -36,9 +40,11 @@ Write Data to File
 Reading and Writing to a R Data File
 ========================================================
 
-`readRDS()`
+> Faster and more consistend way of storing objects that are only used in R 
 
-`saveRDS()`
+`read_rds()`
+
+`write_rds()`
 
 Reading from Excel Files
 ========================================================
@@ -51,6 +57,11 @@ Reading from Other Statistical Packages
 ========================================================
 
 Functions are in the [haven](http://haven.tidyverse.org/) package
+
+Using Rstudio
+========================================================
+
+The Import Dataset will open a window where you can graphically read and check your data. In the bottom right of the window the R command will be shown that can be coppied to your script.
 
 Reading from Databases
 ========================================================
@@ -76,11 +87,6 @@ Doing Calculations using the Database
 - `compute()` stores the data in a remote temporary table
 - `collect()` retrieves data into a local data frame
 
-Connecting to MySQL
-========================================================
-
-Example in `read_mysql.R`
-
 Making Graphics using the Database
 ========================================================
 
@@ -89,11 +95,7 @@ Using [dbplot](https://rviews.rstudio.com/2017/08/16/visualizations-with-r-and-d
 - Only plot summaries
 - Make this summaries on the database
 
-Example in `read_mysql.R`
-
 Connecting to Mongo
 ========================================================
 
 Using [mongolite](https://jeroen.github.io/mongolite/)
-
-Example in `mongo.R`

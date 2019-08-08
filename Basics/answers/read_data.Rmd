@@ -11,31 +11,30 @@ library(readxl)
 Read the paris_paintings csv.
 
 ```{r}
-paintings <- read_csv("../datasets/paris_paintings.csv")
+paintings <- read_csv("../../datasets/paris_paintings.csv")
 ```
 
 Read the example excel and save as a csv.
 
-```{r}
-sheets <- excel_sheets("../datasets/example_file.xlsx")
+```{r, eval=FALSE}
+sheets <- excel_sheets("../../datasets/example_file.xlsx")
 excel <- sheets %>%
   map(function(sheet) {
-    read_excel("../datasets/example_file.xlsx", sheet)
+    read_excel("../../datasets/example_file.xlsx", sheet)
   })
-#excel <- rbind(excel[[1]], excel[[2]])
 excel <- do.call("rbind", excel)
-write_csv(excel, "../datasets/test.csv")
+write_csv(excel, "../../datasets/test.csv")
 ```
 
 Read the csv and save as an Rdata file.
 
-```{r}
-csv <- read_csv("../datasets/test.csv")
-saveRDS(csv, "../datasets/test.Rda")
+```{r, eval=FALSE}
+csv <- read_csv("../../datasets/test.csv")
+write_rds(csv, "../../datasets/test.Rda")
 ```
 
 Read the Rdata file and check if the information is the same as after reading the excel.
 
-```{r}
-rds <- readRDS("../datasets/test.Rda")
+```{r, eval=FALSE}
+rds <- read_rds("../../datasets/test.Rda")
 ```
