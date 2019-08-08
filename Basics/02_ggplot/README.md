@@ -216,11 +216,17 @@ ggplot(titanic_train) +
 
 ![plot of chunk unnamed-chunk-15](README-figure/unnamed-chunk-15-1.png)
 
+Zoom - Without filtering out data
+========================================================
+
 Only with `geom_boxplot()` this is risky because it changes the actual output. So use `coord_cartesian()`. 
 
 
-
-
+```r
+ggplot(titanic_train) + 
+  geom_boxplot(aes(factor(Pclass), Fare)) + 
+  coord_cartesian(ylim = c(0, 100))
 ```
-Error in ggplot(train) : objeto 'train' no encontrado
-```
+
+![plot of chunk unnamed-chunk-16](README-figure/unnamed-chunk-16-1.png)
+

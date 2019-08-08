@@ -4,11 +4,6 @@ author: Wim van der Ham
 width: 1440
 height: 900
 
-Join
-========================================================
-
-> Combine multiple data frames into 1 based on one or more columns
-
 merge() vs join
 ========================================================
 
