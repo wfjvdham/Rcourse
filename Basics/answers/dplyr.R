@@ -1,4 +1,4 @@
-# Load the tidyverse package so you can use the ggplot package
+# Load the tidyverse package
 
 library(tidyverse)
 
