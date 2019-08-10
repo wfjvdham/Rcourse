@@ -8,6 +8,8 @@
 flights <- as_tibble(flights) %>%
   sample_n(10000)
 
+# Use summary(). Install and load the skimr package. Use the skim() function.
+
 # Select the columns dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time
 
 # How many flights are there on 1^th January 2013?

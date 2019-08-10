@@ -482,19 +482,6 @@ ggplot(mean_age_sex) +
 
 ![plot of chunk unnamed-chunk-21](README-figure/unnamed-chunk-21-1.png)
 
-Extra Functions
-========================================================
-
-- `slice()` Select 1 or multiple rows based on the position of the row
-- `nrow()` Counts the number of rows of a data frame
-- `summary()` Gives summaries of all the variables in a data frame (not tidy!)
-- `sum()` Sums all the values
-- `mean()` Average of the values
-- `median()` Median of the values
-- `pull()` Get the values in a column
-- `if_else()` Returns different values based on a condition
-- `case_when()` Returns different values based on many conditions
-
 Group a Continues Variable
 ========================================================
 
@@ -516,3 +503,23 @@ titanic_train %>%
 2 (50,100]      107
 3 (100,1e+03]    53
 ```
+
+Creating Summaries
+========================================================
+
+For rapid exploration the first step is to create a summary of your data frame. The following functions can be used for that:
+
+- `summary()` Does not create a data frame
+- `skimr::skim()` Does create a data frame, but requires you to install an extra package
+
+Extra Functions
+========================================================
+
+- `slice()` Select 1 or multiple rows based on the position of the row
+- `nrow()` Counts the number of rows of a data frame
+- `sum()` Sums all the values
+- `mean()` Average of the values
+- `median()` Median of the values
+- `pull()` Get the values in a column
+- `if_else()` Returns different values based on a condition
+- `case_when()` Returns different values based on many conditions
