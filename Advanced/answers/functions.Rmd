@@ -1,0 +1,44 @@
+---
+title: "Functions Exersice Answers"
+output: html_notebook
+---
+
+2. Create a function that calculates the percentages of 0's in a vector.
+
+```{r}
+calc_perc_0 <- function(x) {
+  sum(x == 0) / length(x) * 100
+}
+calc_perc_0(c(0, 1, 2, 2))
+```
+
+3. Create a function that has an extra argument and calculates the percentage of that argument in the vector.
+
+```{r}
+calc_perc_element <- function(x, element) {
+  sum(x == element) / length(x) * 100
+}
+calc_perc_element(c(0, 1, 2, 2), 2)
+```
+
+4. Add an argument to the function that determines how to deal with `NA`'s.
+5. Are there arguments that should have a default value? If so give them the correct one.
+
+```{r}
+calc_perc_element <- function(x, element, na.rm = FALSE) {
+  sum(x == element, na.rm = na.rm) / length(x) * 100
+}
+calc_perc_element(c(0, 1, 2, 2, NA), 2, na.rm = TRUE)
+```
+
+6. Extend the function before so that is returns a percentage and the number of `NA`'s.
+
+```{r}
+calc_perc_element <- function(x, element, na.rm = FALSE) {
+  perc <- sum(x == element, na.rm = na.rm) / length(x) * 100
+  n_missings <- sum(is.na(x))
+  list("perc" = perc, "n_missings" = n_missings)
+}
+calc_perc_element(c(0, 1, 2, 2, NA), 2, na.rm = TRUE)
+```
+

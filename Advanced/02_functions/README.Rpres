@@ -9,6 +9,7 @@ Why use a Function?
 1. Reduces the amount of copy-and-paste and thus reducing the amount of mistakes in your code.
 1. When something needs to be changed you only need to change it in one place.
 1. To give a name to part of your code, making your code easier to read.
+1. To pass it to another function as an argument.
 
 **Use a function when you notice you are copy-and-pasting some code a lot**
 

@@ -46,6 +46,7 @@ return_sum <- function(a, b) {
   a + b
 }
 result <- return_sum(2, 3)
+result
 
 calc_sum_multi <- function(a, b) {
   a + b
@@ -83,7 +84,7 @@ df %>%
 ```
 
 2. Create a function that calculates the percentages of 0's in a vector.
-2. Create a function that calculates the percentages of 1's in a vector.
 2. Create a function that has an extra argument and calculates the percentage of that argument in the vector.
 2. Add an argument to the function that determines how to deal with `NA`'s.
 2. Are there arguments that should have a default value? If so give them the correct one.
+2. Extend the function before so that is returns a percentage and the number of `NA`'s.

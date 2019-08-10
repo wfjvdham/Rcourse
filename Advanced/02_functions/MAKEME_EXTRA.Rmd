@@ -1,0 +1,44 @@
+---
+title: "Extra Functions Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+library(lubridate)
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Change the values of the following 4 columns to correct time:
+
+  - `dep_time`
+  - `sched_dep_time`
+  - `arr_time`
+  - `sched_arr_time`
+
+```{r}
+convert_to_date <- function(time, year, month, day) {
+  make_datetime(
+    year, month, day, time %/% 100, time %% 100)
+}
+
+flights %>%
+  mutate_at(
+    vars(dep_time, sched_dep_time, arr_time, sched_arr_time),
+    ~convert_to_date(., year, month, day)
+  )
+```
+
+2. Calculate the percentage of missing values for all columns
+
+```{r}
+perc_missing <- function(x) {
+  sum(is.na(x)) / length(x) * 100
+}
+flights %>%
+  summarise_all(perc_missing)
+```
+
+3. 
