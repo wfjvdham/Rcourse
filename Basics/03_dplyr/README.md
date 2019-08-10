@@ -292,7 +292,7 @@ titanic_train %>%
 # … with 881 more rows
 ```
 
-group_by() + summarise() - n()
+group_by() + summarise() + n()
 ========================================================
 
 

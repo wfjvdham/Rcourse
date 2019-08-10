@@ -124,7 +124,7 @@ titanic_train %>%
   select(Pclass, Pclass_factor)
 ```
 
-group_by() + summarise() - n()
+group_by() + summarise() + n()
 ========================================================
 
 ```{r}
