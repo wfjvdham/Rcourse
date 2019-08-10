@@ -1,0 +1,111 @@
+dplyr Scoping
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+Scoped Functions
+========================================================
+
+> By adding `_if`, `_at` or `_all` behind a function you can apply the function to a specific subset of variables
+
+| Suffix | Subset |
+| --- | --- |
+| `_all` | All variables |
+| `_if` | Variables selected based on a condition |
+| `_at` | Variables selected using `vars()` |
+
+**<code>vars()</code>** Works in the same way as `select()` used for the `_at` versions of the functions
+
+summarise_all()
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+iris <- as_tibble(iris)
+mtcars <- as_tibble(mtcars)
+```
+
+```{r}
+iris %>%
+  summarise_all(mean)
+```
+
+summarise_if()
+========================================================
+
+```{r}
+iris %>%
+  summarise_if(is.numeric, mean)
+```
+
+summarise_at()
+========================================================
+
+```{r}
+iris %>%
+  summarise_at(vars(1:4), mean)
+```
+
+mutate_all()
+========================================================
+
+Only works when all columns are `numeric`, therefore we use a different data set.
+
+```{r}
+mtcars %>% 
+  mutate_all(log)
+```
+
+mutate_if()
+========================================================
+
+```{r}
+iris %>% 
+  mutate_if(is.double, as.character)
+```
+
+mutate_at()
+========================================================
+
+```{r}
+iris %>% 
+  mutate_at(vars(Sepal.Length:Sepal.Width), log)
+```
+
+filter() - Helper Functions
+========================================================
+
+* **<code>any_vars()</code>** Defines an expression that must be `TRUE` for any of the columns
+* **<code>all_vars()</code>** Defines an expression that must be `TRUE` for all of the columns
+
+For the last two helper functions the `.` refers to the value of the column
+
+filter_all()
+========================================================
+
+```{r}
+iris %>% 
+  filter_all(any_vars(is.na(.)))
+```
+
+filter_if()
+========================================================
+
+```{r}
+iris %>% 
+  filter_if(is.numeric, all_vars(. > 2.4))
+```
+
+filter_at()
+========================================================
+
+```{r}
+iris %>% 
+  filter_at(vars(1:4), any_vars(. > 7.5))
+```
+
+Other Functions
+========================================================
+
+The suffixes also work for `arrange()`, `group_by` and `select()`. But they are outside the scope of this chapter. I recommend reading the documentation of them.
