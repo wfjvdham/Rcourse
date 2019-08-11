@@ -9,6 +9,7 @@ Why use a Function?
 1. Reduces the amount of copy-and-paste and thus reducing the amount of mistakes in your code.
 1. When something needs to be changed you only need to change it in one place.
 1. To give a name to part of your code, making your code easier to read.
+1. To pass it to another function as an argument.
 
 **Use a function when you notice you are copy-and-pasting some code a lot**
 
@@ -124,3 +125,24 @@ y <- 2
 
 - For variables in the body of the function R first checks if it is one of the arguments.
 - After that is looks in the environment from where the functions is called.
+
+Formula
+========================================================
+
+- Simplified version of a function
+- 1 line of R code
+- Starts with `~`
+- Use `.` when there is 1 input agrument
+
+
+
+
+```r
+mtcars %>%
+  summarise_all(~ sum(.) + 10)
+```
+
+```
+    mpg cyl   disp   hp   drat      wt   qsec vs am gear carb
+1 652.9 208 7393.1 4704 125.09 112.952 581.16 24 23  128  100
+```

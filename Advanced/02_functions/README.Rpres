@@ -91,3 +91,20 @@ y <- 2
 
 - For variables in the body of the function R first checks if it is one of the arguments.
 - After that is looks in the environment from where the functions is called.
+
+Formula
+========================================================
+
+- Simplified version of a function
+- 1 line of R code
+- Starts with `~`
+- Use `.` when there is 1 input agrument
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r}
+mtcars %>%
+  summarise_all(~ sum(.) + 10)
+```
