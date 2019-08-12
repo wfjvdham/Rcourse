@@ -3,7 +3,7 @@ title: "Iteration"
 output: html_notebook
 ---
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
 load("../../datasets/swapi.rda")
 load("../../datasets/planet_lookup.rda")

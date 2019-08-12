@@ -1,0 +1,193 @@
+Iteration
+========================================================
+author: Wim van der Ham
+autosize: true
+
+Benefits of less copy-and-paste
+========================================================
+
+1. Code becomes more readable.
+1. Changes only need to be made at one place.
+1. Less code means less possibilities for mistakes.
+
+Functional Programming
+========================================================
+
+The paradigm that a function can be passed as an argument to another function.
+  
+Vectors
+========================================================
+
+There are two types of vectors:
+
+1. **Atomic vectors**
+  - All elements have the same basic type
+  - Cannot be named
+2. **Lists**
+  - Elements can have different types and can be non-basic (like another list)
+  - Can be named
+  
+**Note** data frames are named lists of atomic vectors
+
+Atomic Vectors - Examples
+========================================================
+
+```{r}
+c(1, 2, 3)
+c("a", "b", "c")
+```
+
+***
+
+```{r}
+c(1, 2, TRUE)
+c(1, 2, "TRUE")
+```
+
+List - Examples
+========================================================
+
+```{r}
+list(
+  "b", TRUE, 
+  list(2, "a")
+)
+```
+
+***
+
+```{r}
+list("var1" = 5, "var2" = 6)
+```
+
+List - Get Values
+========================================================
+
+```{r, include=FALSE}
+my_list <- list(
+  "var1" = 5, 
+  "var2" = 6, 
+  "var3" = 7
+)
+```
+
+```{r}
+my_list
+my_list[1:2]
+```
+
+***
+
+```{r}
+my_list[[1]]
+my_list[["var2"]]
+my_list$var3
+```
+
+List - Set Names
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r}
+names <- c("var1", "var2", "var3")
+data <- c(1, 2, 3)
+named_list <- data %>%
+  set_names(names)
+named_list
+```
+
+List - Other Functions
+========================================================
+
+```{r}
+number_list <- c(10, 250, 3)
+length(number_list)
+sort(number_list)
+sort(number_list, decreasing = TRUE)
+```
+
+map function
+========================================================
+
+> For each element of `.x` do `.f`
+
+```{r, eval=FALSE}
+map(.x, .f)
+```
+
+**.x**
+
+  - a vector
+  - a list
+  - a data frame (for each column)
+  
+**.f**
+
+  - a function
+  - a formula
+
+Use map
+========================================================
+
+1. Do it for one
+1. Put it into a function (or a formula)
+1. Do it for all using `map()`
+
+map function - Example
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r}
+vec <- c("apple", "banana", "melon")
+
+# Do it for 1
+nchar(vec[[1]])
+
+# Put it into a function
+count_char <- function(x) {
+  nchar(x)
+}
+
+# Do it for all
+map(vec, count_char)
+```
+
+map family
+========================================================
+
+- `map()` makes a list.
+- `map_lgl()` makes a logical vector.
+- `map_int()` makes an integer vector.
+- `map_dbl()` makes a double vector.
+- `map_chr()` makes a character vector.
+- `map_df()` makes a data frame.
+
+Extra map functions
+========================================================
+
+- `walk()` does not give an output
+- `map2()` for iterating over two lists
+- `pmap()` for iterating over multiple list. Can be used to apply a function to every row in a data frame
+
+pmap example
+========================================================
+
+```{r}
+df <- tribble(
+  ~ n, ~ min, ~ max,
+   1L,     0,     1,
+   2L,    10,   100,
+   3L,   100,  1000
+)
+
+x <- df[1, ]
+runif(n = x$n, min = x$min, max = x$max)
+
+pmap(df, runif)
+```

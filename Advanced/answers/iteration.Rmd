@@ -20,6 +20,7 @@ length(people)
 ```{r}
 people[[1]] # Luke!
 ```
+
 # What is the difference between people[1] and people[[1]]?
 
 ```{r}
@@ -31,30 +32,30 @@ people[[1]] # A list, dropped one level of heirachy
 # How many starships has each character been on?
 
 ```{r}
-#do it for one
+# Do it for 1
 length(people[[1]]$starships)
 
-#make it into a function
+# Put it into a function
 count_starships <- function(x) {
   length(x$starships)
 }
 
-#do is for all
+# Do it for all
 map(people, count_starships)
 ```
 
 # Find the name of each characters homeworld
 
 ```{r}
-#do it for one
+# Do it for 1
 planet_lookup[[people[[1]]$homeworld]]
 
-#make it into a function
+# Put it into a function
 get_homeworld <- function(x) {
   planet_lookup[[x$homeworld]]
 }
 
-#do is for all
+# Do it for all
 map(people, get_homeworld)
 ```
 
@@ -70,10 +71,15 @@ map(people, get_homeworld)
 # How heavy is each person?
 
 ```{r}
+# Do it for 1
+parse_number(people[[1]]$mass, na = "unknown")
+
+# Put it into a function
 get_mass <- function(x) {
   parse_number(x$mass, na = "unknown")
 }
 
+# Do it for all
 map_dbl(people, get_mass)
 ```
 
@@ -84,7 +90,7 @@ map(films, "characters") %>%
   map_int(length) %>%
   set_names(map_chr(films, "title")) %>%
   sort(decreasing = TRUE) %>%
-  head(n=1)
+  head(n = 1)
 ```
 
 # Create the planet_lookup vector from earlier
