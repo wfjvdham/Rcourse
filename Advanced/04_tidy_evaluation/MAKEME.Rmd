@@ -1,0 +1,14 @@
+---
+title: "Tidy Evaluation Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
+1. Write a function that converts one of the columns `dep_time`, `arr_time`, `sched_dep_time` or `sched_arr_time` to a date time object.

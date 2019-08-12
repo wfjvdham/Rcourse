@@ -26,7 +26,7 @@ convert_to_date <- function(time, year, month, day) {
 
 flights %>%
   mutate_at(
-    vars(dep_time, sched_dep_time, arr_time, sched_arr_time),
+    vars(ends_with("time")),
     ~convert_to_date(., year, month, day)
   )
 ```

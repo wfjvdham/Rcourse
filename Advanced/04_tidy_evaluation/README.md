@@ -22,8 +22,9 @@ Write a Function to Reduce Duplication
 ========================================================
 
 
+
+
 ```r
-library(tidyverse)
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%
@@ -137,7 +138,7 @@ a * b
 
 
 ```r
-~2 * 3
+~ 2 * 3
 ```
 
 ```
@@ -282,7 +283,7 @@ ggplot(mtcars) +
   geom_point(aes(!!x_var, !!y_var))
 ```
 
-![plot of chunk unnamed-chunk-17](tidy_evaluation-figure/unnamed-chunk-17-1.png)
+![plot of chunk unnamed-chunk-18](README-figure/unnamed-chunk-18-1.png)
 
 Unquoting in ggplot for facet_wrap()
 ========================================================
@@ -291,10 +292,10 @@ Unquoting in ggplot for facet_wrap()
 ```r
 ggplot(mtcars, aes(disp, drat)) +
   geom_point() +
-  facet_grid(vars(!!x_var))
+  facet_wrap(vars(!!x_var))
 ```
 
-![plot of chunk unnamed-chunk-18](tidy_evaluation-figure/unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-19](README-figure/unnamed-chunk-19-1.png)
 
 qq_show() for debugging dplyr
 ========================================================
@@ -446,11 +447,3 @@ grouped_mean2(mtcars, "cyl", "mpg")
 2     6  19.7
 3     8  15.1
 ```
-
-Exercise
-========================================================
-
-Use the `flights` dataset from the `nycflights13` package
-
-1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
-1. Write a for loop that calculates the mean value of every column in the dataset.

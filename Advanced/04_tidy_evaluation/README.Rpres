@@ -20,8 +20,11 @@ df4 %>% group_by(x4) %>%
 Write a Function to Reduce Duplication
 ========================================================
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
+```
+
+```{r}
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%
@@ -84,7 +87,7 @@ quote(a * b)
 ***
 
 ```{r}
-~2 * 3
+~ 2 * 3
 "a * b"
 ```
 
@@ -183,7 +186,7 @@ Unquoting in ggplot for facet_wrap()
 ```{r}
 ggplot(mtcars, aes(disp, drat)) +
   geom_point() +
-  facet_grid(vars(!!x_var))
+  facet_wrap(vars(!!x_var))
 ```
 
 qq_show() for debugging dplyr
@@ -267,12 +270,3 @@ grouped_mean2 <- function(data, group_var, summary_var) {
 }
 grouped_mean2(mtcars, "cyl", "mpg")
 ```
-
-Exercise
-========================================================
-
-Use the `flights` data set from the `nycflights13` package
-
-1. Write a function that plots the `arr_delay` against an other variable given by the user as an argument.
-1. Write a for loop that calculates the mean value of every column in the data set.
-1. Write a function that converts one of the columns `dep_time`, `arr_time`, `sched_dep_time` or `sched_arr_time` to a date time object.
