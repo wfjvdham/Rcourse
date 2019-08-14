@@ -1,0 +1,6 @@
+---
+title: "Extra Iteration Exersice"
+output: html_notebook
+---
+
+1. Calculate the mean of all columns of `iris` using a `map()`

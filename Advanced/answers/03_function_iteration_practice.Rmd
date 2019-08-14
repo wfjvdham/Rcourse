@@ -80,67 +80,6 @@ nested_gapminder %>%
   geom_line(aes(year, pop, color = country))
 ```
 
-# Calculate percentages
-
-Create a data frame with 20 rows that contains: 
-  - a `group` column containing the values `group_1` till `group_5`
-  - columns `a`, `b` and `c` containing the values **0** or **1**
-
-Calculate for every group the percentages of 1's for every column.
-
-```{r}
-df <- tibble(
-  "group" = rep(1:5, 4),
-  "a" = sample(0:1, 20, replace = TRUE),
-  "b" = sample(0:1, 20, replace = TRUE),
-  "c" = sample(0:1, 20, replace = TRUE)
-)
-
-perc <- function(col) {
-  sum(col) / length(col)
-}
-
-df %>%
-  group_by(group) %>%
-  summarise_all(perc)
-
-df %>%
-  gather("key", "value", -group) %>%
-  group_by(group, key) %>%
-  summarise(perc_1 = sum(value) / n()) %>%
-  spread(key, perc_1)
-```
-
-# Iris exploration
-
-1. Calculate the mean of all columns
-
-```{r}
-iris %>%
-  map_df(mean)
-
-iris %>%
-  select(-Species) %>%
-  gather("key", "value") %>%
-  group_by(key) %>%
-  summarise(mean_values = mean(value)) %>%
-  spread(key, mean_values)
-```
-
-2. Calculate the mean for all columns per `Species`
-
-```{r}
-iris %>%
-  group_by(Species) %>%
-  summarise_all(mean)
-
-iris %>%
-  gather("key", "value", -Species) %>%
-  group_by(Species, key) %>%
-  summarise(mean_values = mean(value)) %>%
-  spread(key, mean_values)
-```
-
 ```{r}
 nested_iris <- iris %>%
   group_by(Species) %>%

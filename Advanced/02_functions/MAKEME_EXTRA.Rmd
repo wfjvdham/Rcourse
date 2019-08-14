@@ -20,3 +20,9 @@ flights <- flights %>%
 
 2. Calculate the percentage of missing values for all columns.
 3. Multiply all numeric columns by 10 and add 2.
+4. Create a data frame with 20 rows that contains: 
+  
+  - a `group` column containing the values `group_1` till `group_5`
+  - columns `a`, `b` and `c` containing the values **0** or **1**
+
+5. Calculate for every group the percentages of 1's for every column.
