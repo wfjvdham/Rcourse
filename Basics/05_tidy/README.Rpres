@@ -29,6 +29,7 @@ Gather - Arguments
 ```{r, include=FALSE}
 library(tidyverse)
 library(stringr)
+iris <- as_tibble(iris)
 ```
 
 ```{r, eval=FALSE}
@@ -121,4 +122,55 @@ Example - Split sexage into sex and age
 who5 <- who4 %>% 
   separate(sexage, c("sex", "age"), sep = 1)
 who5
+```
+
+Create Summaries for Multiple Columns
+========================================================
+
+```{r}
+iris %>%
+  gather("key", "value", 1:4) %>%
+  group_by(Species, key) %>%
+  summarise(
+    mean_value = mean(value)
+  )
+```
+
+Strategy
+========================================================
+
+1. Calculate a summary value for 1 column
+2. Gather all the columns you want to calculate the summary value for
+3. Add the `key` value to the `group_by()` or add a `group_by` if there is none
+4. Replace the column name in step 1 with `value`
+
+Calculate for 1 column
+========================================================
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarise(
+    mean_value = mean(Petal.Length)
+  )
+```
+
+Gather Columns for Calculation
+========================================================
+
+```{r}
+iris %>%
+  gather("key", "value", 1:4)
+```
+
+Create Summaries for Multiple Columns
+========================================================
+
+```{r}
+iris %>%
+  gather("key", "value", 1:4) %>%
+  group_by(Species, key) %>%
+  summarise(
+    mean_value = mean(value)
+  )
 ```

@@ -248,3 +248,122 @@ who5
 10 Afghanistan  2006 sp    m     014     193
 # … with 76,036 more rows
 ```
+
+Create Summaries for Multiple Columns
+========================================================
+
+
+```r
+iris %>%
+  gather("key", "value", 1:4) %>%
+  group_by(Species, key) %>%
+  summarise(
+    mean_value = mean(value)
+  )
+```
+
+```
+# A tibble: 12 x 3
+# Groups:   Species [3]
+   Species    key          mean_value
+   <fct>      <chr>             <dbl>
+ 1 setosa     Petal.Length      1.46 
+ 2 setosa     Petal.Width       0.246
+ 3 setosa     Sepal.Length      5.01 
+ 4 setosa     Sepal.Width       3.43 
+ 5 versicolor Petal.Length      4.26 
+ 6 versicolor Petal.Width       1.33 
+ 7 versicolor Sepal.Length      5.94 
+ 8 versicolor Sepal.Width       2.77 
+ 9 virginica  Petal.Length      5.55 
+10 virginica  Petal.Width       2.03 
+11 virginica  Sepal.Length      6.59 
+12 virginica  Sepal.Width       2.97 
+```
+
+Strategy
+========================================================
+
+1. Calculate a summary value for 1 column
+2. Gather all the columns you want to calculate the summary value for
+3. Add the `key` value to the `group_by()` or add a `group_by` if there is none
+4. Replace the column name in step 1 with `value`
+
+Calculate for 1 column
+========================================================
+
+
+```r
+iris %>%
+  group_by(Species) %>%
+  summarise(
+    mean_value = mean(Petal.Length)
+  )
+```
+
+```
+# A tibble: 3 x 2
+  Species    mean_value
+  <fct>           <dbl>
+1 setosa           1.46
+2 versicolor       4.26
+3 virginica        5.55
+```
+
+Gather Columns for Calculation
+========================================================
+
+
+```r
+iris %>%
+  gather("key", "value", 1:4)
+```
+
+```
+# A tibble: 600 x 3
+   Species key          value
+   <fct>   <chr>        <dbl>
+ 1 setosa  Sepal.Length   5.1
+ 2 setosa  Sepal.Length   4.9
+ 3 setosa  Sepal.Length   4.7
+ 4 setosa  Sepal.Length   4.6
+ 5 setosa  Sepal.Length   5  
+ 6 setosa  Sepal.Length   5.4
+ 7 setosa  Sepal.Length   4.6
+ 8 setosa  Sepal.Length   5  
+ 9 setosa  Sepal.Length   4.4
+10 setosa  Sepal.Length   4.9
+# … with 590 more rows
+```
+
+Create Summaries for Multiple Columns
+========================================================
+
+
+```r
+iris %>%
+  gather("key", "value", 1:4) %>%
+  group_by(Species, key) %>%
+  summarise(
+    mean_value = mean(value)
+  )
+```
+
+```
+# A tibble: 12 x 3
+# Groups:   Species [3]
+   Species    key          mean_value
+   <fct>      <chr>             <dbl>
+ 1 setosa     Petal.Length      1.46 
+ 2 setosa     Petal.Width       0.246
+ 3 setosa     Sepal.Length      5.01 
+ 4 setosa     Sepal.Width       3.43 
+ 5 versicolor Petal.Length      4.26 
+ 6 versicolor Petal.Width       1.33 
+ 7 versicolor Sepal.Length      5.94 
+ 8 versicolor Sepal.Width       2.77 
+ 9 virginica  Petal.Length      5.55 
+10 virginica  Petal.Width       2.03 
+11 virginica  Sepal.Length      6.59 
+12 virginica  Sepal.Width       2.97 
+```
