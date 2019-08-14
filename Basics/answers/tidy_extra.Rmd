@@ -117,4 +117,3 @@ pew_tidy %>%
            stat = "identity", position = "fill") +
   coord_flip()
 ```
-
