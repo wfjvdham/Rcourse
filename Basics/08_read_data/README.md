@@ -99,3 +99,40 @@ Connecting to Mongo
 ========================================================
 
 Using [mongolite](https://jeroen.github.io/mongolite/)
+
+Create your own Data
+========================================================
+
+Using `tibble()` you can create your own data. This can be usefull when you want to try something on a smaller and artificial data set.
+
+Some functions that are usefull in combination with `tibble()` are:
+
+- `c()` for creating a vector
+- `rep()` for repeating a vector
+- `seq()` for creating a sequence
+- `sample()` for generating random numbers
+
+Create your own Data - Example
+========================================================
+
+
+```r
+tibble(
+  colors = c("red", "yellow", "green", "blue", "black", "white"),
+  rep_int = rep(c(1, 2), 3),
+  seq_int = seq(3, 8),
+  random = sample(c(1, 2), 6, replace = TRUE)
+)
+```
+
+```
+# A tibble: 6 x 4
+  colors rep_int seq_int random
+  <chr>    <dbl>   <int>  <dbl>
+1 red          1       3      2
+2 yellow       2       4      2
+3 green        1       5      2
+4 blue         2       6      2
+5 black        1       7      1
+6 white        2       8      1
+```

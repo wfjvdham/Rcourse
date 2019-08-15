@@ -8,26 +8,13 @@ library(tidyverse)
 library(readxl)
 ```
 
-Read the paris_paintings csv.
+1. Read the paris_paintings csv.
+1. Read the example excel and save as a csv.
+1. Read the csv and save as an Rdata file.
+1. Read the Rdata file and check if the information is the same as after reading the excel.
+1. Create your own `tibble` that has 100 rows. The following columns need to be there:
 
-```{r}
-
-```
-
-Read the example excel and save as a csv.
-
-```{r}
-
-```
-
-Read the csv and save as an Rdata file.
-
-```{r}
-
-```
-
-Read the Rdata file and check if the information is the same as after reading the excel.
-
-```{r}
-
-```
+  - **random** A random selection of number between 1 and 10
+  - **sequence** A sequence starting from 3 and having steps of 4
+  - **repeat** The sequence 1 till 5 repeaded
+  - **string** A string value that is the same for all the rows
