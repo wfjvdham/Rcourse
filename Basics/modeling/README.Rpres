@@ -1,0 +1,57 @@
+Modeling
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+corrr package
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+library(corrr)
+```
+
+```{r}
+mtcars %>%
+  correlate()
+```
+
+rearrange()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange()
+```
+
+shave()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange() %>%
+  shave()
+```
+
+rplot()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange() %>%
+  shave() %>%
+  rplot()
+```
+
+network_plot()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  network_plot(min_cor = 0.7)
+```
