@@ -5,6 +5,7 @@ output: html_notebook
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(lubridate)
 library(nycflights13)
 flights <- flights %>%
   sample_n(20000)
@@ -20,4 +21,34 @@ plot_arr_delay_variable <- function(data, variable) {
     geom_point(aes(arr_delay, !!variable))
 }
 plot_arr_delay_variable(flights, dep_delay)
+```
+
+2. Write a function that takes as input a `df` and the column that contains the birth year in that `df`. Return the same `df` with an age column added to it containing the age.
+
+```{r}
+df1 <- tibble(
+  geboortejaar = c(1986, 1987, 1988)
+)
+df2 <- tibble(
+  gebjaar = c(1989, 1990, 1991)
+)
+df3 <- tibble(
+  born = c(1992, 1993, 1994)
+)
+
+calculate_age <- function(df, birth_year_column) {
+  birth_year_column <- enquo(birth_year_column)
+  df %>%
+    mutate(
+      age = year(now()) - !!birth_year_column,
+      age = if_else(age < 130 & age > 0, age, NA_real_)
+    )
+}
+
+df1 <- df1 %>%
+  calculate_age(geboortejaar)
+df2 <- df2 %>%
+  calculate_age(gebjaar)
+df3 <- df3 %>%
+  calculate_age(born)
 ```

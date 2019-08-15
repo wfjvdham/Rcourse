@@ -3,4 +3,23 @@ title: "Extra Iteration Exersice"
 output: html_notebook
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+flights <- flights %>%
+  sample_n(20000)
+```
+
 1. Calculate the mean of all columns of `iris` using a `map()`
+2. Make a point plot of the `arr_delay` with the following columns:
+  - `dep_time`
+  - `dep_delay`
+  - `air_time`
+  - `distance`
+  
+Make sure the labels are descriptive. 
+
+# Re-coding variables
+
+1. Set for all the columns in the data frame all the values higher than 5 to `NA`
+2. Now for only the columns 1, 2 and 3.
+3. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`

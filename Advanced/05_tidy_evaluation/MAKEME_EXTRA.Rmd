@@ -1,0 +1,47 @@
+---
+title: "tidy evaluation Exersice"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Make a linear model with one by one `dep_time`, `dep_delay`, `air_time` and `distance` as independent variables and `arr_delay` as dependent variable. Select the coefficients of the model with the highst `r.squared`
+
+```{r}
+columns <- c("dep_time", "dep_delay", "air_time", "distance")
+
+get_r_coef <- function(column) {
+  model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
+  list(
+    "variable" = column,
+    "r.squared" = summary(model)$r.squared,
+    "intercept" = coef(model)[[1]],
+    "coef_2" = coef(model)[[2]]
+  )
+}
+models <- map_df(columns, get_r_coef)
+
+plot_arr_delay_with_model <- function(variable, intercept, coef_2) {
+  column <- sym(variable)
+  ggplot(flights) +
+    geom_point(aes(!!column, arr_delay)) +
+    geom_abline(intercept = intercept, slope = coef_2, color = "red")
+}
+
+models %>%
+  select(-r.squared) %>%
+  pmap(plot_arr_delay_with_model)
+
+library(broom)
+
+get_glance <- function(column) {
+  model <- lm(as.formula(paste0("arr_delay ~ ", column)), flights)
+  glance(model)
+}
+models <- map_df(columns, get_glance)
+```

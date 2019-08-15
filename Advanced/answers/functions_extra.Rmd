@@ -73,3 +73,28 @@ df %>%
   group_by(group) %>%
   summarise_all(perc)
 ```
+
+6. Make a function that calculates the current age depending on a  `birth_year` column. Set unrealistic values to `NA`. Make your own `df` to try your function.
+
+```{r}
+df1 <- tibble(
+  birth_day_column = c(1986, 1987, 19880)
+)
+df2 <- tibble(
+  birth_day_column = c(1989, 1990, 19910)
+)
+df3 <- tibble(
+  birth_day_column = c(1992, 1993, 19940)
+)
+
+calculate_age <- function(birth_day_column) {
+  age <- year(now()) - birth_day_column
+  ifelse(
+    age < 130 & age > 0, age, NA
+  )
+}
+
+df1 %>%
+  mutate(age = calculate_age(birth_day_column))
+```
+

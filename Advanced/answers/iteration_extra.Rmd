@@ -3,9 +3,114 @@ title: "Extra Iteration Exersice Answers"
 output: html_notebook
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+flights <- flights %>%
+  sample_n(20000)
+```
+
 1. Calculate the mean of all columns of `iris` using a `map()`
 
 ```{r}
 iris %>%
   map_df(mean)
+```
+
+2. Make a point plot of the `arr_delay` with the following columns:
+  - `dep_time`
+  - `dep_delay`
+  - `air_time`
+  - `distance`
+  
+Make sure the labels are descriptive. 
+  
+```{r}
+columns <- c("dep_time", "dep_delay", "air_time", "distance")
+
+flights_plot_columns <- flights %>%
+  select(columns)
+
+point_plot <- function(column, x_label) {
+  ggplot(flights) +
+    geom_point(aes(column, arr_delay)) +
+    labs(x = x_label)
+}
+
+map2(flights_plot_columns, columns, point_plot)
+```
+
+# Re-coding variables
+
+1. Set for all the columns in the data frame all the values higher than 5 to `NA`
+
+```{r}
+df <- tibble(
+  c1 = seq(10),
+  c2 = seq(10),
+  c3 = seq(10),
+  c4 = seq(10),
+  c5 = seq(10),
+  c6 = seq(10),
+  c7 = seq(10),
+  c8 = seq(10),
+  c9 = seq(10),
+  c10 = seq(10)
+)
+df
+```
+
+```{r}
+df_clean <- df %>%
+  map_df(~ if_else(.x > 5, NA_integer_, .x))
+df_clean
+```
+
+```{r}
+df_clean <- df %>%
+  mutate_all(
+    function(x) if_else(x > 5, NA_integer_, x)
+  )
+df_clean
+```
+
+2. Now for only the columns 1, 2 and 3.
+
+```{r}
+df_clean <- df %>%
+  mutate_at(
+    vars(1:3),
+    function(x) if_else(x > 5, NA_integer_, x)
+  )
+df_clean
+```
+
+3. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`
+
+```{r}
+allowed_column_values = list(
+  seq(1), 
+  seq(2),
+  seq(3),
+  seq(4),
+  seq(5),
+  seq(6), 
+  seq(7),
+  seq(8),
+  seq(9),
+  seq(10)
+) %>%
+  set_names(colnames(df))
+
+recode <- function(column, allowed_values) {
+  if_else(column %in% allowed_values, column, NA_integer_)
+}
+
+names <- colnames(df)
+recode(df[[names[1]]], allowed_column_values[[names[1]]])
+
+df_clean <- names %>%
+  map(~ recode(df[[.x]], allowed_column_values[[.x]])) %>%
+  set_names(names) %>%
+  as_data_frame()
+df_clean
 ```

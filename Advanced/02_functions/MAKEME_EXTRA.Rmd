@@ -26,3 +26,5 @@ flights <- flights %>%
   - columns `a`, `b` and `c` containing the values **0** or **1**
 
 5. Calculate for every group the percentages of 1's for every column.
+
+6. Make a function that calculates the current age depending on a  `birth_year` column. Set unrealistic values to `NA`. Make your own `df` to try your function.
