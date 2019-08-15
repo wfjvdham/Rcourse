@@ -28,7 +28,7 @@ ggplot2
 Type of Graphics - 1 Variable
 ========================================================
 
-| Type `x` | *Best* Graphic |
+| Type `x` | *First* Graphic |
 | --- | --- |
 | Discrete | `geom_bar(aes(x))` |
 | Continuous | `geom_histogram(aes(x))` |
@@ -58,13 +58,13 @@ ggplot(titanic_train) +
 Type of Graphics - 2 Variables
 ========================================================
 
-| Type of `x` | Type of `y` | *Best* Graphic |
+| Type of `x` | Type of `y` | *First* Graphic |
 | --- | --- | --- |
 | Discrete | Discrete | `geom_bar(aes(x, fill = y), position = "dodge")`|
 | Discrete | Continuous | `geom_boxplot(aes(x, y))` |
 | Continuous | Continuous | `geom_point(aes(x, y))`* |
 
-* When there is too much data, one of the variables has to be changed to discrete using `cut()`.
+* When there is too much data, one of the variables has to be changed to discrete using `cut()`. Or you can use `geom_bin2d()`
 
 geom_bar position = "dodge"
 ========================================================
@@ -122,7 +122,7 @@ ggplot(titanic_train) +
 Type of Graphics - 3 Variables
 ========================================================
 
-| Type of `x` | Type of `y` | Type of `z` | *Best* Graphic |
+| Type of `x` | Type of `y` | Type of `z` | *First* Graphic |
 | --- | --- | --- | --- |
 | Discrete | Discrete | Discrete | ??? |
 | Discrete | Discrete | Continuous | `geom_bar(aes(x, z, fill = y), stat = "identity", position = "dodge")` |
