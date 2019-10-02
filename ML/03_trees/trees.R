@@ -4,7 +4,7 @@ library(titanic)
 library(caret)
 library(party)
 
-train = as_data_frame(titanic_train)
+train = as_tibble(titanic_train)
 
 # trees do not work with columns of the type string, so they need to be converted to factors
 # or removed from the data frame
