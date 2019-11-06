@@ -14,16 +14,16 @@ Tidy Data
 tidy package
 ========================================================
 
-1. `gather()` Collapse multiple columns into key-value pairs
-1. `spread()` Spread a key-value pair across multiple columns
+1. `pivot_longer()` (formerly `gather()`) Collapse multiple columns into key-value pairs
+1. `pivot_wider()`  (formerly `spread()`) Spread a key-value pair across multiple columns
 1. `separate()` Split single column into multiple columns
 
-Gather
+pivot_longer
 ========================================================
 
 ![gather](./gather.jpg)
 
-Gather - Arguments
+pivot_longer - Arguments
 ========================================================
 
 ```{r, include=FALSE}
@@ -34,20 +34,20 @@ iris <- as_tibble(iris)
 
 ```{r, eval=FALSE}
 df %>%
-  gather("key", "value", <columns>)
+  pivot_longer(<columns>, names_to = "name", values_to = "value")
 ```
 
-Spread
+pivot_wider
 ========================================================
 
 ![spread](./spread.jpg)
 
-Spread - Arguments
+pivot_wider - Arguments
 ========================================================
 
 ```{r, eval=FALSE}
 df %>%
-  spread(<key column>, <value column>)
+  pivot_wider(names_from = <key column>, values_from = <value column>)
 ```
 
 Separate
@@ -67,7 +67,10 @@ Example - Gather columns with treathments codes
 
 ```{r}
 who1 <- who %>% 
-  gather("key", "value", new_sp_m014:newrel_f65, na.rm = TRUE)
+  pivot_longer(
+    new_sp_m014:newrel_f65, names_to = "key", 
+    values_to = "value", values_drop_na = TRUE
+  )
 who1
 ```
 
@@ -129,7 +132,7 @@ Create Summaries for Multiple Columns
 
 ```{r}
 iris %>%
-  gather("key", "value", 1:4) %>%
+  pivot_longer(1:4, names_to = "key", values_to = "value") %>%
   group_by(Species, key) %>%
   summarise(
     mean_value = mean(value)
@@ -160,7 +163,7 @@ Gather Columns for Calculation
 
 ```{r}
 iris %>%
-  gather("key", "value", 1:4)
+  pivot_longer(1:4, names_to = "key", values_to = "value")
 ```
 
 Create Summaries for Multiple Columns
@@ -168,7 +171,7 @@ Create Summaries for Multiple Columns
 
 ```{r}
 iris %>%
-  gather("key", "value", 1:4) %>%
+  pivot_longer(1:4, names_to = "key", values_to = "value") %>%
   group_by(Species, key) %>%
   summarise(
     mean_value = mean(value)
