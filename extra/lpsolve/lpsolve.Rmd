@@ -1,0 +1,110 @@
+---
+title: "lp solve"
+output: html_notebook
+---
+
+```{r}
+library(lpSolve)
+library(lpSolveAPI)
+```
+
+```{r}
+lprec <- make.lp(0, 4)
+set.objfn(lprec, c(1, 3, 6.24, 0.1))
+add.constraint(lprec, c(0, 78.26, 0, 2.9), ">=", 92.3)
+add.constraint(lprec, c(0.24, 0, 11.31, 0), "<=", 14.8)
+add.constraint(lprec, c(12.68, 0, 0.08, 0.9), ">=", 4)
+set.bounds(lprec, lower = c(28.6, 18), columns = c(1, 4))
+set.bounds(lprec, upper = 48.98, columns = 4)
+RowNames <- c("THISROW", "THATROW", "LASTROW")
+ColNames <- c("COLONE", "COLTWO", "COLTHREE", "COLFOUR")
+dimnames(lprec) <- list(RowNames, ColNames)
+lprec
+```
+
+```{r}
+solve(lprec)
+get.objective(lprec)
+get.variables(lprec)
+get.constraints(lprec)
+```
+
+http://lpsolve.sourceforge.net/5.5/formulate.htm
+
+```{r}
+lp <- make.lp(0, 2)
+set.objfn(lp, c(143, 60))
+lp.control(lp, sense = 'max')
+add.constraint(lp, c(120, 210), "<=", 15000)
+add.constraint(lp, c(110, 30), "<=", 4000)
+add.constraint(lp, c(1, 1), "<=", 75)
+lp
+```
+
+```{r}
+solve(lp)
+get.objective(lp)
+get.variables(lp)
+get.constraints(lp)
+```
+
+  x y w
+1 1 5 1
+2 1 6 2
+3 1 7 3
+4 2 8 4
+5 2 7 5
+6 3 5 6
+7 4 6 7
+8 4 5 8
+
+```{r}
+lp_rowpicker <- make.lp(0, 8)
+set.type(lp_rowpicker, columns=1:8, type = c("binary"))
+set.objfn(lp_rowpicker, 1:8)
+lp.control(lp_rowpicker,sense='max')
+#Add constraints to limit X values from repeating
+add.constraint(lp_rowpicker, xt=c(1,1,1), #xt specifies which rows of the LP
+               indices=c(1,2,3), rhs=1, type="<=")
+add.constraint(lp_rowpicker, xt=c(1,1), #xt specifies which rows of the LP
+               indices=c(4,5), rhs=1, type="<=")
+add.constraint(lp_rowpicker, xt=c(1,1), #xt specifies which rows of the LP
+               indices=c(7,8), rhs=1, type="<=") #x's in dataframe rows 7 & 8 are both '4'
+
+#Add constraints to limit Y values from repeating
+add.constraint(lp_rowpicker, xt=c(1,1,1), #xt specifies which rows of the LP
+               indices=c(1,6,8), rhs=1, type="<=") #Y's in df rows 1,6 & 8 are all '5'
+add.constraint(lp_rowpicker, xt=c(1,1), #xt specifies which rows of the LP
+               indices=c(2,7), rhs=1, type="<=") #Y's in dataframe rows 2&7 are both '6'
+add.constraint(lp_rowpicker, xt=c(1,1), #xt specifies which rows of the LP
+               indices=c(3,5), rhs=1, type="<=") #y's in dataframe rows 3&5 are both '7'
+
+solve(lp_rowpicker)
+get.objective(lp_rowpicker) #20
+get.variables(lp_rowpicker)
+```
+
+```{r}
+assign.costs <- matrix (c(2, 7, 7, 2, 7, 7, 3, 2, 7, 2, 8, 10, 1, 9, 8, 2), 4, 4)
+lp.assign(assign.costs)
+lp.assign (assign.costs)$solution
+```
+
+A typical transportation problem is shown in Fig. 9. It deals with sources where a supply of some commodity is available and destinations where the commodity is demanded. The classic statement of the transportation problem uses a matrix with the rows representing sources and columns representing destinations. The algorithms for solving the problem are based on this matrix representation. The costs of shipping from sources to destinations are indicated by the entries in the matrix. If shipment is impossible between a given source and destination, a large cost of M is entered. This discourages the solution from using such cells. Supplies and demands are shown along the margins of the matrix. As in the example, the classic transportation problem has total supply equal to total demand.
+
+```{r}
+costs <- matrix (10000, 8, 5); costs[4,1] <- costs[-4,5] <- 0
+costs[1,2] <- costs[2,3] <- costs[3,4] <- 7; costs[1,3] <- costs[2,4] <- 7.7
+costs[5,1] <- costs[7,3] <- 8; costs[1,4] <- 8.4; costs[6,2] <- 9
+costs[8,4] <- 10; costs[4,2:4] <- c(.7, 1.4, 2.1)
+costs
+
+row.signs <- rep ("<", 8)
+row.rhs <- c(200, 300, 350, 200, 100, 50, 100, 150)
+col.signs <- rep (">", 5)
+col.rhs <- c(250, 100, 400, 500, 200)
+
+lp.transport (costs, "min", row.signs, row.rhs, col.signs, col.rhs)
+lp.transport (costs, "min", row.signs, row.rhs, col.signs, col.rhs)$solution
+```
+
