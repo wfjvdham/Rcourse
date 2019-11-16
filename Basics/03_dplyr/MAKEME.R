@@ -8,8 +8,6 @@
 flights <- as_tibble(flights) %>%
   sample_n(10000)
 
-# Use summary(). Install and load the skimr package. Use the skim() function.
-
 # Select the columns dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time
 
 # How many flights are there on 1^th January 2013?
@@ -33,3 +31,5 @@ flights <- as_tibble(flights) %>%
 
 # Define 3 types of flights short: distance < 500, medium: distance < 1000,
 # long: the rest. Calculate the average airtime per flight type
+
+# Use summary(). Install and load the skimr package. Use the skim() function.
