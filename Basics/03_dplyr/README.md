@@ -453,7 +453,7 @@ titanic_train %>%
     missing = sum(is.na(Age))
   ) %>%
   mutate(
-    perc_missing = missing / sum(n) * 100
+    perc_missing = missing / n * 100
   )
 ```
 
@@ -461,8 +461,8 @@ titanic_train %>%
 # A tibble: 2 x 4
   Sex        n missing perc_missing
   <chr>  <int>   <int>        <dbl>
-1 female   314      53         5.95
-2 male     577     124        13.9 
+1 female   314      53         16.9
+2 male     577     124         21.5
 ```
 
 Plot a Summary Value
@@ -503,6 +503,42 @@ titanic_train %>%
 2 (50,100]      107
 3 (100,1e+03]    53
 ```
+
+Combining ggplot2 and dplyr - temporary df
+========================================================
+
+
+```r
+df_to_plot <- titanic_train %>%
+  mutate(
+    groups = cut(Fare, c(-1, 50, 100, 1000))
+  ) %>%
+  group_by(groups) %>%
+  summarise(n = n())
+
+ggplot(df_to_plot) +
+  geom_bar(aes(groups, n), stat = "identity")
+```
+
+![plot of chunk unnamed-chunk-23](README-figure/unnamed-chunk-23-1.png)
+
+Combining ggplot2 and dplyr - pipe
+========================================================
+
+
+```r
+titanic_train %>%
+  mutate(
+    groups = cut(Fare, c(-1, 50, 100, 1000))
+  ) %>%
+  group_by(groups) %>%
+  summarise(n = n()) %>%
+  ggplot() +
+  geom_bar(aes(groups, n), stat = "identity")
+```
+
+![plot of chunk unnamed-chunk-24](README-figure/unnamed-chunk-24-1.png)
+
 
 Creating Summaries
 ========================================================

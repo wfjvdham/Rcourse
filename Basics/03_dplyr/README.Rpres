@@ -204,7 +204,7 @@ titanic_train %>%
     missing = sum(is.na(Age))
   ) %>%
   mutate(
-    perc_missing = missing / sum(n) * 100
+    perc_missing = missing / n * 100
   )
 ```
 
@@ -233,6 +233,36 @@ titanic_train %>%
   group_by(groups) %>%
   summarise(n = n())
 ```
+
+Combining ggplot2 and dplyr - temporary df
+========================================================
+
+```{r}
+df_to_plot <- titanic_train %>%
+  mutate(
+    groups = cut(Fare, c(-1, 50, 100, 1000))
+  ) %>%
+  group_by(groups) %>%
+  summarise(n = n())
+
+ggplot(df_to_plot) +
+  geom_bar(aes(groups, n), stat = "identity")
+```
+
+Combining ggplot2 and dplyr - pipe
+========================================================
+
+```{r}
+titanic_train %>%
+  mutate(
+    groups = cut(Fare, c(-1, 50, 100, 1000))
+  ) %>%
+  group_by(groups) %>%
+  summarise(n = n()) %>%
+  ggplot() +
+  geom_bar(aes(groups, n), stat = "identity")
+```
+
 
 Creating Summaries
 ========================================================
