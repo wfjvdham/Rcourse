@@ -1,5 +1,5 @@
 ---
-title: "Tidy Exersice"
+title: "Tidy Exercise"
 output: html_notebook
 ---
 

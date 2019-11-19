@@ -53,6 +53,17 @@ Separate
 
 ![separate](./separate.jpg)
 
+Separate - Arguments
+========================================================
+
+
+```r
+df %>%
+  separate(<column>, <name new columns>, sep = <sep>)
+```
+
+- `<sep>` character or number
+
 Example - Load example dataset
 ========================================================
 
