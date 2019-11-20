@@ -35,4 +35,4 @@ pew <- read_csv(
 # pew
 
 1. Show the percentage of `Don't,know/refused` per religion in a graph.
-1. Show in a graph per income group the percantage of persons from the 3 biggest religions.
+1. Show in a graph per income group the percentage of persons from the 3 biggest religions.
