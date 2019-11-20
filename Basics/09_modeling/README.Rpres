@@ -1,0 +1,156 @@
+Modeling
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+corrr package
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+library(corrr)
+```
+
+```{r}
+mtcars %>%
+  correlate()
+```
+
+rearrange()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange()
+```
+
+shave()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange() %>%
+  shave()
+```
+
+rplot()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  rearrange() %>%
+  shave() %>%
+  rplot()
+```
+
+network_plot()
+========================================================
+
+```{r}
+mtcars %>%
+  correlate() %>%
+  network_plot(min_cor = 0.7)
+```
+
+Overview
+========================================================
+
+![Overview](./model_schema.jpg)
+
+Check with the Eye
+========================================================
+
+```{r, echo=FALSE}
+library(modelr)
+ggplot(sim1) + 
+  geom_point(aes(x, y))
+```
+
+Linear Regression
+========================================================
+
+- Supervised learning
+- Predicting a quantitative response
+- Uses Least Squares to get the coefficients
+
+Formula:
+
+$y = β_0 + β_1 * x_1 + β_2 * x_2 + . . . + β_p * x_p$
+
+In R: `lm()`
+
+Alternatives
+========================================================
+
+In the `ML` chapter alternative models are discussed. 
+
+Make Model
+========================================================
+
+```{r}
+sim1_fit <- lm(y ~ x, data = sim1)
+```
+
+Check Model Using Summary
+========================================================
+
+Its complicated...
+
+```{r, echo=FALSE}
+summary(sim1_fit)
+```
+
+Create training and test set
+========================================================
+
+```{r}
+train <- sim1 %>% 
+  sample_frac(.75)
+test <- sim1 %>%
+  anti_join(train)
+```
+
+Fit the model on the training set
+========================================================
+
+```{r}
+sim1_fit <- lm(y ~ x, data = train)
+sim1_fit
+```
+
+Use the fit to make prediction on the test set
+========================================================
+
+```{r}
+test <- test %>%
+  mutate(pred = predict(sim1_fit, newdata = test))
+test
+```
+
+Measure the score
+========================================================
+
+```{r}
+test %>%
+  mutate(resid = pred - y) %>%
+  mutate(resid_2 = resid^2) %>%
+  summarise(rmse = sum(resid_2, na.rm = TRUE))
+```
+
+Set Reference Group
+========================================================
+
+By default the `lm()` function sets the first group of a factor to the reference group, and compares the difference of the other groups with this first one. Using the function `relevel()` you can change this in the following way:
+
+```{r}
+groups <- factor(c("A", "B", "C"))
+groups
+groups_releveled <- relevel(groups, ref = "B")
+groups_releveled
+```
+
+**Note** this will not change the final predictions you make with the model. It will only allow you to see more easily differences related to a specific group.

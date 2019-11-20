@@ -1,0 +1,61 @@
+---
+title: "Modeling Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(corrr)
+library(nycflights13)
+flights <- as_tibble(flights)
+```
+
+
+1. Use the `corrr` package to explore the correlations in the `flight` set
+
+```{r}
+flights %>%
+  select_if(is.numeric) %>%
+  correlate() %>%
+  rplot()
+```
+
+2. Predict the `arr_delay` using a correlated variable and measure the score of your model.
+
+```{r}
+train <- flights %>% 
+  sample_frac(.75)
+test <- flights %>%
+  anti_join(train)
+
+flights_fit <- lm(arr_delay ~ dep_delay, data = train)
+
+test <- test %>%
+  mutate(pred = predict(flights_fit, newdata = test))
+
+score <- test %>%
+  mutate(resid = pred - arr_delay) %>%
+  mutate(resid_2 = resid^2) %>%
+  summarise(rmse = sum(resid_2, na.rm = TRUE))
+score
+```
+
+3. See if adding variables is increasing the score.
+
+```{r}
+train <- flights %>% 
+  sample_frac(.75)
+test <- flights %>%
+  anti_join(train)
+
+flights_fit <- lm(arr_delay ~ dep_delay + carrier, data = train)
+
+test <- test %>%
+  mutate(pred = predict(flights_fit, newdata = test))
+
+score <- test %>%
+  mutate(resid = pred - arr_delay) %>%
+  mutate(resid_2 = resid^2) %>%
+  summarise(rmse = sum(resid_2, na.rm = TRUE))
+score
+```

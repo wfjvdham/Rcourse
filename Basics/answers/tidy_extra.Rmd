@@ -70,16 +70,11 @@ weather_tidy %>%
   ylim(0, 400) +
   labs(title = "Average min and max temperature per month", x = "month")
 
-library(lubridate)
-weather_tidy_dt <- weather_tidy %>%
-  mutate(date_time = make_date(year = year, month = month, day = day))
-library(tsibble)
 
-weather_ts <- as_tsibble(weather_tidy_dt, index = date_time) %>%
-  fill_gaps()
-
-weather_ts %>%
-  fill_gaps() %>%
+weather_tidy %>%
+  group_by(month) %>%
+  summarise(avg_min = mean(TMIN),
+            avg_max = mean(TMAX)) %>%
   ggplot() +
   geom_point(aes(date_time, TMAX), stat = "identity", color = "blue") +
   geom_point(aes(date_time, TMIN), stat = "identity", color = "red") +

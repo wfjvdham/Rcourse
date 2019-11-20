@@ -1,0 +1,23 @@
+---
+title: "Modeling Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(corrr)
+library(nycflights13)
+flights <- as_tibble(flights)
+```
+
+
+1. Use the `corrr` package to explore the correlations in the `flight` set
+
+```{r}
+
+```
+
+2. Predict the `arr_delay` using a correlated variable and measure the score of your model.
+
+3. See if adding variables is increasing the score.
+
