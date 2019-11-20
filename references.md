@@ -40,6 +40,7 @@ Here the most important sources used for this course are mentioned.
 
 - https://medium.com/open-machine-learning-course
 - https://www.mathsisfun.com
+- https://www.ihatestatistics.com/
 
 ### Books
 

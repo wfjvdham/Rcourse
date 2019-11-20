@@ -281,5 +281,5 @@ Extra Functions
 - `mean()` Average of the values
 - `median()` Median of the values
 - `pull()` Get the values in a column
-- `if_else()` Returns different values based on a condition
+- `ifelse()` Returns different values based on a condition
 - `case_when()` Returns different values based on many conditions

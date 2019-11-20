@@ -206,7 +206,7 @@ lm(formula = y ~ x, data = train)
 
 Coefficients:
 (Intercept)            x  
-      5.194        1.950  
+      4.249        2.035  
 ```
 
 Use the fit to make prediction on the test set
@@ -223,14 +223,14 @@ test
 # A tibble: 8 x 3
       x     y  pred
   <int> <dbl> <dbl>
-1     1  2.13  7.14
-2     2 11.3   9.09
-3     3  7.36 11.0 
-4     4 11.9  13.0 
-5     5 11.7  14.9 
-6     6 16.0  16.9 
-7     8 18.4  20.8 
-8     8 22.5  20.8 
+1     3  7.36  10.4
+2     3 10.5   10.4
+3     5 19.1   14.4
+4     6 16.0   16.5
+5     9 26.8   22.6
+6     9 21.1   22.6
+7    10 25.0   24.6
+8    10 22.0   24.6
 ```
 
 Measure the score
@@ -248,33 +248,10 @@ test %>%
 # A tibble: 1 x 1
    rmse
   <dbl>
-1  64.6
+1  58.2
 ```
 
-Set Reference Group
+More modern way
 ========================================================
 
-By default the `lm()` function sets the first group of a factor to the reference group, and compares the difference of the other groups with this first one. Using the function `relevel()` you can change this in the following way:
-
-
-```r
-groups <- factor(c("A", "B", "C"))
-groups
-```
-
-```
-[1] A B C
-Levels: A B C
-```
-
-```r
-groups_releveled <- relevel(groups, ref = "B")
-groups_releveled
-```
-
-```
-[1] A B C
-Levels: B A C
-```
-
-**Note** this will not change the final predictions you make with the model. It will only allow you to see more easily differences related to a specific group.
+[tidymodels](https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/)
