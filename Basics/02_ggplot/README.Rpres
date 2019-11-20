@@ -120,8 +120,8 @@ Type of Graphics - 3 Variables
 | Type of `x` | Type of `y` | Type of `z` | *First* Graphic |
 | --- | --- | --- | --- |
 | Discrete | Discrete | Discrete | ??? |
-| Discrete | Discrete | Continuous | `geom_bar(aes(x, z, fill = y), stat = "identity", position = "dodge")` |
-| Discrete / Continuous| Continuous | Continuous | `geom_point(aes(y, z, color = x))` |
+| Discrete | Continuous | Discrete | `geom_bar(aes(x, y, fill = z), stat = "identity", position = "dodge")` |
+| Continuous | Continuous | Discrete / Continuous | `geom_point(aes(x, y, color = z))` |
 
 geom_bar() identity dodge
 ========================================================
