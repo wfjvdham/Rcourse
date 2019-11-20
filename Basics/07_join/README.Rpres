@@ -28,6 +28,10 @@ library(nycflights13)
 flights2 <- flights %>% 
   select(year, hour, origin, dest, tailnum, carrier) %>%
   sample_n(20000)
+airlines <- as_tibble(airlines)
+weather <- as_tibble(weather)
+planes <- as_tibble(planes)
+airports <- as_tibble(airports)
 ```
 
 ```{r}
@@ -56,5 +60,5 @@ Join - Different column names
 
 ```{r}
 flights2 %>% 
-  left_join(airports, c("dest" = "faa"))
+  left_join(airports, by = c("dest" = "faa"))
 ```

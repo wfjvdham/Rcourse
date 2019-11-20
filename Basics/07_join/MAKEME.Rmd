@@ -14,10 +14,12 @@ df2 <- tibble(x = c(1, 3), a = 10, b = "a")
 
 1. Join `df1` and `df2` in such a way that the result has 1 row.
 2. Join `df1` and `df2` in such a way that the result has 2 rows.
-3. Join `df1` and `df2` in such a way that the result has 2 rows.
-4. Join `df3` and `df4` and explain what happens
+3. Join `df1` and `df2` in such a way that the result has 3 rows.
+4. Join `df1` and `df2` in such a way that the result has 4 rows.
 
 ```{r}
 df3 <- tibble(x = c(1, 1, 2), y = 1:3)
 df4 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 ```
+
+4. Join `df3` and `df4` and explain what happens

@@ -106,7 +106,7 @@ sample(1:10, replace = TRUE)
 ```
 
 ```
- [1]  5  9  3  4 10  6  5  4  7  7
+ [1]  9  5  9  6 10  7  6 10  2  9
 ```
 
 The data not used, *Out-of-Bag* can be used for validation
