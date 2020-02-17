@@ -15,10 +15,8 @@ flights <- flights %>%
 
 ```{r}
 plot_arr_delay_variable <- function(data, variable) {
-  variable <- enquo(variable)
-  
   ggplot(data) +
-    geom_point(aes(arr_delay, !!variable))
+    geom_point(aes(arr_delay, {{variable}}))
 }
 plot_arr_delay_variable(flights, dep_delay)
 ```
@@ -37,10 +35,9 @@ df3 <- tibble(
 )
 
 calculate_age <- function(df, birth_year_column) {
-  birth_year_column <- enquo(birth_year_column)
   df %>%
     mutate(
-      age = year(now()) - !!birth_year_column,
+      age = year(now()) - {{birth_year_column}},
       age = if_else(age < 130 & age > 0, age, NA_real_)
     )
 }

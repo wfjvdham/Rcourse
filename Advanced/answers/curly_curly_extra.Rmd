@@ -27,9 +27,8 @@ get_r_coef <- function(column) {
 models <- map_df(columns, get_r_coef)
 
 plot_arr_delay_with_model <- function(variable, intercept, coef_2) {
-  column <- sym(variable)
   ggplot(flights) +
-    geom_point(aes(!!column, arr_delay)) +
+    geom_point(aes(.data[[variable]], arr_delay)) +
     geom_abline(intercept = intercept, slope = coef_2, color = "red")
 }
 
