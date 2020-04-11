@@ -21,3 +21,5 @@ result <- check_variable("jaar")
 col_names <- colnames(df)[1:2]
 result2 <- map(col_names, check_variable)
 result2 <- set_names(result2, col_names)
+
+combn(letters[1:4], 2, simplify = FALSE)

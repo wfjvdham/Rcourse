@@ -60,16 +60,18 @@ df
 ```
 
 ```{r}
+recode <- function(x) {
+  if_else(x > 5, NA_integer_, x)
+}
+
 df_clean <- df %>%
-  map_df(~ if_else(.x > 5, NA_integer_, .x))
+  map_df(recode)
 df_clean
 ```
 
 ```{r}
 df_clean <- df %>%
-  mutate_all(
-    function(x) if_else(x > 5, NA_integer_, x)
-  )
+  mutate_all(recode)
 df_clean
 ```
 
@@ -77,10 +79,16 @@ df_clean
 
 ```{r}
 df_clean <- df %>%
-  mutate_at(
-    vars(1:3),
-    function(x) if_else(x > 5, NA_integer_, x)
-  )
+  mutate_at(vars(1:3), recode)
+df_clean
+
+recode2 <- function(x) {
+  if_else(x > 6, NA_integer_, x)
+}
+
+df_clean <- df %>%
+  mutate_at(vars(1:4), recode) %>%
+  mutate_at(vars(5:7), recode2)
 df_clean
 ```
 
