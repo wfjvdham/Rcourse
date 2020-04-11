@@ -65,12 +65,12 @@ result[[1]]
 
 calc_sum_multi <- function(a, b) {
   list(
-    'sum' = a + b,
-    'multi' = a * b  
+    "sum" = a + b,
+    "multi" = a * b  
   )
 }
 result <- calc_sum_multi(2, 3)
-result[['sum']]
+result[["sum"]]
 
 df <- tibble(
   a = c(1, 2, 3),

@@ -27,7 +27,7 @@ convert_to_date <- function(time, year, month, day) {
 flights %>%
   mutate_at(
     vars(ends_with("time")),
-    ~convert_to_date(., year, month, day)
+    convert_to_date, flights$year, flights$month, flights$day
   )
 ```
 
@@ -44,8 +44,14 @@ flights %>%
 3. Multiply all numeric columns by 10 and add 2.
 
 ```{r}
+mult10_add2 <- function(x) {
+  x * 10 + 2
+}
+
 diamonds %>%
-  mutate_if(is.numeric, ~ . * 10 + 2)
+  mutate_if(is.numeric, mult10_add2)
+
+
 ```
 
 4. Create a data frame with 20 rows that contains: 
@@ -79,12 +85,6 @@ df %>%
 ```{r}
 df1 <- tibble(
   birth_day_column = c(1986, 1987, 19880)
-)
-df2 <- tibble(
-  birth_day_column = c(1989, 1990, 19910)
-)
-df3 <- tibble(
-  birth_day_column = c(1992, 1993, 19940)
 )
 
 calculate_age <- function(birth_day_column) {
