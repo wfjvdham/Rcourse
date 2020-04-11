@@ -39,7 +39,7 @@ diamonds %>%
 
 ```{r}
 flights %>%
-  filter_all(any_vars(is.na(.))) %>%
+  filter_all(all_vars(!is.na(.))) %>%
   skimr::skim()
 ```
 
