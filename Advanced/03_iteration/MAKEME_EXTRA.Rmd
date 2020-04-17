@@ -5,6 +5,7 @@ output: html_notebook
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(nycflights13)
 flights <- flights %>%
   sample_n(20000)
 ```
