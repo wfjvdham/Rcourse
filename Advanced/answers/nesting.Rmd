@@ -43,17 +43,37 @@ ggplot(afg) +
 4. Make a linear model for all the countries and select the 5 with the largest slope and with the lowest `r.squared`
 
 ```{r}
+make_model <- function(data) {
+  lm(pop ~ year, data)
+}
+
+extract_r_squared <- function(fit) {
+  summary(fit)$r.squared
+}
+
+extract_slope <- function(fit) {
+  coef(fit)['year']
+}
+
+plot_model <- function(data, fit) {
+  ggplot(data) +
+    geom_line(aes(year, pop)) +
+    geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2], color = "red")
+}
+
+add_title <- function(plot, title) {
+  plot + labs(title = title)
+}
+
 nested_gapminder <- gapminder %>%
   group_by(country) %>%
   nest() %>%
   mutate(
-    model = map(data, ~lm(pop ~ year, .x)),
-    r.squared = map_dbl(model, ~summary(.x)$r.squared),
-    slope = map_dbl(model, ~ coef(.x)['year']),
-    plot = map2(data, model, ~ ggplot(.x) +
-      geom_line(aes(year, pop)) +
-      geom_abline(intercept = coef(.y)[1], slope = coef(.y)[2], color = "red")),
-    plot = map2(plot, country, ~.x + labs(title = .y))
+    model = map(data, make_model),
+    r.squared = map_dbl(model, extract_r_squared),
+    slope = map_dbl(model, extract_slope),
+    plot = map2(data, model, plot_model),
+    plot = map2(plot, country, add_title)
   )
 
 nested_gapminder %>%
@@ -80,28 +100,36 @@ nested_gapminder %>%
   geom_line(aes(year, pop, color = country))
 ```
 
+6. Use nest to calculate the mean of all columns per species
+
 ```{r}
+calc_mean_all_cols <- function(data) {
+  summarise_all(data, mean)
+}
+
 nested_iris <- iris %>%
   group_by(Species) %>%
   nest() %>%
-  mutate(
-    means = map(data, ~summarise_all(.x, mean))
-  )
+  mutate(means = map(data, calc_mean_all_cols))
+
 nested_iris %>%
   unnest(means)
 ```
-
-1. What if there where 50 columns in your data...
 
 # Flights exploration plots
 
 2. Make a linear model between the priviously mentioned variables and `arr_delay` and select the coefficients of the model with the highst `r.squared`
 
 ```{r}
+library(broom)
+
+columns <- c("dep_time", "sched_dep_time", "arr_time", "sched_arr_time")
+
 models <- flights %>%
   select(arr_delay, columns) %>%
   gather("key", "value", -arr_delay) %>%
   group_by(key) %>%
-  summarise(model = list(glance(lm(arr_delay ~ value)))) %>%
-  unnest()
+  summarise(model = list(lm(arr_delay ~ value))) %>%
+  mutate(scores = map(model, glance)) %>%
+  unnest(cols = c(scores))
 ```

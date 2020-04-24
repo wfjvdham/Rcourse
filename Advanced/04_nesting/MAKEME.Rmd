@@ -1,0 +1,69 @@
+---
+title: "Function and Iteration Practice Answers"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(broom)
+library(gapminder)
+library(nycflights13)
+# sample dataset to make plots faster
+flights <- as_data_frame(flights) %>%
+  sample_n(1000)
+gapminder <- as_data_frame(gapminder)
+```
+
+# Gapminder
+
+1. Make a linear model to predict the `pop`, population, depending on `year` for Afghanistan
+
+```{r}
+
+```
+
+2. Get the `r.squared` from this model and the slope.
+
+```{r}
+
+```
+
+3. Plot the model and the original data in one graph.
+
+```{r}
+
+```
+
+4. Make a linear model for all the countries and select the 5 with the largest slope and with the lowest `r.squared`
+
+```{r}
+
+```
+
+4. Show the growth of the 5 countries with the highes slope in one graph
+
+```{r}
+
+```
+
+5. Show the 5 countries with the lowest r.squared in one graph
+
+```{r}
+
+```
+
+6. Use nest to calculate the mean of all columns per species
+
+```{r}
+
+```
+
+# Flights exploration plots
+
+2. Make a linear model between the defined variables and `arr_delay` and select the coefficients of the model with the highst `r.squared`
+
+```{r}
+columns <- c("dep_time", "sched_dep_time", "arr_time", "sched_arr_time")
+
+```
