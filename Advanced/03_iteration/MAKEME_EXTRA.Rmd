@@ -24,3 +24,21 @@ Make sure the labels are descriptive.
 1. Set for all the columns in the data frame all the values higher than 5 to `NA`
 2. Now for only the columns 1, 2 and 3.
 3. The `allowed_column_values` list contains which values are allowed for every column. Try to set all the other values of the columns to `NA`
+
+# Model
+
+4. Look at the following (not working) code and try to understand what it should do.
+
+```{r, eval=FALSE}
+model <- glm(chemneo ~ jaar, data = df, family = binomial(link = 'logit'))
+exp(confint(model))
+summary(model)
+
+model <- glm(chemneo ~ regio, data = df, family = binomial(link = 'logit'))
+exp(confint(model))
+summary(model)
+```
+
+5. Create an example dataframe that can be used to run this code.
+6. Reduce the amount of copy-and-paste by rewriting the code.
+7. Use the `broom` package to get the information from the model in a dataframe.

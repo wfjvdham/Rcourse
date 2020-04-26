@@ -37,7 +37,8 @@ coef(model)
 ```{r}
 ggplot(afg) +
   geom_line(aes(year, pop)) +
-  geom_abline(intercept = coef(model)[1], slope = coef(model)[2], color = "red")
+  geom_abline(intercept = coef(model)[1], slope = coef(model)[2], color = "red") +
+  labs(title = "Afg")
 ```
 
 4. Make a linear model for all the countries and select the 5 with the largest slope and with the lowest `r.squared`
@@ -52,17 +53,17 @@ extract_r_squared <- function(fit) {
 }
 
 extract_slope <- function(fit) {
-  coef(fit)['year']
+  coef(fit)[2]
 }
 
-plot_model <- function(data, fit) {
+plot_fit <- function(data, fit) {
   ggplot(data) +
     geom_line(aes(year, pop)) +
     geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2], color = "red")
 }
 
-add_title <- function(plot, title) {
-  plot + labs(title = title)
+add_title <- function(plot, input_title) {
+  plot + labs(title = input_title)
 }
 
 nested_gapminder <- gapminder %>%
@@ -70,14 +71,14 @@ nested_gapminder <- gapminder %>%
   nest() %>%
   mutate(
     model = map(data, make_model),
-    r.squared = map_dbl(model, extract_r_squared),
+    r_squared = map_dbl(model, extract_r_squared),
     slope = map_dbl(model, extract_slope),
-    plot = map2(data, model, plot_model),
+    plot = map2(data, model, plot_fit),
     plot = map2(plot, country, add_title)
   )
 
 nested_gapminder %>%
-  arrange(desc(slope)) %>%
+  arrange(r_squared) %>%
   head(5) %>%
   pluck("plot")
 ```
@@ -93,7 +94,7 @@ nested_gapminder %>%
 
 ```{r}
 nested_gapminder %>%
-  arrange(r.squared) %>%
+  arrange(r_squared) %>%
   head(5) %>%
   unnest(data) %>%
   ggplot() +
@@ -112,6 +113,12 @@ nested_iris <- iris %>%
   nest() %>%
   mutate(means = map(data, calc_mean_all_cols))
 
+df %>%
+  group_by(...) %>%
+  nest() %>%
+  mutate(... = map(data, .f)) %>%
+  unnest()
+
 nested_iris %>%
   unnest(means)
 ```
@@ -125,11 +132,35 @@ library(broom)
 
 columns <- c("dep_time", "sched_dep_time", "arr_time", "sched_arr_time")
 
+fit <- lm(arr_delay ~ dep_time, flights)
+glance(fit)
+
+variable <- "dep_time"
+
+make_model <- function(variable) {
+  frm <- as.formula(paste("arr_delay ~", variable))
+  fit <- lm(frm, flights)
+  glance(fit) %>%
+    mutate(variable = variable)
+}
+
+make_model(flights, columns[1])
+
+tmp <- map_df(columns, make_model)
+```
+
+```{r}
+make_model <- function(data) {
+  lm(arr_delay ~ value, data)
+}
+
 models <- flights %>%
   select(arr_delay, columns) %>%
-  gather("key", "value", -arr_delay) %>%
-  group_by(key) %>%
-  summarise(model = list(lm(arr_delay ~ value))) %>%
+  pivot_longer(-arr_delay, names_to = "name", values_to = "value") %>%
+  group_by(name) %>%
+  nest() %>%
+  mutate(model = map(data, make_model)) %>%
   mutate(scores = map(model, glance)) %>%
   unnest(cols = c(scores))
 ```
+

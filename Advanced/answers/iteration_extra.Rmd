@@ -37,6 +37,13 @@ point_plot <- function(column, x_label) {
 }
 
 map2(flights_plot_columns, columns, point_plot)
+
+point_plot <- function(column) {
+  ggplot(flights) +
+    geom_point(aes(.data[[column]], arr_delay)) 
+}
+
+map(columns, point_plot)
 ```
 
 # Re-coding variables
@@ -122,3 +129,46 @@ df_clean <- names %>%
   as_data_frame()
 df_clean
 ```
+
+4. Look at the following (not working) code and try to understand what it should do.
+
+```{r, eval=FALSE}
+model <- glm(chemneo ~ jaar, data = df, family = binomial(link = 'logit'))
+exp(confint(model))
+summary(model)
+
+model <- glm(chemneo ~ regio, data = df, family = binomial(link = 'logit'))
+exp(confint(model))
+summary(model)
+```
+
+5. Create an example dataframe that can be used to run this code.
+6. Reduce the amount of copy-and-paste by rewriting the code.
+7. Use the `broom` package to get the information from the model in a dataframe.
+
+```{r}
+df <- tibble(
+  "jaar" = 1:10 + 2000,
+  "regio" = rep(c("AMS", "UTR"), 5),
+  "chemneo" = runif(10)
+)
+
+check_variable <- function(col_name) {
+  from <- as.formula(paste("chemneo ~", col_name))
+  model <- glm(from, data = df, family = binomial(link = 'logit'))
+  confint_list <- exp(confint(model))
+  list(
+    "confint" = confint_list,
+    "sum_model" = summary(model)
+  )
+}
+
+result <- check_variable("jaar")
+
+col_names <- colnames(df)[1:2]
+result2 <- map(col_names, check_variable)
+result2 <- set_names(result2, col_names)
+
+combn(letters[1:4], 2, simplify = FALSE)
+```
+

@@ -1,0 +1,162 @@
+Nesting
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+Why nest?
+========================================================
+
+`nest()` is usefull when you want to apply the same function to different sets of data. For example train a model on differet data sets, or make a plot of different datasets.
+
+Pattern
+========================================================
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+```{r, eval=FALSE}
+df %>%
+  group_by(.grouping_col) %>%
+  nest() %>%
+  mutate(.new_col = map(data, .f))
+```
+
+- `.grouping_col` column(s) where you want to group your datasets on. `nest()` wil split the groups
+- `.f` function that you want to apply to all datasets, can be `lm()`, `ggplot()` etc.
+- `.new_col` name of the new column where the results are stored.
+
+If you want to go back to the original dataset you have to use `unnest(data)`
+
+```{r, eval=FALSE}
+df %>%
+  unnest(data) 
+```
+
+When do we need map() in mutate()?
+========================================================
+
+- When you have a list column you need `map()`. `nest()` created list columns.
+- When you have a vector column you do not need `map()` (but it would also work). All *normal* df have vector columns.
+
+**NOTE** The result of `map()` in `mutate()` is again a list column. If you do not want this you have to use a more specific version of `map()` see [here](https://purrr.tidyverse.org/reference/map.html). 
+
+Example
+========================================================
+
+```{r}
+df <- tibble(
+  a = c(1, 2, 3),
+  b = list(4, 5, 6)
+)
+times2 <- function(x) {
+  x * 2
+}
+df %>%
+  mutate(result = times2(a))
+```
+
+========================================================
+
+```{r, eval=FALSE}
+df %>%
+  mutate(test = times2(b))
+```
+
+```{r}
+df %>%
+  mutate(test = map(b, times2))
+df %>%
+  mutate(test = map_dbl(b, times2))
+```
+
+nest example with babynames
+========================================================
+
+```{r, include=FALSE}
+library(babynames)
+everpresent <- babynames %>% 
+  group_by(name, sex) %>% 
+  summarise(years = n()) %>% 
+  ungroup() %>% 
+  filter(years == max(years))
+babynames_everpresent <- babynames %>% 
+  semi_join(everpresent)
+```
+
+```{r}
+babynames_everpresent
+```
+
+Do it for one name - Plot
+========================================================
+
+```{r}
+joe <- babynames_everpresent %>% 
+  filter(name == "Joe" & sex == "M")
+ggplot(joe) +
+  geom_point(aes(year, prop))
+```
+
+Do it for one name - Fit
+========================================================
+
+```{r}
+fit_joe <- lm(prop ~ year, data = joe)
+coef(fit_joe)['year']
+summary(fit_joe)$r.squared
+```
+
+Do it for all using nest()
+========================================================
+
+```{r}
+make_model <- function(x) {
+  lm(prop ~ year, data = x)
+}
+get_slope <- function(fit) {
+  coef(fit)['year']
+}
+get_r_squared <- function(fit) {
+  summary(fit)$r.squared
+}
+```
+
+========================================================
+
+```{r}
+babymods <- babynames_everpresent %>% 
+  group_by(name, sex) %>% 
+  nest() %>%
+  mutate(
+    fit = map(data, make_model),
+    slope = map_dbl(fit, get_slope),
+    r_squared = map_dbl(fit, get_r_squared)
+  )
+babymods
+```
+
+Plot 5 names with biggest slope
+========================================================
+
+```{r}
+babymods %>% 
+  arrange(desc(slope)) %>% 
+  head(5) %>% 
+  unnest(data) %>% 
+  ggplot() +
+    geom_line(aes(year, prop, color = name))
+```
+
+Plot 5 names with lowest r squared
+========================================================
+
+```{r}
+babymods %>% 
+  arrange(r_squared) %>% 
+  head(5) %>% 
+  unnest(data) %>% 
+  ggplot() +
+    geom_line(aes(year, prop, color = name))
+```

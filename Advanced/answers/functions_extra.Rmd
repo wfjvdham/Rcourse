@@ -29,6 +29,18 @@ flights %>%
     vars(ends_with("time")),
     convert_to_date, flights$year, flights$month, flights$day
   )
+
+convert_to_date <- function(df, year, month, day, time) {
+  df %>%
+    mutate(
+      {{time}} := make_datetime(
+        {{year}}, {{month}}, {{day}}, {{time}} %/% 100, {{time}} %% 100
+      )
+    )
+}
+
+flights %>%
+  convert_to_date(year, month, day, dep_time)
 ```
 
 2. Calculate the percentage of missing values for all columns
@@ -50,8 +62,6 @@ mult10_add2 <- function(x) {
 
 diamonds %>%
   mutate_if(is.numeric, mult10_add2)
-
-
 ```
 
 4. Create a data frame with 20 rows that contains: 
@@ -96,5 +106,16 @@ calculate_age <- function(birth_day_column) {
 
 df1 %>%
   mutate(age = calculate_age(birth_day_column))
+
+calculate_age <- function(df, birth_day_column) {
+  df %>%
+    mutate(
+      age = year(now()) - {{birth_day_column}},
+      age = ifelse(age < 130 & age > 0, age, NA)
+    )
+}
+
+df1 %>%
+  calculate_age(birth_day_column)
 ```
 
