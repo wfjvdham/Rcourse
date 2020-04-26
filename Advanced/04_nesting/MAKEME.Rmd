@@ -35,19 +35,13 @@ gapminder <- as_data_frame(gapminder)
 
 ```
 
-4. Make a linear model for all the countries and select the 5 with the largest slope and with the lowest `r.squared`
+4. Make a linear model for all the countries and select the countries with the lowest `r.squared`
 
 ```{r}
 
 ```
 
-4. Show the growth of the 5 countries with the highes slope in one graph
-
-```{r}
-
-```
-
-5. Show the 5 countries with the lowest r.squared in one graph
+5. Show the growth of the 5 countries with the highes slope in one graph
 
 ```{r}
 
