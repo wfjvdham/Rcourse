@@ -1,0 +1,89 @@
+Column-wise operations
+========================================================
+author: Wim van der Ham
+width: 1440
+height: 900
+
+```{r, include=FALSE}
+library(tidyverse)
+iris <- as_tibble(iris)
+mtcars <- as_tibble(mtcars)
+```
+
+Why?
+========================================================
+
+```{r}
+iris %>% 
+  summarise(
+    Sepal.Length = mean(Sepal.Length), 
+    Sepal.Width = mean(Sepal.Width), 
+    Petal.Length = mean(Petal.Length), 
+    Petal.Width = mean(Petal.Width)
+  )
+```
+
+Using across()
+========================================================
+
+```{r}
+iris %>%
+  summarise(across(1:4, mean))
+```
+
+Use different functions
+========================================================
+
+```{r}
+iris %>%
+  summarise(
+    across(1:2, mean),
+    across(3:4, sum)
+  )
+```
+
+Only for the numeric columns - where()
+========================================================
+
+```{r}
+iris %>%
+  summarise(across(where(is.numeric), mean))
+```
+
+Works also with mutate
+========================================================
+
+```{r}
+iris %>%
+  mutate(across(where(is.numeric), log))
+```
+
+If you want all columns use everything()
+========================================================
+
+```{r}
+mtcars %>%
+  mutate(across(everything(), log))
+```
+
+all in a filter
+========================================================
+
+```{r}
+iris %>% 
+  filter(across(where(is.numeric), ~ .x > 2.4))
+```
+
+Any in a filter
+========================================================
+
+```{r}
+rowAny <- function(x) rowSums(x) > 0
+iris %>%
+  filter(rowAny(across(everything(), ~ is.na(.x))))
+```
+
+```{r}
+iris %>% 
+  filter(rowAny(across(where(is.numeric), ~ .x > 7.5)))
+```

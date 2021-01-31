@@ -25,9 +25,11 @@ convert_to_date <- function(time, year, month, day) {
 }
 
 flights %>%
-  mutate_at(
-    vars(ends_with("time")),
-    convert_to_date, flights$year, flights$month, flights$day
+  mutate(
+    across(
+      ends_with("time"),
+      convert_to_date, year, month, day
+    )
   )
 
 convert_to_date <- function(df, year, month, day, time) {
@@ -50,7 +52,7 @@ perc_missing <- function(x) {
   sum(is.na(x)) / length(x) * 100
 }
 flights %>%
-  summarise_all(perc_missing)
+  summarise(across(everything(), perc_missing))
 ```
 
 3. Multiply all numeric columns by 10 and add 2.
@@ -61,7 +63,7 @@ mult10_add2 <- function(x) {
 }
 
 diamonds %>%
-  mutate_if(is.numeric, mult10_add2)
+  mutate(across(where(is.numeric), mult10_add2))
 ```
 
 4. Create a data frame with 20 rows that contains: 
@@ -87,7 +89,7 @@ perc <- function(col) {
 
 df %>%
   group_by(group) %>%
-  summarise_all(perc)
+  summarise(across(everything(), perc))
 ```
 
 6. Make a function that calculates the current age depending on a  `birth_year` column. Set unrealistic values to `NA`. Make your own `df` to try your function.

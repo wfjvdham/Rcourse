@@ -1,0 +1,17 @@
+---
+title: "dplyr Scoping Exersice"
+output: html_notebook
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(nycflights13)
+diamonds <- as_tibble(diamonds)
+flights <- flights %>%
+  sample_n(20000)
+```
+
+1. Calculate the mean for all `numeric` columns in the `diamonds` dataset per `cut`
+2. Calculate the median `x`, `y` and `z` per `depth` group. The last one you first have to create yoursef.
+3. Filter out the diamonds that have `x`, `y` and `z` above 7.
+4. Filter out all the flights that have missings in any column.

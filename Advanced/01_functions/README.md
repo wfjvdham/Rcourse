@@ -139,7 +139,7 @@ Formula
 
 ```r
 mtcars %>%
-  summarise_all(~ sum(.) + 10)
+  summarise(across(everything(), ~ sum(.) + 10))
 ```
 
 ```

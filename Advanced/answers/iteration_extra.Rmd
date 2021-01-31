@@ -28,7 +28,10 @@ Make sure the labels are descriptive.
 columns <- c("dep_time", "dep_delay", "air_time", "distance")
 
 flights_plot_columns <- flights %>%
-  select(columns)
+  select(all_of(columns))
+
+flights_plot_columns <- flights %>%
+  select(all_of(columns))
 
 point_plot <- function(column, x_label) {
   ggplot(flights) +
@@ -78,7 +81,7 @@ df_clean
 
 ```{r}
 df_clean <- df %>%
-  mutate_all(recode)
+  mutate(across(everything(), recode))
 df_clean
 ```
 
@@ -86,7 +89,7 @@ df_clean
 
 ```{r}
 df_clean <- df %>%
-  mutate_at(vars(1:3), recode)
+  mutate(across(1:3, recode))
 df_clean
 
 recode2 <- function(x) {
@@ -94,8 +97,10 @@ recode2 <- function(x) {
 }
 
 df_clean <- df %>%
-  mutate_at(vars(1:4), recode) %>%
-  mutate_at(vars(5:7), recode2)
+  mutate(
+    across(1:4, recode),
+    across(5:7, recode2)
+  )
 df_clean
 ```
 
