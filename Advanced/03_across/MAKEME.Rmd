@@ -12,6 +12,6 @@ flights <- flights %>%
 ```
 
 1. Calculate the mean for all `numeric` columns in the `diamonds` dataset per `cut`
-2. Calculate the median `x`, `y` and `z` per `depth` group. The last one you first have to create yoursef.
+2. Calculate the median `x`, `y` and `z` per `depth` group. `depth` is now a numerical column, this needs to be converted first to something where you can group on.
 3. Filter out the diamonds that have `x`, `y` and `z` above 7.
 4. Filter out all the flights that have missings in any column.

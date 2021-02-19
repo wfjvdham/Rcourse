@@ -12,18 +12,37 @@ load("../../datasets/planet_lookup.rda")
 # How many elements are in people?
 
 ```{r}
-
+length(people)
 ```
 
 # Who is the first person in people?
 
 ```{r}
-
+head(people, 1)
+people[[2]]$name
 ```
 
 # What is the difference between people[1] and people[[1]]?
 
 ```{r}
+people[[1]]$starships
+length(people[[1]][["starships"]])
+
+
+people_small <- head(people)
+
+count_startships <- function(x) {
+  #print(x)
+  #print("---")
+  #print(x$starships)
+  #print("---")
+  #print(x[["starships"]])
+  #print("---")
+  print(length(x[["starships"]]))  
+}
+count_startships(people[["Luke Skywalker"]])
+
+map(people_small, count_startships)
 
 ```
 
@@ -36,7 +55,7 @@ load("../../datasets/planet_lookup.rda")
 # Find the name of each characters homeworld
 
 ```{r}
-
+map(people, "homeworld")
 ```
 
 # Combine names of persons with their home planet
@@ -59,7 +78,10 @@ Use the `set_names()` function.
 
 ```
 
-# Create the planet_lookup vector from earlier
+# Create the planet_lookup vector
+# names are url
+# values are planet names
+# list("http://swapi.co/api/planets/2/" = "Alderaan")
 
 ```{r}
 

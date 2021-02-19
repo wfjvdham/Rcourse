@@ -17,8 +17,18 @@ flights <- flights %>%
   - `sched_dep_time`
   - `arr_time`
   - `sched_arr_time`
+  
+```{r}
+
+```
 
 2. Calculate the percentage of missing values for all columns.
+
+```{r}
+
+```
+
+
 3. Multiply all numeric columns by 10 and add 2.
 4. Create a data frame with 20 rows that contains: 
   

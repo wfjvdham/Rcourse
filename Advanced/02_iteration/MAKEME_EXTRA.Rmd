@@ -11,6 +11,12 @@ flights <- flights %>%
 ```
 
 1. Calculate the mean of all columns of `iris` using a `map()`
+
+```{r}
+
+```
+
+
 2. Make a point plot of the `arr_delay` with the following columns:
   - `dep_time`
   - `dep_delay`

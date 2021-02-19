@@ -66,6 +66,15 @@ mtcars %>%
   mutate(across(everything(), log))
 ```
 
+Change colnames
+========================================================
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  mutate(across(1:2, mean, .names = "mean_{.col}"))
+```
+
 all in a filter
 ========================================================
 
@@ -78,12 +87,11 @@ Any in a filter
 ========================================================
 
 ```{r}
-rowAny <- function(x) rowSums(x) > 0
 iris %>%
-  filter(rowAny(across(everything(), ~ is.na(.x))))
+  filter(if_any(everything(), ~ is.na(.x)))
 ```
 
 ```{r}
 iris %>% 
-  filter(rowAny(across(where(is.numeric), ~ .x > 7.5)))
-```
+  filter(if_any(where(is.numeric), ~ .x > 7.5))
+  ```

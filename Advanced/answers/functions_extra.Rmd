@@ -20,23 +20,23 @@ flights <- flights %>%
 
 ```{r}
 convert_to_date <- function(time, year, month, day) {
-  make_datetime(
-    year, month, day, time %/% 100, time %% 100)
+  make_datetime(year, month, day, time %/% 100, time %% 100)
 }
 
 flights %>%
   mutate(
     across(
-      ends_with("time"),
-      convert_to_date, year, month, day
+      ends_with("time"), 
+      ~ convert_to_date(.x, year, month, day),
+      .names = "good_{.col}"
     )
   )
 
 convert_to_date <- function(df, year, month, day, time) {
   df %>%
     mutate(
-      {{time}} := make_datetime(
-        {{year}}, {{month}}, {{day}}, {{time}} %/% 100, {{time}} %% 100
+      "new_{{time}}" := make_datetime(
+        year, month, day, {{time}} %/% 100, {{time}} %% 100
       )
     )
 }
@@ -64,6 +64,14 @@ mult10_add2 <- function(x) {
 
 diamonds %>%
   mutate(across(where(is.numeric), mult10_add2))
+
+mult10_add2 <- function(df, x) {
+  df %>%
+    mutate({{x}} := {{x}} * 10 + 2)
+}
+
+diamonds %>%
+  mult10_add2(y)
 ```
 
 4. Create a data frame with 20 rows that contains: 
@@ -92,12 +100,15 @@ df %>%
   summarise(across(everything(), perc))
 ```
 
-6. Make a function that calculates the current age depending on a  `birth_year` column. Set unrealistic values to `NA`. Make your own `df` to try your function.
+6. Make a function that calculates the current age depending on a `birth_year` column. Set unrealistic values to `NA`. Make your own `df` to try your function.
 
 ```{r}
 df1 <- tibble(
-  birth_day_column = c(1986, 1987, 19880)
+  birth_day_column = c(1986, 1987, 19880),
+  birth_day_column1 = c(1985, 1887, 19880)
 )
+
+#################################################
 
 calculate_age <- function(birth_day_column) {
   age <- year(now()) - birth_day_column
@@ -109,6 +120,11 @@ calculate_age <- function(birth_day_column) {
 df1 %>%
   mutate(age = calculate_age(birth_day_column))
 
+df1 %>%
+  mutate(across(everything(), calculate_age))
+
+##################################################
+
 calculate_age <- function(df, birth_day_column) {
   df %>%
     mutate(
@@ -118,6 +134,8 @@ calculate_age <- function(df, birth_day_column) {
 }
 
 df1 %>%
-  calculate_age(birth_day_column)
+  calculate_age(birth_day_column) %>%
+  filter() %>%
+
 ```
 

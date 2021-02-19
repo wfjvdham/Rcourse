@@ -60,7 +60,7 @@ grouped_mean(mtcars, cyl, mpg)
 ```
 # A tibble: 3 x 2
     cyl  mean
-  <dbl> <dbl>
+* <dbl> <dbl>
 1     4  26.7
 2     6  19.7
 3     8  15.1
@@ -98,7 +98,7 @@ grouped_mean(mtcars, "cyl", "mpg")
 ```
 # A tibble: 3 x 2
     cyl  mean
-  <dbl> <dbl>
+* <dbl> <dbl>
 1     4  26.7
 2     6  19.7
 3     8  15.1

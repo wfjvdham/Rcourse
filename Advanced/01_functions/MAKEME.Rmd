@@ -11,7 +11,7 @@ print(x)
 x <- "hallo"
 print(x)
 
-print_x <- function() {
+print_x <- function(y) {
   print(x)
 }
 print_x
@@ -45,11 +45,12 @@ print_inputs(x)
 return_sum <- function(a, b) {
   a + b
 }
-result <- return_sum(2, 3)
+result <- return_sum(2, 10)
+result <- return_sum(b = 8, a = 3)
 result
 
 calc_sum_multi <- function(a, b) {
-  a + b
+  sum(c(a, b))
   a * b
 }
 result <- calc_sum_multi(2, 3)
@@ -61,7 +62,7 @@ calc_sum_multi <- function(a, b) {
   )
 }
 result <- calc_sum_multi(2, 3)
-result[[1]]
+result[[2]]
 
 calc_sum_multi <- function(a, b) {
   list(
@@ -70,15 +71,16 @@ calc_sum_multi <- function(a, b) {
   )
 }
 result <- calc_sum_multi(2, 3)
-result[["sum"]]
+x <- "sum"
+result[[x]]
+result$x
 
 df <- tibble(
   a = c(1, 2, 3),
-  b = c(1, 2, 3),
+  b = c(5, 6, 7),
   c = c(3, 3, 3)
 )
 c <- 2
-d <- 2
 df %>%
   filter(a == c)
 ```

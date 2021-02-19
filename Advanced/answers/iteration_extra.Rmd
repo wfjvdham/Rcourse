@@ -14,6 +14,9 @@ flights <- flights %>%
 ```{r}
 iris %>%
   map_df(mean)
+
+iris %>%
+  summarise(across(starts_with("Sepal"), mean))
 ```
 
 2. Make a point plot of the `arr_delay` with the following columns:
@@ -26,9 +29,6 @@ Make sure the labels are descriptive.
   
 ```{r}
 columns <- c("dep_time", "dep_delay", "air_time", "distance")
-
-flights_plot_columns <- flights %>%
-  select(all_of(columns))
 
 flights_plot_columns <- flights %>%
   select(all_of(columns))
@@ -47,6 +47,12 @@ point_plot <- function(column) {
 }
 
 map(columns, point_plot)
+
+plot_arr_delay_variable <- function(variable, data) {
+  ggplot(data) +
+    geom_point(aes(arr_delay, {{variable}}))
+}
+plot_arr_delay_variable(dep_delay, flights)
 ```
 
 # Re-coding variables

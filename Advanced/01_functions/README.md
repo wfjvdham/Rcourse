@@ -120,7 +120,11 @@ f <- function(x) {
 }
 x <- 1
 y <- 2
-#f(3)
+f(3)
+```
+
+```
+[1] 5
 ```
 
 - For variables in the body of the function R first checks if it is one of the arguments.

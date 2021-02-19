@@ -130,6 +130,34 @@ mtcars %>%
 # … with 22 more rows
 ```
 
+Change colnames
+========================================================
+
+
+```r
+iris %>%
+  group_by(Species) %>%
+  mutate(across(1:2, mean, .names = "mean_{.col}"))
+```
+
+```
+# A tibble: 150 x 7
+# Groups:   Species [3]
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species mean_Sepal.Leng…
+          <dbl>       <dbl>        <dbl>       <dbl> <fct>              <dbl>
+ 1          5.1         3.5          1.4         0.2 setosa              5.01
+ 2          4.9         3            1.4         0.2 setosa              5.01
+ 3          4.7         3.2          1.3         0.2 setosa              5.01
+ 4          4.6         3.1          1.5         0.2 setosa              5.01
+ 5          5           3.6          1.4         0.2 setosa              5.01
+ 6          5.4         3.9          1.7         0.4 setosa              5.01
+ 7          4.6         3.4          1.4         0.3 setosa              5.01
+ 8          5           3.4          1.5         0.2 setosa              5.01
+ 9          4.4         2.9          1.4         0.2 setosa              5.01
+10          4.9         3.1          1.5         0.1 setosa              5.01
+# … with 140 more rows, and 1 more variable: mean_Sepal.Width <dbl>
+```
+
 all in a filter
 ========================================================
 
@@ -153,9 +181,8 @@ Any in a filter
 
 
 ```r
-rowAny <- function(x) rowSums(x) > 0
 iris %>%
-  filter(rowAny(across(everything(), ~ is.na(.x))))
+  filter(if_any(everything(), ~ is.na(.x)))
 ```
 
 ```
@@ -167,7 +194,7 @@ iris %>%
 
 ```r
 iris %>% 
-  filter(rowAny(across(where(is.numeric), ~ .x > 7.5)))
+  filter(if_any(where(is.numeric), ~ .x > 7.5))
 ```
 
 ```
