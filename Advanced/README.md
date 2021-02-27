@@ -36,3 +36,10 @@ Examples: get_coef_from_model(), get_eye_colors()
   - more compact
   - usefull for simple things
   - gives you more control on how a function is called
+
+## Links
+
+https://dplyr.tidyverse.org/articles/colwise.html
+https://r4ds.had.co.nz/iteration.html
+https://r4ds.had.co.nz/functions.html
+https://tidyeval.tidyverse.org/index.html

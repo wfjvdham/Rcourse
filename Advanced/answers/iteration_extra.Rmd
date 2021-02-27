@@ -81,12 +81,6 @@ recode <- function(x) {
 }
 
 df_clean <- df %>%
-  map_df(recode)
-df_clean
-```
-
-```{r}
-df_clean <- df %>%
   mutate(across(everything(), recode))
 df_clean
 ```
@@ -137,7 +131,7 @@ recode(df[[names[1]]], allowed_column_values[[names[1]]])
 df_clean <- names %>%
   map(~ recode(df[[.x]], allowed_column_values[[.x]])) %>%
   set_names(names) %>%
-  as_data_frame()
+  as_tibble()
 df_clean
 ```
 
